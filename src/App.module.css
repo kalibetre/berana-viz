@@ -6,7 +6,8 @@
 }
 
 .main {
-	flex-grow: 1;
+	height: calc(100vh - (55px + 42px));
+	padding: 10px;
 }
 
 .footer {
