@@ -18,14 +18,14 @@ const ToolBox = (props: ToolBoxProps) => {
 
     return (
         <section className={styles.container}>
-            <header className={styles.header}>
+            <header className={styles.header} onClick={handleToggleClick}>
                 <div className={styles.headerTitle}>
                     {props.icon && (
                         <span className={styles.icon}>{props.icon}</span>
                     )}
                     {props.title}
                 </div>
-                <span className={styles.arrowDown} onClick={handleToggleClick}>
+                <span className={styles.arrowDown}>
                     {contentOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
                 </span>
             </header>
