@@ -1,0 +1,91 @@
+.mainContainer {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	width: 100vw;
+}
+
+/* App Bar */
+.header {
+	height: 55px;
+	width: 100%;
+	background-color: rgba(204, 204, 204, 0.2);
+	border-bottom: 0.1px solid #ccc;
+	display: flex;
+	justify-content: space-between;
+}
+
+.logoContainer {
+	display: flex;
+	align-items: center;
+	padding-left: 15px;
+}
+
+.logo {
+	width: 42px;
+	height: 42px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.logoTitles {
+	display: flex;
+	height: 100%;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.logoTitle {
+	line-height: 1;
+	color: teal;
+	font-size: 24px;
+}
+
+.logoSubTitle {
+	line-height: 1;
+	font-size: 14px;
+	color: #949494;
+}
+
+.avatarContainer {
+	display: flex;
+	height: 100%;
+	align-items: center;
+	padding-left: 5px;
+	padding-right: 15px;
+}
+
+.avatar {
+	width: 45px;
+	height: 45px;
+	border-radius: 100%;
+	margin-left: 8px;
+	opacity: .5;
+}
+
+.avatar:hover {
+	opacity: .7;
+}
+
+.avatar img {
+	width: 100%;
+	height: 100%;
+}
+
+/* Main Content*/
+.main {
+	flex-grow: 1;
+}
+
+/* Footer */
+.footer {
+	height: 42px;
+	width: 100%;
+	background-color: rgba(204, 204, 204, 0.2);
+	border-top: 0.1px solid #ccc;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 14px;
+}
