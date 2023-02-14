@@ -1,3 +1,4 @@
+import { GitHubIcon, UserAvatarIcon } from '../../icons';
 import styles from './AppBar.module.css';
 
 const AppBar = () => {
@@ -17,26 +18,18 @@ const AppBar = () => {
                 </div>
             </div>
             <div className={styles.avatarContainer}>
-                <div className={styles.avatar}>
-                    <img
-                        className={styles.github}
-                        src="/images/user-avatar.svg"
-                        alt="Github Icon"
-                    />
-                </div>
-                <div className={styles.avatar}>
+                <span className={styles.icon}>
+                    <UserAvatarIcon />
+                </span>
+                <span className={styles.icon}>
                     <a
                         href="https://github.com/kalibetre/berana-vis"
                         target="_blank"
                         rel="noreferrer"
                     >
-                        <img
-                            className={styles.github}
-                            src="/images/github-icon.png"
-                            alt="Github Icon"
-                        />
+                        <GitHubIcon />
                     </a>
-                </div>
+                </span>
             </div>
         </header>
     );
