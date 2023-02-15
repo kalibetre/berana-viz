@@ -4,7 +4,6 @@ import styles from './ToolBox.module.css';
 
 interface ToolBoxProps {
     title: string;
-    icon?: ReactNode;
     expanded?: boolean;
     children: ReactNode;
 }
@@ -19,15 +18,10 @@ const ToolBox = (props: ToolBoxProps) => {
     return (
         <section className={styles.container}>
             <header className={styles.header} onClick={handleToggleClick}>
-                <div className={styles.headerTitle}>
-                    {props.icon && (
-                        <span className={styles.icon}>{props.icon}</span>
-                    )}
-                    {props.title}
-                </div>
                 <span className={styles.arrowDown}>
                     {contentOpen ? <ChevronUpIcon /> : <ChevronDownIcon />}
                 </span>
+                <div className={styles.headerTitle}>{props.title}</div>
             </header>
             {contentOpen && (
                 <div className={styles.content}>{props.children}</div>
