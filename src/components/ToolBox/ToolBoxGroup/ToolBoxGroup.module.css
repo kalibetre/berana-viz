@@ -1,0 +1,31 @@
+.title {
+	color: #949494;
+	font-size: 13px;
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 15px;
+}
+
+.row {
+	padding: 5px;
+	cursor: default;
+	background-color: #e7ebfe3f;
+}
+
+.row:hover {
+	background-color: #e0f4f6;
+}
+
+.row:active {
+	background-color: #b5c4c5;
+}
+
+.coloredRow {
+	composes: row;
+	background-color: #ebebeb91;
+}
