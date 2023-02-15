@@ -10,3 +10,22 @@
 	flex-direction: column;
 	margin-bottom: 15px;
 }
+
+.row {
+	padding: 5px;
+	cursor: default;
+	background-color: #e7ebfe3f;
+}
+
+.row:hover {
+	background-color: #e0f4f6;
+}
+
+.row:active {
+	background-color: #b5c4c5;
+}
+
+.coloredRow {
+	composes: row;
+	background-color: #ebebeb91;
+}
