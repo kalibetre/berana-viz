@@ -2,6 +2,7 @@ export { default as App } from './App/App';
 export { default as AppBar } from './AppBar/AppBar';
 export { default as Canvas } from './Canvas/Canvas';
 export { default as DocumentSideBar } from './DocumentsSideBar/DocumentsSideBar';
+export { default as Modal } from './Modal/Modal';
 export { default as SideBar } from './SideBar/SideBar';
 export { default as ButtonItem } from './ToolBox/ButtonItem/ButtonItem';
 export { default as DocumentItem } from './ToolBox/DocumentItem/DocumentItem';
