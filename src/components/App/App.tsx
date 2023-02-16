@@ -6,10 +6,10 @@ const App = () => {
         <div className={styles.mainContainer}>
             <AppBar />
             <main className={styles.main}>
+                <Canvas />
                 <div className={styles.leftToolBox}>
                     <DocumentSideBar />
                 </div>
-                <Canvas />
                 <div className={styles.rightToolBox}>
                     <VisualizationSideBar />
                 </div>
