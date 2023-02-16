@@ -7,4 +7,5 @@ export { default as ButtonItem } from './ToolBox/ButtonItem/ButtonItem';
 export { default as DocumentItem } from './ToolBox/DocumentItem/DocumentItem';
 export { default as ToolBox } from './ToolBox/ToolBox';
 export { default as ToolBoxGroup } from './ToolBox/ToolBoxGroup/ToolBoxGroup';
+export { default as BarChart } from './Visualization/BarkChart/BarChart';
 export { default as VisualizationSideBar } from './VisualizationsSideBar/VisualizationSideBar';
