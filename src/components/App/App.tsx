@@ -1,4 +1,3 @@
-import styles from './App.module.css';
 import {
     AppBar,
     ButtonItem,
@@ -6,8 +5,14 @@ import {
     SideToolBox,
     ToolBox,
     ToolBoxGroup,
-} from './components';
-import { DeleteFileIcon, ExportIcon, NewFileIcon, SaveFileIcon } from './icons';
+} from '..';
+import {
+    DeleteFileIcon,
+    ExportIcon,
+    NewFileIcon,
+    SaveFileIcon,
+} from '../../icons';
+import styles from './App.module.css';
 
 function App() {
     return (

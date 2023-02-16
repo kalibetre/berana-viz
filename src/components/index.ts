@@ -1,3 +1,4 @@
+export { default as App } from './App/App';
 export { default as AppBar } from './AppBar/AppBar';
 export { default as ButtonItem } from './ToolBox/ButtonItem/ButtonItem';
 export { default as DocumentItem } from './ToolBox/DocumentItem/DocumentItem';
