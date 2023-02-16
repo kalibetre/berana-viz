@@ -1,8 +1,8 @@
-import { ButtonItem, SideToolBox, ToolBox, ToolBoxGroup } from '..';
+import { ButtonItem, SideBar, ToolBox, ToolBoxGroup } from '..';
 
 const VisualizationSideBar = () => {
     return (
-        <SideToolBox
+        <SideBar
             side="right"
             width="300px"
             height="100%"
@@ -31,7 +31,7 @@ const VisualizationSideBar = () => {
                     <ButtonItem>Interpolation Search</ButtonItem>
                 </ToolBoxGroup>
             </ToolBox>
-        </SideToolBox>
+        </SideBar>
     );
 };
 

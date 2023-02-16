@@ -1,10 +1,4 @@
-import {
-    ButtonItem,
-    DocumentItem,
-    SideToolBox,
-    ToolBox,
-    ToolBoxGroup,
-} from '..';
+import { ButtonItem, DocumentItem, SideBar, ToolBox, ToolBoxGroup } from '..';
 import {
     DeleteFileIcon,
     ExportIcon,
@@ -16,7 +10,7 @@ import styles from './DocumentsSideBar.module.css';
 
 const DocumentsSideBar = () => {
     return (
-        <SideToolBox width="300px" height="100%" title="Documents">
+        <SideBar width="300px" height="100%" title="Documents">
             <ToolBox title="Actions">
                 <ToolBoxGroup title="">
                     <div className={styles.options}>
@@ -60,7 +54,7 @@ const DocumentsSideBar = () => {
                     <DocumentItem>Hash of Tsf File</DocumentItem>
                 </ToolBoxGroup>
             </ToolBox>
-        </SideToolBox>
+        </SideBar>
     );
 };
 
