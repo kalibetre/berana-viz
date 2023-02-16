@@ -1,7 +1,7 @@
-import { AppBar, DocumentSideBar, VisualizationSideBar } from '..';
+import { AppBar, Canvas, DocumentSideBar, VisualizationSideBar } from '..';
 import styles from './App.module.css';
 
-function App() {
+const App = () => {
     return (
         <div className={styles.mainContainer}>
             <AppBar />
@@ -9,7 +9,7 @@ function App() {
                 <div className={styles.leftToolBox}>
                     <DocumentSideBar />
                 </div>
-                <div className={`canvas ${styles.canvas}`}></div>
+                <Canvas />
                 <div className={styles.rightToolBox}>
                     <VisualizationSideBar />
                 </div>
@@ -21,6 +21,6 @@ function App() {
             </footer>
         </div>
     );
-}
+};
 
 export default App;

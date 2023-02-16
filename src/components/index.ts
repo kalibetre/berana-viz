@@ -1,5 +1,6 @@
 export { default as App } from './App/App';
 export { default as AppBar } from './AppBar/AppBar';
+export { default as Canvas } from './Canvas/Canvas';
 export { default as DocumentSideBar } from './DocumentsSideBar/DocumentsSideBar';
 export { default as SideBar } from './SideBar/SideBar';
 export { default as ButtonItem } from './ToolBox/ButtonItem/ButtonItem';
