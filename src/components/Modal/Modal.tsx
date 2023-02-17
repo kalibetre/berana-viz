@@ -9,6 +9,7 @@ interface ModalProps {
     height?: number;
     title?: string;
     children: ReactNode;
+    onClose?: () => void;
 }
 
 const Modal = (props: ModalProps) => {
@@ -17,6 +18,7 @@ const Modal = (props: ModalProps) => {
 
     const handleClose = () => {
         setShowModal(false);
+        if (props.onClose) props.onClose();
     };
 
     useEffect(() => {
@@ -43,7 +45,7 @@ const Modal = (props: ModalProps) => {
                     </button>
                     {props.title}
                 </div>
-                <div className={styles.modal}>{props.children}</div>
+                {props.children}
             </div>
         </Draggable>
     );
