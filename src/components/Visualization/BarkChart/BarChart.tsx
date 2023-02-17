@@ -6,16 +6,22 @@ import { Bar, Size } from '../../../types';
 import { ACTIVE_NODE_COLOR, CHART_COLOR_RANGE } from '../../../utils/constants';
 import styles from './BarChart.module.css';
 
+import { useSelector } from 'react-redux';
+import { Node } from '../../../store/slices/arraySlice';
+import { arraySelectors } from '../../../store/store';
+
 const NODE_RECT: Size = { width: 40, height: 25 };
 
 const BarChart = () => {
-    const [data, setData] = useState<number[]>([]);
+    const nodes: Node[] = useSelector(arraySelectors.selectAll);
+
     const [bars, setBars] = useState<Bar[]>([]);
     const canvasRef = useRef<SVGSVGElement>(null);
     const size = useWindowResize();
 
     useEffect(() => {
-        if (data.length === 0) return;
+        if (nodes.length === 0) return;
+        const data = nodes.map((node) => node.value);
         const rect = canvasRef.current?.getBoundingClientRect();
         const midPoint = {
             x: rect ? rect.width / 2 : 0,
@@ -33,14 +39,13 @@ const BarChart = () => {
             .range([(rect ? rect?.height : 0) - 50, 50]);
         const colorScale = d3.scaleLinear();
 
-        xScale.domain(data.map((value) => value.toString()));
+        xScale.domain(data.map((value, i) => `${i}-${value.toString()}`));
         yScale.domain([0, Math.max(...data)]);
         colorScale.domain([Math.min(...data), Math.max(...data)]);
 
         const stPtX = midPoint.x - (data.length * 1.05 * NODE_RECT.width) / 2;
-
-        const newBars = data.map((d: number) => {
-            let xPt = stPtX + (xScale(d.toString()) || 0);
+        const newBars = data.map((d: number, i: number) => {
+            let xPt = stPtX + (xScale(`${i}-${d.toString()}`) || 0);
             let yPt = yScale(d);
 
             return {
@@ -53,8 +58,9 @@ const BarChart = () => {
             };
         });
 
+        console.log(newBars);
         setBars(newBars);
-    }, [data, size]);
+    }, [nodes, size]);
 
     return (
         <svg ref={canvasRef} className={styles.canvas} scale={0.5}>
