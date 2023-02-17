@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { useEffect, useRef, useState } from 'react';
 import { useWindowResize } from '../../../hooks';
 import { Bar, Size } from '../../../types';
-import { ACTIVE_NODE_COLOR, CHART_COLOR_RANGE } from '../../../utils/constants';
+import { CHART_COLOR_RANGE } from '../../../utils/constants';
 import styles from './BarChart.module.css';
 
 import { useSelector } from 'react-redux';
@@ -72,7 +72,7 @@ const BarChart = () => {
                         y={bar.y + bar.height - NODE_RECT.height}
                         width={bar.width}
                         height={bar.width}
-                        fill={i === 2 ? ACTIVE_NODE_COLOR : 'none'}
+                        fill={'none'}
                         stroke="black"
                         strokeWidth="1px"
                     />
@@ -83,7 +83,7 @@ const BarChart = () => {
                         y={bar.y - 3 - NODE_RECT.height}
                         width={bar.width}
                         height={bar.height}
-                        fill={i === 2 ? ACTIVE_NODE_COLOR : bar.color}
+                        fill={bar.color}
                     />
                     <text
                         key={`text-${i}`}
