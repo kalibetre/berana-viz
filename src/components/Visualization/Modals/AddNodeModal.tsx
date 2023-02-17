@@ -15,10 +15,12 @@ const AddNodeModal = (props: EditArrayModalProps) => {
         register,
         handleSubmit,
         formState: { errors },
+        setValue,
     } = useForm<EditArrayModalInput>();
 
     const onSubmit = (data: any) => {
-        console.log(data);
+    const handleOnRandom = () => {
+        setValue('value', Math.floor(Math.random() * 1000));
     };
 
     return (
@@ -47,6 +49,12 @@ const AddNodeModal = (props: EditArrayModalProps) => {
                     <p className={styles.error}>{errors.value?.message}</p>
                 </div>
                 <div className={styles.btnContainer}>
+                    <input
+                        className={styles.btn}
+                        type="button"
+                        value="Random"
+                        onClick={handleOnRandom}
+                    />
                     <input
                         className={styles.btn}
                         type="submit"
