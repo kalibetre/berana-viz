@@ -1,4 +1,8 @@
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
+import uuid from 'react-uuid';
+import { Node, nodeAdded } from '../../../store/slices/arraySlice';
+import { AppDispatch } from '../../../store/store';
 import Modal from '../../Modal/Modal';
 import styles from './AddNodeModal.module.css';
 
@@ -11,6 +15,7 @@ interface EditArrayModalInput {
 }
 
 const AddNodeModal = (props: EditArrayModalProps) => {
+    const dispatch: AppDispatch = useDispatch<AppDispatch>();
     const {
         register,
         handleSubmit,
@@ -19,6 +24,10 @@ const AddNodeModal = (props: EditArrayModalProps) => {
     } = useForm<EditArrayModalInput>();
 
     const onSubmit = (data: any) => {
+        const node: Node = { id: uuid(), value: data.value };
+        dispatch(nodeAdded(node));
+    };
+
     const handleOnRandom = () => {
         setValue('value', Math.floor(Math.random() * 1000));
     };

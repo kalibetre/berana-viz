@@ -12,6 +12,7 @@
 	display: flex;
 	align-items: center;
 	height: 40px;
+	justify-content: space-between;
 }
 
 .inputRow label {
@@ -20,20 +21,21 @@
 }
 
 .input {
-	flex-grow: 1;
+	width: 150px;
 	padding: 5px;
 	height: 30px;
 	border: 1px solid rgb(169, 169, 169);
 	border-radius: 4px;
+	font-size: 16px;
 }
 
 .btnContainer {
 	display: flex;
-	flex-direction: column;
 	align-items: flex-end;
 	background-color: #efeeee;
 	padding: 10px;
 	height: 55px;
+	justify-content: space-between;
 }
 
 .error {
@@ -54,7 +56,7 @@
 	border-radius: 6px;
 	text-align: left;
 	font-size: 15px;
-	width: 150px;
+	width: 45%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
