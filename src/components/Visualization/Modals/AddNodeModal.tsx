@@ -37,6 +37,10 @@ const AddNodeModal = (props: EditArrayModalProps) => {
                                     value: 999,
                                     message: 'Value Should be less 999',
                                 },
+                                min: {
+                                    value: 0,
+                                    message: 'Value Should be greater than 0',
+                                },
                             })}
                         />
                     </div>
