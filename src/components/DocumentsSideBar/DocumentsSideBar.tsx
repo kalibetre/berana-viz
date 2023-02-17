@@ -1,46 +1,12 @@
-import { ButtonItem, DocumentItem, SideBar, ToolBox, ToolBoxGroup } from '..';
-import {
-    DeleteFileIcon,
-    ExportIcon,
-    NewFileIcon,
-    SaveFileIcon,
-} from '../../icons';
-
-import styles from './DocumentsSideBar.module.css';
+import { DocumentItem, SideBar, ToolBox, ToolBoxGroup } from '..';
+import DocumentActions from './DocumentActions/DocumentActions';
+import NodeActions from './NodeActions/NodeActions';
 
 const DocumentsSideBar = () => {
     return (
         <SideBar width="300px" height="100%" title="Documents">
-            <ToolBox title="Actions">
-                <ToolBoxGroup title="">
-                    <div className={styles.options}>
-                        <ButtonItem>
-                            <span className={styles.icon}>
-                                <NewFileIcon />
-                            </span>
-                            New
-                        </ButtonItem>
-                        <ButtonItem>
-                            <span className={styles.icon}>
-                                <SaveFileIcon />
-                            </span>
-                            Save
-                        </ButtonItem>
-                        <ButtonItem>
-                            <span className={styles.icon}>
-                                <DeleteFileIcon />
-                            </span>
-                            Delete
-                        </ButtonItem>
-                        <ButtonItem>
-                            <span className={styles.icon}>
-                                <ExportIcon />
-                            </span>
-                            Export
-                        </ButtonItem>
-                    </div>
-                </ToolBoxGroup>
-            </ToolBox>
+            <NodeActions />
+            <DocumentActions />
             <ToolBox title="Documents">
                 <ToolBoxGroup title="My Documents" striped>
                     <DocumentItem savedToCloud>

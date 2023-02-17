@@ -1,14 +1,1 @@
-.options {
-	display: grid;
-	grid-template-columns: auto auto;
-	column-gap: 5px;
-}
 
-.icon {
-	display: block;
-	width: 18px;
-	height: 18px;
-	border-radius: 100%;
-	margin-left: 4px;
-	margin-right: 8px;
-}
