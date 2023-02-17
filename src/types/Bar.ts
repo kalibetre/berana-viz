@@ -1,4 +1,4 @@
-import Size from './size';
+import Size from './Size';
 
 interface Bar extends Size {
     value: number;
