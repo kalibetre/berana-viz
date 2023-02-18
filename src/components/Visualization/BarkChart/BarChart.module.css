@@ -4,6 +4,14 @@
 	background-color: white;
 }
 
+.activeNode {
+	fill: #ffd292;
+}
+
+.nodeText {
+	cursor: default;
+}
+
 .bar {
 	animation: fadeIn 0.2s;
 }
