@@ -17,12 +17,26 @@ export const arrayAdapter = createEntityAdapter({
 
 const arraySlice = createSlice({
     name: 'array',
-    initialState: arrayAdapter.getInitialState({ status: LoadingStatus.IDLE }),
+    initialState: arrayAdapter.getInitialState({
+        status: LoadingStatus.IDLE,
+        selectedId: '',
+    }),
     reducers: {
         nodeAdded: arrayAdapter.addOne,
         nodeRemoved: arrayAdapter.removeOne,
+        nodeUpdated: arrayAdapter.updateOne,
+        nodeDeleted: arrayAdapter.removeOne,
+        nodeSelected(state, action) {
+            state.selectedId = action.payload;
+        },
     },
 });
 
-export const { nodeAdded, nodeRemoved } = arraySlice.actions;
+export const {
+    nodeAdded,
+    nodeRemoved,
+    nodeUpdated,
+    nodeDeleted,
+    nodeSelected,
+} = arraySlice.actions;
 export default arraySlice.reducer;
