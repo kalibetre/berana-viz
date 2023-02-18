@@ -48,7 +48,6 @@ const EditNodeModal = (props: EditArrayModalProps) => {
     });
 
     const onSubmit = (data: any) => {
-        console.log(data);
         dispatch(
             nodeUpdated({ id: selectedNodeId, changes: { value: data.value } })
         );
