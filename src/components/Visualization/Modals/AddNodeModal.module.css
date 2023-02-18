@@ -70,3 +70,8 @@
 .btn:active {
 	background-color: #b5c4c5;
 }
+
+.btn[disabled] {
+	background-color: #dcdcdc;
+	opacity: .6;
+}

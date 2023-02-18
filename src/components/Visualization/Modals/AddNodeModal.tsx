@@ -33,7 +33,12 @@ const AddNodeModal = (props: EditArrayModalProps) => {
     };
 
     return (
-        <Modal title="Array" onClose={props.onClose} width={250} height={180}>
+        <Modal
+            title="Add Array Values"
+            onClose={props.onClose}
+            width={250}
+            height={180}
+        >
             <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
                 <div className={styles.inputGroup}>
                     <div className={styles.inputRow}>
@@ -67,7 +72,7 @@ const AddNodeModal = (props: EditArrayModalProps) => {
                     <input
                         className={styles.btn}
                         type="submit"
-                        value="Add Node"
+                        value="Add Value"
                     />
                 </div>
             </form>
