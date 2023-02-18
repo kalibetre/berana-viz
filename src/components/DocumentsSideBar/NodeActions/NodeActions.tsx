@@ -1,18 +1,26 @@
 import { useContext, useState } from 'react';
+import { useSelector } from 'react-redux';
 import uuid from 'react-uuid';
 import { AddNodeModal, ToolBox } from '../..';
 import { NewFileIcon } from '../../../icons';
+import { RootState } from '../../../store/store';
 import { Modal } from '../../../types';
 import { ModalContext } from '../../Providers';
 import ButtonItem from '../../ToolBox/ButtonItem/ButtonItem';
 import ToolBoxGroup from '../../ToolBox/ToolBoxGroup/ToolBoxGroup';
+import EditNodeModal from '../../Visualization/Modals/EditNodeModal';
 import styles from './NodeActions.module.css';
 
 const NodeActions = () => {
     const { showModal, hideModal } = useContext(ModalContext);
     const [addBtnDisabled, setAddBtnDisabled] = useState(false);
+    const [editBtnDisabled, setEditBtnDisabled] = useState(false);
 
-    const handleShowModal = () => {
+    const selectedNodeId = useSelector<RootState>(
+        (state) => state.array.selectedId
+    );
+
+    const handleAddNode = () => {
         const id = uuid();
         const addNodeModal: Modal = {
             id: uuid(),
@@ -30,20 +38,41 @@ const NodeActions = () => {
         setAddBtnDisabled(true);
     };
 
+    const handleEditNode = () => {
+        const id = uuid();
+        const editNodeModal: Modal = {
+            id: id,
+            tag: 'EDIT_NODE',
+            component: (
+                <EditNodeModal
+                    onClose={() => {
+                        hideModal(id);
+                        setEditBtnDisabled(false);
+                    }}
+                />
+            ),
+        };
+        showModal(editNodeModal);
+        setEditBtnDisabled(true);
+    };
+
     return (
         <ToolBox title="Node Actions">
             <ToolBoxGroup title="">
                 <div className={styles.options}>
                     <ButtonItem
                         disabled={addBtnDisabled}
-                        onClick={handleShowModal}
+                        onClick={handleAddNode}
                     >
                         <span className={styles.icon}>
                             <NewFileIcon />
                         </span>
                         Add Nodes
                     </ButtonItem>
-                    <ButtonItem onClick={() => {}}>
+                    <ButtonItem
+                        disabled={selectedNodeId === '' || editBtnDisabled}
+                        onClick={handleEditNode}
+                    >
                         <span className={styles.icon}>
                             <NewFileIcon />
                         </span>
