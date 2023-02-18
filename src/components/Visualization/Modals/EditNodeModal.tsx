@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -26,6 +26,7 @@ const EditNodeModal = (props: EditArrayModalProps) => {
     const selectedNode = useSelector((state: RootState) =>
         arraySelectors.selectById(state, selectedNodeId)
     );
+    const valueRef = useRef<HTMLInputElement | null>(null);
 
     const {
         register,
@@ -34,11 +35,25 @@ const EditNodeModal = (props: EditArrayModalProps) => {
         reset,
     } = useForm<EditArrayModalInput>();
 
+    const { ref, ...rest } = register('value', {
+        required: 'Value Required',
+        max: {
+            value: 999,
+            message: 'Value Should be less 999',
+        },
+        min: {
+            value: 0,
+            message: 'Value Should be greater than 0',
+        },
+    });
+
     const onSubmit = (data: any) => {
+        console.log(data);
         dispatch(
             nodeUpdated({ id: selectedNodeId, changes: { value: data.value } })
         );
         dispatch(nodeSelected(''));
+        if (valueRef && valueRef.current) valueRef.current.value = '';
     };
 
     useEffect(() => {
@@ -48,6 +63,7 @@ const EditNodeModal = (props: EditArrayModalProps) => {
     const handleDelete = () => {
         dispatch(nodeDeleted(selectedNodeId));
         dispatch(nodeSelected(''));
+        if (valueRef && valueRef.current) valueRef.current.value = '';
     };
 
     return (
@@ -65,17 +81,11 @@ const EditNodeModal = (props: EditArrayModalProps) => {
                             id="value"
                             type="number"
                             className={styles.input}
-                            {...register('value', {
-                                required: 'Value Required',
-                                max: {
-                                    value: 999,
-                                    message: 'Value Should be less 999',
-                                },
-                                min: {
-                                    value: 0,
-                                    message: 'Value Should be greater than 0',
-                                },
-                            })}
+                            {...rest}
+                            ref={(e) => {
+                                ref(e);
+                                valueRef.current = e;
+                            }}
                         />
                     </div>
                     <p className={styles.error}>{errors.value?.message}</p>
