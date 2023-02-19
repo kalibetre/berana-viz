@@ -1,6 +1,12 @@
-import { ButtonItem, SideBar, ToolBox, ToolBoxGroup } from '..';
+import { ButtonItem, RadioButton, SideBar, ToolBox, ToolBoxGroup } from '..';
+import { dsaChanged } from '../../store/slices/canvasSlice';
+import { useAppDispatch, useAppSelector } from '../../store/store';
+import { DSAType } from '../../types';
 
 const VisualizationSideBar = () => {
+    const dsaType = useAppSelector((state) => state.canvas.dsaType);
+    const dispatch = useAppDispatch();
+
     return (
         <>
             <SideBar
@@ -11,17 +17,28 @@ const VisualizationSideBar = () => {
             >
                 <ToolBox title="Data Structures">
                     <ToolBoxGroup title="">
-                        <ButtonItem>Array</ButtonItem>
-                        <ButtonItem>Singly Linked List</ButtonItem>
-                        <ButtonItem>Doubly Linked List</ButtonItem>
-                        <ButtonItem>Hash Table</ButtonItem>
-                        <ButtonItem>Binary Search Tree</ButtonItem>
+                        <RadioButton
+                            name="data structure"
+                            value="dsa_array"
+                            label="Show As Array"
+                            checked={dsaType === DSAType.ARRAY}
+                            onClick={() => dispatch(dsaChanged(DSAType.ARRAY))}
+                        />
+                        <RadioButton
+                            name="data structure"
+                            value="dsa_bin_tree"
+                            label="Show As Binary Tree"
+                            checked={dsaType === DSAType.BIN_TREE}
+                            onClick={() =>
+                                dispatch(dsaChanged(DSAType.BIN_TREE))
+                            }
+                        />
                     </ToolBoxGroup>
                 </ToolBox>
                 <ToolBox title="Algorithms">
                     <ToolBoxGroup title="Sorting">
                         <ButtonItem>Bubble Sort</ButtonItem>
-                        <ButtonItem>Selection Table</ButtonItem>
+                        <ButtonItem>Selection Sort</ButtonItem>
                         <ButtonItem>Insertion Sort</ButtonItem>
                         <ButtonItem>Merge Sort</ButtonItem>
                     </ToolBoxGroup>
