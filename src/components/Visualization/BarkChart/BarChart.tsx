@@ -1,5 +1,6 @@
 import chroma from 'chroma-js';
 import * as d3 from 'd3';
+import panzoom, { PanZoom } from 'panzoom';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWindowResize } from '../../../hooks';
@@ -8,14 +9,16 @@ import { AppDispatch, arraySelectors, RootState } from '../../../store/store';
 import { Bar, Size } from '../../../types';
 import { CHART_COLOR_RANGE } from '../../../utils/constants';
 import styles from './BarChart.module.css';
+
 const NODE_RECT: Size = { width: 40, height: 25 };
 
 const BarChart = () => {
     const nodes: Node[] = useSelector(arraySelectors.selectAll);
+    const svgRef = useRef<SVGGElement>(null);
     const selectedNodeId = useSelector<RootState>(
         (state) => state.array.selectedId
     );
-
+    const [panZoom, setPanZoom] = useState<PanZoom | null>(null);
     const dispatch: AppDispatch = useDispatch<AppDispatch>();
 
     const [bars, setBars] = useState<Bar[]>([]);
@@ -23,6 +26,19 @@ const BarChart = () => {
     const size = useWindowResize();
 
     useEffect(() => {
+        draw(nodes);
+        const handleKeyDown = (_e: KeyboardEvent) => dispatch(nodeSelected(''));
+        window.addEventListener('keydown', handleKeyDown);
+        if (svgRef.current && panZoom === null) {
+            setPanZoom(panzoom(svgRef.current));
+        }
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+            panZoom?.dispose();
+        };
+    }, [nodes, size, dispatch, panZoom]);
+
+    const draw = (nodes: Node[]) => {
         if (nodes.length === 0) return;
         const rect = canvasRef.current?.getBoundingClientRect();
         const midPoint = {
@@ -64,55 +80,59 @@ const BarChart = () => {
         });
 
         setBars(newBars);
-    }, [nodes, size]);
+    };
 
     const handleNodeClick = (id: string) => {
         dispatch(nodeSelected(id));
     };
 
     return (
-        <svg ref={canvasRef} className={styles.canvas} scale={0.5}>
-            {bars.map((bar, i) => (
-                <g key={bar.id} onClick={() => handleNodeClick(bar.id)}>
-                    <rect
-                        className={
-                            bar.id === selectedNodeId ? styles.activeNode : ''
-                        }
-                        key={`rect-bs-${bar.id}`}
-                        x={bar.x}
-                        y={bar.y + bar.height - NODE_RECT.height}
-                        width={bar.width}
-                        height={bar.width}
-                        fill={'none'}
-                        stroke="black"
-                        strokeWidth="1px"
-                    />
-                    <rect
-                        className={styles.bar}
-                        key={`rect-${bar.id}`}
-                        x={bar.x}
-                        y={bar.y - 3 - NODE_RECT.height}
-                        width={bar.width}
-                        height={bar.height}
-                        fill={bar.color}
-                    />
-                    <text
-                        className={styles.nodeText}
-                        key={`text-${bar.id}`}
-                        x={bar.x + bar.width / 2}
-                        y={
-                            bar.y +
-                            bar.height +
-                            bar.width / 2 -
-                            NODE_RECT.height
-                        }
-                        textAnchor="middle"
-                        alignmentBaseline="central"
-                    >
-                        {bar.value}
-                    </text>
-                </g>
-            ))}
+        <svg ref={canvasRef} className={styles.canvas}>
+            <g ref={svgRef}>
+                {bars.map((bar) => (
+                    <g key={bar.id} onClick={() => handleNodeClick(bar.id)}>
+                        <rect
+                            className={
+                                bar.id === selectedNodeId
+                                    ? styles.activeNode
+                                    : ''
+                            }
+                            key={`rect-bs-${bar.id}`}
+                            x={bar.x}
+                            y={bar.y + bar.height - NODE_RECT.height}
+                            width={bar.width}
+                            height={bar.width}
+                            fill={'none'}
+                            stroke="black"
+                            strokeWidth="1px"
+                        />
+                        <rect
+                            className={styles.bar}
+                            key={`rect-${bar.id}`}
+                            x={bar.x}
+                            y={bar.y - 3 - NODE_RECT.height}
+                            width={bar.width}
+                            height={bar.height}
+                            fill={bar.color}
+                        />
+                        <text
+                            className={styles.nodeText}
+                            key={`text-${bar.id}`}
+                            x={bar.x + bar.width / 2}
+                            y={
+                                bar.y +
+                                bar.height +
+                                bar.width / 2 -
+                                NODE_RECT.height
+                            }
+                            textAnchor="middle"
+                            alignmentBaseline="central"
+                        >
+                            {bar.value}
+                        </text>
+                    </g>
+                ))}
+            </g>
         </svg>
     );
 };
