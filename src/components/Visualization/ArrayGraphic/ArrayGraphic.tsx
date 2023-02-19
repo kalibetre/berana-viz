@@ -2,10 +2,15 @@ import chroma from 'chroma-js';
 import * as d3 from 'd3';
 import createPanZoom, { PanZoom } from 'panzoom';
 import { useEffect, useRef, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useWindowResize } from '../../../hooks';
 import { Node, nodeSelected } from '../../../store/slices/arraySlice';
-import { AppDispatch, arraySelectors, RootState } from '../../../store/store';
+import {
+    AppDispatch,
+    arraySelectors,
+    useAppDispatch,
+    useAppSelector,
+} from '../../../store/store';
 import { Bar, Size } from '../../../types';
 import { CHART_COLOR_RANGE } from '../../../utils/constants';
 import styles from './ArrayGraphic.module.css';
@@ -15,11 +20,10 @@ const NODE_RECT: Size = { width: 40, height: 25 };
 const ArrayGraphic = () => {
     const nodes: Node[] = useSelector(arraySelectors.selectAll);
     const svgRef = useRef<SVGGElement>(null);
-    const selectedNodeId = useSelector<RootState>(
-        (state) => state.array.selectedId
-    );
+
+    const selectedNodeId = useAppSelector((state) => state.array.selectedId);
     const [panZoom, setPanZoom] = useState<PanZoom | null>(null);
-    const dispatch: AppDispatch = useDispatch<AppDispatch>();
+    const dispatch: AppDispatch = useAppDispatch();
 
     const [bars, setBars] = useState<Bar[]>([]);
     const canvasRef = useRef<SVGSVGElement>(null);
