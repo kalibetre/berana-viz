@@ -8,11 +8,11 @@ import { Node, nodeSelected } from '../../../store/slices/arraySlice';
 import { AppDispatch, arraySelectors, RootState } from '../../../store/store';
 import { Bar, Size } from '../../../types';
 import { CHART_COLOR_RANGE } from '../../../utils/constants';
-import styles from './BarChart.module.css';
+import styles from './ArrayGraphic.module.css';
 
 const NODE_RECT: Size = { width: 40, height: 25 };
 
-const BarChart = () => {
+const ArrayGraphic = () => {
     const nodes: Node[] = useSelector(arraySelectors.selectAll);
     const svgRef = useRef<SVGGElement>(null);
     const selectedNodeId = useSelector<RootState>(
@@ -137,4 +137,4 @@ const BarChart = () => {
     );
 };
 
-export default BarChart;
+export default ArrayGraphic;
