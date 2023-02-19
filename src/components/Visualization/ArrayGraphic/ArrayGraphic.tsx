@@ -1,6 +1,6 @@
 import chroma from 'chroma-js';
 import * as d3 from 'd3';
-import panzoom, { PanZoom } from 'panzoom';
+import createPanZoom, { PanZoom } from 'panzoom';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWindowResize } from '../../../hooks';
@@ -30,7 +30,7 @@ const ArrayGraphic = () => {
         const handleKeyDown = (_e: KeyboardEvent) => dispatch(nodeSelected(''));
         window.addEventListener('keydown', handleKeyDown);
         if (svgRef.current && panZoom === null) {
-            setPanZoom(panzoom(svgRef.current));
+            setPanZoom(createPanZoom(svgRef.current));
         }
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
