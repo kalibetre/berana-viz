@@ -33,3 +33,20 @@
 		opacity: 1;
 	}
 }
+
+.graphicContent {
+	width: 100%;
+	height: 100%;
+	position: relative;
+	background: transparent;
+}
+
+.zoomControlsBox {
+	position: absolute;
+	top: 5px;
+	left: 0;
+	width: 100%;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+}
