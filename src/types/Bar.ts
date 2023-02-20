@@ -1,4 +1,4 @@
-import Size from './Size';
+import { Size } from '.';
 
 interface Bar extends Size {
     id: string;
