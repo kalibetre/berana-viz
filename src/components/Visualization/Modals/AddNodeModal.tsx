@@ -1,8 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import uuid from 'react-uuid';
-import { Node, nodeAdded } from '../../../store/slices/arraySlice';
+import { nodeAdded } from '../../../store/slices/arraySlice';
 import { AppDispatch } from '../../../store/store';
+import { Node } from '../../../types';
 import Modal from '../../Modal/Modal';
 import styles from './AddNodeModal.module.css';
 

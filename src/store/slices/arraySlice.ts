@@ -1,9 +1,5 @@
 import { createEntityAdapter, createSlice } from '@reduxjs/toolkit';
-
-export interface Node {
-    id: string;
-    value: number;
-}
+import { Node } from '../../types';
 
 enum LoadingStatus {
     LOADING,

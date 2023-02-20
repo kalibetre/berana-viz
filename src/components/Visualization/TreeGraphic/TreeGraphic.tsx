@@ -4,25 +4,19 @@ import { useSelector } from 'react-redux';
 import uuid from 'react-uuid';
 import { ZoomControls } from '../..';
 import { useWindowResize } from '../../../hooks';
-import { Node, nodeSelected } from '../../../store/slices/arraySlice';
+import { nodeSelected } from '../../../store/slices/arraySlice';
 import {
     AppDispatch,
     arraySelectors,
     RootState,
     useAppDispatch,
 } from '../../../store/store';
+import { Node, TreeNode } from '../../../types';
 import styles from './TreeGraphic.module.css';
 
 const TREE_NODE: number = 70;
 
-interface Tree {
-    id: string;
-    value: number;
-    parent: Tree | null;
-    children: Tree[];
-}
-
-const treeData: Tree = {
+const treeData: TreeNode = {
     id: uuid(),
     value: 34,
     parent: null,
@@ -86,12 +80,12 @@ interface TreeGraphicProps {
 
 const TreeGraphic = (props: TreeGraphicProps) => {
     const nodes: Node[] = useSelector(arraySelectors.selectAll);
-    const [treeNodes, setTreeNodes] = useState<d3.HierarchyPointNode<Tree>[]>(
-        []
-    );
-    const [treeLinks, setTreeLinks] = useState<d3.HierarchyPointLink<Tree>[]>(
-        []
-    );
+    const [treeNodes, setTreeNodes] = useState<
+        d3.HierarchyPointNode<TreeNode>[]
+    >([]);
+    const [treeLinks, setTreeLinks] = useState<
+        d3.HierarchyPointLink<TreeNode>[]
+    >([]);
     const [offsetX, setOffsetX] = useState<number>(0);
 
     const svgContentRef = useRef<SVGGElement>(null);
@@ -114,8 +108,13 @@ const TreeGraphic = (props: TreeGraphicProps) => {
     const draw = useCallback(
         () => (nodes: Node[]) => {
             const rect = canvasRef.current?.getBoundingClientRect();
-            const treemap = d3.tree<Tree>().nodeSize([TREE_NODE, TREE_NODE]);
-            const treeNodeHy = d3.hierarchy<Tree>(treeData, (d) => d.children);
+            const treemap = d3
+                .tree<TreeNode>()
+                .nodeSize([TREE_NODE, TREE_NODE]);
+            const treeNodeHy = d3.hierarchy<TreeNode>(
+                treeData,
+                (d) => d.children
+            );
             const treeMap = treemap(treeNodeHy);
             setTreeNodes([...treeMap.descendants()]);
             setTreeLinks([...treeMap.links()]);
