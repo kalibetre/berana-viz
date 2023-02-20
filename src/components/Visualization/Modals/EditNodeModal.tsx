@@ -5,8 +5,8 @@ import {
     nodeDeleted,
     nodeSelected,
     nodeUpdated,
-} from '../../../store/slices/arraySlice';
-import { AppDispatch, arraySelectors, RootState } from '../../../store/store';
+} from '../../../store/slices/nodesSlice';
+import { AppDispatch, nodesSelectors, RootState } from '../../../store/store';
 import Modal from '../../Modal/Modal';
 import styles from './AddNodeModal.module.css';
 
@@ -24,7 +24,7 @@ const EditNodeModal = (props: EditArrayModalProps) => {
         (state: RootState) => state.array.selectedId
     );
     const selectedNode = useSelector((state: RootState) =>
-        arraySelectors.selectById(state, selectedNodeId)
+        nodesSelectors.selectById(state, selectedNodeId)
     );
     const valueRef = useRef<HTMLInputElement | null>(null);
 

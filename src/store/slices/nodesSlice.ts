@@ -7,21 +7,21 @@ enum LoadingStatus {
     ERROR,
 }
 
-export const arrayAdapter = createEntityAdapter({
+export const nodesAdapter = createEntityAdapter({
     selectId: (node: Node) => node.id,
 });
 
-const arraySlice = createSlice({
-    name: 'array',
-    initialState: arrayAdapter.getInitialState({
+const nodesSlice = createSlice({
+    name: 'nodes',
+    initialState: nodesAdapter.getInitialState({
         status: LoadingStatus.IDLE,
         selectedId: '',
     }),
     reducers: {
-        nodeAdded: arrayAdapter.addOne,
-        nodeRemoved: arrayAdapter.removeOne,
-        nodeUpdated: arrayAdapter.updateOne,
-        nodeDeleted: arrayAdapter.removeOne,
+        nodeAdded: nodesAdapter.addOne,
+        nodeRemoved: nodesAdapter.removeOne,
+        nodeUpdated: nodesAdapter.updateOne,
+        nodeDeleted: nodesAdapter.removeOne,
         nodeSelected(state, action) {
             state.selectedId = action.payload;
         },
@@ -34,5 +34,5 @@ export const {
     nodeUpdated,
     nodeDeleted,
     nodeSelected,
-} = arraySlice.actions;
-export default arraySlice.reducer;
+} = nodesSlice.actions;
+export default nodesSlice.reducer;

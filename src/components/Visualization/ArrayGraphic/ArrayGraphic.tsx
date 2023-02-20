@@ -3,10 +3,10 @@ import * as d3 from 'd3';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useWindowResize } from '../../../hooks';
-import { nodeSelected } from '../../../store/slices/arraySlice';
+import { nodeSelected } from '../../../store/slices/nodesSlice';
 import {
     AppDispatch,
-    arraySelectors,
+    nodesSelectors,
     useAppDispatch,
     useAppSelector,
 } from '../../../store/store';
@@ -22,7 +22,7 @@ interface ArrayGraphicProps {
 }
 
 const ArrayGraphic = (props: ArrayGraphicProps) => {
-    const nodes: Node[] = useSelector(arraySelectors.selectAll);
+    const nodes: Node[] = useSelector(nodesSelectors.selectAll);
     const svgContentRef = useRef<SVGGElement>(null);
 
     const selectedNodeId = useAppSelector((state) => state.array.selectedId);

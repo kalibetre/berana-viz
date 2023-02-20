@@ -3,10 +3,10 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ZoomControls } from '../..';
 import { useWindowResize } from '../../../hooks';
-import { nodeSelected } from '../../../store/slices/arraySlice';
+import { nodeSelected } from '../../../store/slices/nodesSlice';
 import {
     AppDispatch,
-    arraySelectors,
+    nodesSelectors,
     RootState,
     useAppDispatch,
 } from '../../../store/store';
@@ -21,7 +21,7 @@ interface TreeGraphicProps {
 }
 
 const TreeGraphic = (props: TreeGraphicProps) => {
-    const nodes: Node[] = useSelector(arraySelectors.selectAll);
+    const nodes: Node[] = useSelector(nodesSelectors.selectAll);
     const [treeNodes, setTreeNodes] = useState<
         d3.HierarchyPointNode<TreeNode>[]
     >([]);

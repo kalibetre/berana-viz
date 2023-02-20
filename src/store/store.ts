@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import arrayReducer, { arrayAdapter } from './slices/arraySlice';
 import canvasReducer from './slices/canvasSlice';
+import arrayReducer, { nodesAdapter } from './slices/nodesSlice';
 
 export const store = configureStore({
     reducer: {
@@ -13,7 +13,7 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-export const arraySelectors = arrayAdapter.getSelectors(
+export const nodesSelectors = nodesAdapter.getSelectors(
     (state: RootState) => state.array
 );
 
