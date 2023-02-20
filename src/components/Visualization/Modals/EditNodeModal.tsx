@@ -21,7 +21,7 @@ interface EditArrayModalInput {
 const EditNodeModal = (props: EditArrayModalProps) => {
     const dispatch: AppDispatch = useDispatch<AppDispatch>();
     const selectedNodeId: string = useSelector(
-        (state: RootState) => state.array.selectedId
+        (state: RootState) => state.nodes.selectedId
     );
     const selectedNode = useSelector((state: RootState) =>
         nodesSelectors.selectById(state, selectedNodeId)

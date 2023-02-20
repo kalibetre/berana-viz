@@ -25,7 +25,7 @@ const ArrayGraphic = (props: ArrayGraphicProps) => {
     const nodes: Node[] = useSelector(nodesSelectors.selectAll);
     const svgContentRef = useRef<SVGGElement>(null);
 
-    const selectedNodeId = useAppSelector((state) => state.array.selectedId);
+    const selectedNodeId = useAppSelector((state) => state.nodes.selectedId);
     const dispatch: AppDispatch = useAppDispatch();
 
     const [bars, setBars] = useState<Bar[]>([]);

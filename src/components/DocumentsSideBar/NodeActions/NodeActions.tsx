@@ -17,7 +17,7 @@ const NodeActions = () => {
     const [editBtnDisabled, setEditBtnDisabled] = useState(false);
 
     const selectedNodeId = useSelector<RootState>(
-        (state) => state.array.selectedId
+        (state) => state.nodes.selectedId
     );
 
     const handleAddNode = () => {

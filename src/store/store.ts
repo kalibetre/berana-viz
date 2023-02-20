@@ -5,7 +5,7 @@ import arrayReducer, { nodesAdapter } from './slices/nodesSlice';
 
 export const store = configureStore({
     reducer: {
-        array: arrayReducer,
+        nodes: arrayReducer,
         canvas: canvasReducer,
     },
 });
@@ -14,7 +14,7 @@ export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export const nodesSelectors = nodesAdapter.getSelectors(
-    (state: RootState) => state.array
+    (state: RootState) => state.nodes
 );
 
 type DispatchFunc = () => AppDispatch;

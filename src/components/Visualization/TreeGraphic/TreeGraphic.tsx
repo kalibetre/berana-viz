@@ -32,7 +32,7 @@ const TreeGraphic = (props: TreeGraphicProps) => {
 
     const svgContentRef = useRef<SVGGElement>(null);
     const selectedNodeId = useSelector<RootState>(
-        (state) => state.array.selectedId
+        (state) => state.nodes.selectedId
     );
     const dispatch: AppDispatch = useAppDispatch();
 
