@@ -12,3 +12,6 @@ export { default as NewFileIcon } from './NewFileIcon';
 export { default as SaveFileIcon } from './SaveFileIcon';
 export { default as TemporaryDocIcon } from './TemporaryDocIcon';
 export { default as UserAvatarIcon } from './UserAvatarIcon';
+export { default as ZoomExtentsIcon } from './ZoomExtentsIcon';
+export { default as ZoomInIcon } from './ZoomInIcon';
+export { default as ZoomOutIcon } from './ZoomOutIcon';
