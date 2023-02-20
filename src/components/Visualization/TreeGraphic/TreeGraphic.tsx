@@ -1,7 +1,6 @@
 import * as d3 from 'd3';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import uuid from 'react-uuid';
 import { ZoomControls } from '../..';
 import { useWindowResize } from '../../../hooks';
 import { nodeSelected } from '../../../store/slices/arraySlice';
@@ -12,67 +11,10 @@ import {
     useAppDispatch,
 } from '../../../store/store';
 import { Node, TreeNode } from '../../../types';
+import { convertToTree } from '../../../utils/tree-converter';
 import styles from './TreeGraphic.module.css';
 
 const TREE_NODE: number = 70;
-
-const treeData: TreeNode = {
-    id: uuid(),
-    value: 34,
-    parent: null,
-    children: [
-        {
-            id: uuid(),
-            value: 85,
-            parent: null,
-            children: [
-                {
-                    id: uuid(),
-                    value: 85,
-                    parent: null,
-                    children: [
-                        { id: uuid(), value: 85, parent: null, children: [] },
-                        { id: uuid(), value: 124, parent: null, children: [] },
-                    ],
-                },
-                {
-                    id: uuid(),
-                    value: 124,
-                    parent: null,
-                    children: [
-                        { id: uuid(), value: 85, parent: null, children: [] },
-                        { id: uuid(), value: 124, parent: null, children: [] },
-                    ],
-                },
-            ],
-        },
-        {
-            id: uuid(),
-            value: 124,
-            parent: null,
-            children: [
-                {
-                    id: uuid(),
-                    value: 85,
-                    parent: null,
-                    children: [
-                        { id: uuid(), value: 85, parent: null, children: [] },
-                        { id: uuid(), value: 124, parent: null, children: [] },
-                    ],
-                },
-                {
-                    id: uuid(),
-                    value: 124,
-                    parent: null,
-                    children: [
-                        { id: uuid(), value: 85, parent: null, children: [] },
-                        { id: uuid(), value: 124, parent: null, children: [] },
-                    ],
-                },
-            ],
-        },
-    ],
-};
 
 interface TreeGraphicProps {
     margin: number;
@@ -107,20 +49,23 @@ const TreeGraphic = (props: TreeGraphicProps) => {
 
     const draw = useCallback(
         () => (nodes: Node[]) => {
-            const rect = canvasRef.current?.getBoundingClientRect();
-            const treemap = d3
-                .tree<TreeNode>()
-                .nodeSize([TREE_NODE, TREE_NODE]);
-            const treeNodeHy = d3.hierarchy<TreeNode>(
-                treeData,
-                (d) => d.children
-            );
-            const treeMap = treemap(treeNodeHy);
-            setTreeNodes([...treeMap.descendants()]);
-            setTreeLinks([...treeMap.links()]);
+            const treeData: TreeNode | null = convertToTree(nodes);
+            if (treeData) {
+                const rect = canvasRef.current?.getBoundingClientRect();
+                const treemap = d3
+                    .tree<TreeNode>()
+                    .nodeSize([TREE_NODE, TREE_NODE]);
+                const treeNodeHy = d3.hierarchy<TreeNode>(
+                    treeData,
+                    (d) => d.children
+                );
+                const treeMap = treemap(treeNodeHy);
+                setTreeNodes([...treeMap.descendants()]);
+                setTreeLinks([...treeMap.links()]);
 
-            if (rect) setOffsetX(rect?.width / 2);
-            d3.select(canvasRef.current).call(zoomHandler());
+                if (rect) setOffsetX(rect?.width / 2);
+                d3.select(canvasRef.current).call(zoomHandler());
+            }
         },
         [zoomHandler]
     );
