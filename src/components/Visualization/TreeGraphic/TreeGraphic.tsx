@@ -97,7 +97,9 @@ const TreeGraphic = (props: TreeGraphicProps) => {
 
     useEffect(() => {
         draw()(nodes);
-        const handleKeyDown = (_e: KeyboardEvent) => dispatch(nodeSelected(''));
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') dispatch(nodeSelected(''));
+        };
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {

@@ -3,14 +3,14 @@ import * as d3 from 'd3';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useWindowResize } from '../../../hooks';
-import { Node, nodeSelected } from '../../../store/slices/arraySlice';
+import { nodeSelected } from '../../../store/slices/arraySlice';
 import {
     AppDispatch,
     arraySelectors,
     useAppDispatch,
     useAppSelector,
 } from '../../../store/store';
-import { Bar, Size } from '../../../types';
+import { Bar, Node, Size } from '../../../types';
 import { CHART_COLOR_RANGE } from '../../../utils/constants';
 import ZoomControls from '../../ZoomControls/ZoomControls';
 import styles from './ArrayGraphic.module.css';
@@ -120,7 +120,9 @@ const ArrayGraphic = (props: ArrayGraphicProps) => {
 
     useEffect(() => {
         draw()(nodes);
-        const handleKeyDown = (_e: KeyboardEvent) => dispatch(nodeSelected(''));
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') dispatch(nodeSelected(''));
+        };
         window.addEventListener('keydown', handleKeyDown);
 
         return () => {
