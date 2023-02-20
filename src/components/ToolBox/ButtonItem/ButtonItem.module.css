@@ -28,3 +28,8 @@
 .button:active {
 	background-color: #b5c4c5;
 }
+
+.button[disabled] {
+	background-color: #dcdcdc;
+	opacity: .6;
+}

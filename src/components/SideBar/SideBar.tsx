@@ -1,8 +1,8 @@
 import { ReactNode, useState } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '../../icons';
-import styles from './SideToolBox.module.css';
+import styles from './SideBar.module.css';
 
-interface SideToolBoxProps {
+interface SideBarProps {
     title: string;
     expanded?: boolean;
     children: ReactNode;
@@ -11,7 +11,7 @@ interface SideToolBoxProps {
     side?: 'left' | 'right';
 }
 
-const SideToolBox = (props: SideToolBoxProps) => {
+const SideBar = (props: SideBarProps) => {
     const [contentOpen, setContentOpen] = useState(props.expanded);
 
     const handleToggleClick = () => {
@@ -51,11 +51,11 @@ const SideToolBox = (props: SideToolBoxProps) => {
     );
 };
 
-SideToolBox.defaultProps = {
+SideBar.defaultProps = {
     expanded: true,
     width: '300px',
     height: '100%',
     side: 'left',
 };
 
-export default SideToolBox;
+export default SideBar;
