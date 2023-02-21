@@ -118,8 +118,9 @@ const TreeGraphic = (props: TreeGraphicProps) => {
             </div>
             <svg ref={canvasRef} className={styles.canvas}>
                 <g ref={svgContentRef}>
-                    {treeLinks.map((link) => (
+                    {treeLinks.map((link, i) => (
                         <path
+                            key={i}
                             className={styles.link}
                             x={TREE_NODE / 2}
                             y={TREE_NODE / 2}
