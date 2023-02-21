@@ -6,7 +6,12 @@ import {
     nodeSelected,
     nodeUpdated,
 } from '../../../store/slices/nodesSlice';
-import { AppDispatch, nodesSelectors, RootState } from '../../../store/store';
+import {
+    AppDispatch,
+    RootState,
+    selectNodeById,
+    useAppSelector,
+} from '../../../store/store';
 import Modal from '../../Modal/Modal';
 import modalStyles from './Modal.module.css';
 
@@ -23,8 +28,8 @@ const EditNodeModal = (props: EditArrayModalProps) => {
     const selectedNodeId: string = useSelector(
         (state: RootState) => state.nodes.selectedId
     );
-    const selectedNode = useSelector((state: RootState) =>
-        nodesSelectors.selectById(state, selectedNodeId)
+    const selectedNode = useAppSelector((state: RootState) =>
+        selectNodeById(state, selectedNodeId)
     );
     const valueRef = useRef<HTMLInputElement | null>(null);
 
@@ -66,7 +71,7 @@ const EditNodeModal = (props: EditArrayModalProps) => {
     };
 
     return (
-        <Modal title="Edit Array" onClose={props.onClose}>
+        <Modal title="Edit Node" onClose={props.onClose}>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className={modalStyles.form}

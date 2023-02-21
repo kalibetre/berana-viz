@@ -13,9 +13,8 @@ export const store = configureStore({
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
-export const nodesSelectors = nodesAdapter.getSelectors(
-    (state: RootState) => state.nodes
-);
+export const { selectById: selectNodeById, selectAll: selectAllNodes } =
+    nodesAdapter.getSelectors((state: RootState) => state.nodes);
 
 type DispatchFunc = () => AppDispatch;
 export const useAppDispatch: DispatchFunc = useDispatch;
