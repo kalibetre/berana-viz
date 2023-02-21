@@ -1,11 +1,42 @@
-import { ButtonItem, RadioButton, SideBar, ToolBox, ToolBoxGroup } from '..';
+import { useContext, useState } from 'react';
+import uuid from 'react-uuid';
+import {
+    ButtonItem,
+    RadioButton,
+    SideBar,
+    SortingModal,
+    ToolBox,
+    ToolBoxGroup,
+} from '..';
 import { dsaChanged } from '../../store/slices/canvasSlice';
 import { useAppDispatch, useAppSelector } from '../../store/store';
-import { DSAType } from '../../types';
+import { DSAType, Modal, SortingAlgo } from '../../types';
+import { ModalContext } from '../Providers';
 
 const VisualizationSideBar = () => {
     const dsaType = useAppSelector((state) => state.canvas.dsaType);
     const dispatch = useAppDispatch();
+    const { showModal, hideModal } = useContext(ModalContext);
+    const [btnsDisabled, setBtnsDisabled] = useState(false);
+
+    const handleSorting = (algo: SortingAlgo) => {
+        const id = uuid();
+        const addNodeModal: Modal = {
+            id: id,
+            tag: 'SORTING_ALGO_MODAL',
+            component: (
+                <SortingModal
+                    algo={algo}
+                    onClose={() => {
+                        hideModal(id);
+                        setBtnsDisabled(false);
+                    }}
+                />
+            ),
+        };
+        showModal(addNodeModal);
+        setBtnsDisabled(true);
+    };
 
     return (
         <>
@@ -37,10 +68,15 @@ const VisualizationSideBar = () => {
                 </ToolBox>
                 <ToolBox title="Algorithms">
                     <ToolBoxGroup title="Sorting">
-                        <ButtonItem>Bubble Sort</ButtonItem>
-                        <ButtonItem>Selection Sort</ButtonItem>
-                        <ButtonItem>Insertion Sort</ButtonItem>
-                        <ButtonItem>Merge Sort</ButtonItem>
+                        {Object.values(SortingAlgo).map((key) => (
+                            <ButtonItem
+                                disabled={btnsDisabled}
+                                key={key}
+                                onClick={() => handleSorting(key)}
+                            >
+                                {key}
+                            </ButtonItem>
+                        ))}
                     </ToolBoxGroup>
                     <ToolBoxGroup title="Searching">
                         <ButtonItem>Linear Search</ButtonItem>
