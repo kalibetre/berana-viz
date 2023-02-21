@@ -178,7 +178,11 @@ const ArrayGraphic = (props: ArrayGraphicProps) => {
                                         props.margin
                                     }
                                     width={bar.width}
-                                    height={bar.height - props.margin}
+                                    height={
+                                        bar.height > props.margin
+                                            ? bar.height - props.margin
+                                            : 0
+                                    }
                                     fill={bar.color}
                                 />
                                 <text
