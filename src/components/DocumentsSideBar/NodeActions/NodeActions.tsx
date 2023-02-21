@@ -23,7 +23,7 @@ const NodeActions = () => {
     const handleAddNode = () => {
         const id = uuid();
         const addNodeModal: Modal = {
-            id: uuid(),
+            id: id,
             tag: 'ADD_NEW_NODE',
             component: (
                 <AddNodeModal
