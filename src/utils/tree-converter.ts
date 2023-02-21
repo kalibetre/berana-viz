@@ -1,4 +1,4 @@
-import { Node, TreeNode } from '../types';
+import { Node, NodeStatus, TreeNode } from '../types';
 
 export const convertToTree = (
     array: Node[],
@@ -9,6 +9,7 @@ export const convertToTree = (
     const node: TreeNode = {
         id: array[i].id,
         value: array[i].value,
+        status: NodeStatus.NORMAL,
         children: [],
     };
 
