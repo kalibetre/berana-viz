@@ -5,7 +5,7 @@ import { nodeAdded } from '../../../store/slices/nodesSlice';
 import { AppDispatch } from '../../../store/store';
 import { Node } from '../../../types';
 import Modal from '../../Modal/Modal';
-import styles from './AddNodeModal.module.css';
+import modalStyles from './Modal.module.css';
 
 interface EditArrayModalProps {
     onClose?: () => void;
@@ -34,20 +34,18 @@ const AddNodeModal = (props: EditArrayModalProps) => {
     };
 
     return (
-        <Modal
-            title="Add Array Values"
-            onClose={props.onClose}
-            width={250}
-            height={180}
-        >
-            <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                <div className={styles.inputGroup}>
-                    <div className={styles.inputRow}>
+        <Modal title="Add Array Values" onClose={props.onClose}>
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className={modalStyles.form}
+            >
+                <div className={modalStyles.inputGroup}>
+                    <div className={modalStyles.inputRow}>
                         <label htmlFor="value">Value</label>
                         <input
                             id="value"
                             type="number"
-                            className={styles.input}
+                            className={modalStyles.input}
                             {...register('value', {
                                 required: 'Value Required',
                                 max: {
@@ -61,17 +59,17 @@ const AddNodeModal = (props: EditArrayModalProps) => {
                             })}
                         />
                     </div>
-                    <p className={styles.error}>{errors.value?.message}</p>
+                    <p className={modalStyles.error}>{errors.value?.message}</p>
                 </div>
-                <div className={styles.btnContainer}>
+                <div className={modalStyles.btnContainer}>
                     <input
-                        className={styles.btn}
+                        className={modalStyles.btn}
                         type="button"
                         value="Random"
                         onClick={handleOnRandom}
                     />
                     <input
-                        className={styles.btn}
+                        className={modalStyles.btn}
                         type="submit"
                         value="Add Value"
                     />
