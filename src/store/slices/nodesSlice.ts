@@ -21,6 +21,7 @@ const nodesSlice = createSlice({
         nodeAdded: nodesAdapter.addOne,
         nodeRemoved: nodesAdapter.removeOne,
         nodeUpdated: nodesAdapter.updateOne,
+        nodesUpdated: nodesAdapter.updateMany,
         nodeDeleted: nodesAdapter.removeOne,
         nodeSelected(state, action) {
             state.selectedId = action.payload;
@@ -32,6 +33,7 @@ export const {
     nodeAdded,
     nodeRemoved,
     nodeUpdated,
+    nodesUpdated,
     nodeDeleted,
     nodeSelected,
 } = nodesSlice.actions;
