@@ -4,4 +4,5 @@ export { default as DSAType } from './DSAType';
 export type { default as Modal } from './Modal';
 export type { default as Node } from './Node';
 export type { default as Size } from './Size';
+export { default as SortingAlgo } from './SortingAlgo';
 export type { default as TreeNode } from './TreeNode';
