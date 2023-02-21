@@ -29,6 +29,7 @@ const AddNodeModal = (props: EditArrayModalProps) => {
             id: uuid(),
             value: data.value,
             status: NodeStatus.NORMAL,
+            time: new Date().getTime(),
         };
         dispatch(nodeAdded(node));
     };
