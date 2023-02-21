@@ -9,6 +9,7 @@ enum LoadingStatus {
 
 export const nodesAdapter = createEntityAdapter({
     selectId: (node: Node) => node.id,
+    sortComparer: (a: Node, b: Node) => a.time - b.time,
 });
 
 const nodesSlice = createSlice({
