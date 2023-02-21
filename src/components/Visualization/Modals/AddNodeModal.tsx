@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import uuid from 'react-uuid';
 import { nodeAdded } from '../../../store/slices/nodesSlice';
 import { AppDispatch } from '../../../store/store';
-import { Node } from '../../../types';
+import { Node, NodeStatus } from '../../../types';
 import Modal from '../../Modal/Modal';
 import modalStyles from './Modal.module.css';
 
@@ -25,7 +25,11 @@ const AddNodeModal = (props: EditArrayModalProps) => {
     } = useForm<EditArrayModalInput>();
 
     const onSubmit = (data: any) => {
-        const node: Node = { id: uuid(), value: data.value };
+        const node: Node = {
+            id: uuid(),
+            value: data.value,
+            status: NodeStatus.NORMAL,
+        };
         dispatch(nodeAdded(node));
     };
 
@@ -34,7 +38,7 @@ const AddNodeModal = (props: EditArrayModalProps) => {
     };
 
     return (
-        <Modal title="Add Array Values" onClose={props.onClose}>
+        <Modal title="Add Node" onClose={props.onClose}>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className={modalStyles.form}
