@@ -1,16 +1,15 @@
 import chroma from 'chroma-js';
 import * as d3 from 'd3';
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
 import { useWindowResize } from '../../../hooks';
 import { nodeSelected } from '../../../store/slices/nodesSlice';
 import {
     AppDispatch,
-    nodesSelectors,
+    selectAllNodes,
     useAppDispatch,
     useAppSelector,
 } from '../../../store/store';
-import { Bar, Node, Size } from '../../../types';
+import { Bar, Node, NodeStatus, Size } from '../../../types';
 import { CHART_COLOR_RANGE } from '../../../utils/constants';
 import ZoomControls from '../../ZoomControls/ZoomControls';
 import styles from './ArrayGraphic.module.css';
@@ -22,7 +21,7 @@ interface ArrayGraphicProps {
 }
 
 const ArrayGraphic = (props: ArrayGraphicProps) => {
-    const nodes: Node[] = useSelector(nodesSelectors.selectAll);
+    let nodes: Node[] = useAppSelector(selectAllNodes);
     const svgContentRef = useRef<SVGGElement>(null);
 
     const selectedNodeId = useAppSelector((state) => state.nodes.selectedId);
@@ -79,6 +78,7 @@ const ArrayGraphic = (props: ArrayGraphicProps) => {
                 return {
                     id: node.id,
                     value: node.value,
+                    status: node.status,
                     x: xPt,
                     y: yPt,
                     width: xScale.bandwidth(),
@@ -141,49 +141,64 @@ const ArrayGraphic = (props: ArrayGraphicProps) => {
             </div>
             <svg ref={canvasRef} className={styles.canvas}>
                 <g ref={svgContentRef}>
-                    {bars.map((bar) => (
-                        <g key={bar.id} onClick={() => handleNodeClick(bar.id)}>
-                            <rect
-                                className={
-                                    bar.id === selectedNodeId
-                                        ? styles.activeNode
-                                        : ''
-                                }
-                                key={`rect-bs-${bar.id}`}
-                                x={bar.x}
-                                y={bar.y + bar.height - NODE_RECT.height}
-                                width={bar.width}
-                                height={bar.width}
-                                fill={'none'}
-                                stroke="black"
-                                strokeWidth="1px"
-                            />
-                            <rect
-                                className={styles.bar}
-                                key={`rect-${bar.id}`}
-                                x={bar.x}
-                                y={bar.y - 3 - NODE_RECT.height + props.margin}
-                                width={bar.width}
-                                height={bar.height - props.margin}
-                                fill={bar.color}
-                            />
-                            <text
-                                className={styles.nodeText}
-                                key={`text-${bar.id}`}
-                                x={bar.x + bar.width / 2}
-                                y={
-                                    bar.y +
-                                    bar.height +
-                                    bar.width / 2 -
-                                    NODE_RECT.height
-                                }
-                                textAnchor="middle"
-                                alignmentBaseline="central"
+                    {bars.map((bar) => {
+                        const classes = [];
+                        if (bar.id === selectedNodeId)
+                            classes.push(styles.active);
+                        else {
+                            if (bar.status === NodeStatus.ACTIVE)
+                                classes.push(styles.active);
+                            else if (bar.status === NodeStatus.VISITED)
+                                classes.push(styles.visited);
+                        }
+                        return (
+                            <g
+                                key={bar.id}
+                                onClick={() => handleNodeClick(bar.id)}
                             >
-                                {bar.value}
-                            </text>
-                        </g>
-                    ))}
+                                <rect
+                                    className={classes.join(' ')}
+                                    key={`rect-bs-${bar.id}`}
+                                    x={bar.x}
+                                    y={bar.y + bar.height - NODE_RECT.height}
+                                    width={bar.width}
+                                    height={bar.width}
+                                    fill={'none'}
+                                    stroke="black"
+                                    strokeWidth="1px"
+                                />
+                                <rect
+                                    className={classes.join(' ')}
+                                    key={`rect-${bar.id}`}
+                                    x={bar.x}
+                                    y={
+                                        bar.y -
+                                        3 -
+                                        NODE_RECT.height +
+                                        props.margin
+                                    }
+                                    width={bar.width}
+                                    height={bar.height - props.margin}
+                                    fill={bar.color}
+                                />
+                                <text
+                                    className={classes.join(' ')}
+                                    key={`text-${bar.id}`}
+                                    x={bar.x + bar.width / 2}
+                                    y={
+                                        bar.y +
+                                        bar.height +
+                                        bar.width / 2 -
+                                        NODE_RECT.height
+                                    }
+                                    textAnchor="middle"
+                                    alignmentBaseline="central"
+                                >
+                                    {bar.value}
+                                </text>
+                            </g>
+                        );
+                    })}
                 </g>
             </svg>
         </div>

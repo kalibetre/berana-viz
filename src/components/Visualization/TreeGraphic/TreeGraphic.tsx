@@ -6,9 +6,10 @@ import { useWindowResize } from '../../../hooks';
 import { nodeSelected } from '../../../store/slices/nodesSlice';
 import {
     AppDispatch,
-    nodesSelectors,
     RootState,
+    selectAllNodes,
     useAppDispatch,
+    useAppSelector,
 } from '../../../store/store';
 import { Node, TreeNode } from '../../../types';
 import { convertToTree } from '../../../utils/tree-converter';
@@ -21,7 +22,7 @@ interface TreeGraphicProps {
 }
 
 const TreeGraphic = (props: TreeGraphicProps) => {
-    const nodes: Node[] = useSelector(nodesSelectors.selectAll);
+    let nodes: Node[] = useAppSelector(selectAllNodes);
     const [treeNodes, setTreeNodes] = useState<
         d3.HierarchyPointNode<TreeNode>[]
     >([]);
