@@ -8,16 +8,22 @@
 	outline: none;
 }
 
-.activeNode {
-	fill: #ffd292;
-}
-
 .nodeText {
 	cursor: default;
 }
 
 .bar {
 	animation: fadeIn 0.2s;
+}
+
+.active {
+	fill: #ffa931;
+	stroke: black;
+	stroke-width: 1;
+}
+
+.visited {
+	opacity: 0.3;
 }
 
 @keyframes fadeIn {
