@@ -9,13 +9,14 @@ import {
     ToolBoxGroup,
 } from '..';
 import { animRunningChanged, dsaChanged } from '../../store/slices/canvasSlice';
+import { nodeSelected, nodesUpdated } from '../../store/slices/nodesSlice';
 import {
     selectAllNodes,
     useAppDispatch,
     useAppSelector,
 } from '../../store/store';
-import { DSAType, Modal, Node, SortingAlgo } from '../../types';
-import bubbleSortIterator from '../../utils/algorithms/sorting/bubbleSort';
+import { DSAType, Modal, Node, NodeStatus, SortingAlgo } from '../../types';
+import SORTING_ITERATORS from '../../utils/algorithms';
 import { ModalContext } from '../Providers';
 
 const VisualizationSideBar = () => {
@@ -26,7 +27,16 @@ const VisualizationSideBar = () => {
     const { showModal, hideModal } = useContext(ModalContext);
     const [btnsDisabled, setBtnsDisabled] = useState(false);
 
+    const resetNodeStatus = () => {
+        dispatch(nodeSelected(''));
+        let updates = nodes.map((node) => {
+            return { id: node.id, changes: { status: NodeStatus.NORMAL } };
+        });
+        dispatch(nodesUpdated(updates));
+    };
+
     const handleSorting = (algo: SortingAlgo) => {
+        const iterator = SORTING_ITERATORS.get(algo);
         const id = uuid();
         const addNodeModal: Modal = {
             id: id,
@@ -38,12 +48,14 @@ const VisualizationSideBar = () => {
                         hideModal(id);
                         setBtnsDisabled(false);
                         dispatch(animRunningChanged(false));
+                        resetNodeStatus();
                     }}
-                    iterator={bubbleSortIterator(nodes)}
+                    iterator={iterator ? iterator(nodes) : null}
                 />
             ),
         };
         dispatch(animRunningChanged(true));
+        resetNodeStatus();
         showModal(addNodeModal);
         setBtnsDisabled(true);
     };
