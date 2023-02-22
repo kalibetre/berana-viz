@@ -20,6 +20,7 @@ import styles from './NodeActions.module.css';
 
 const NodeActions = () => {
     let nodes: Node[] = useAppSelector(selectAllNodes);
+    const animRunning = useAppSelector((state) => state.canvas.animRunning);
     const dispatch: AppDispatch = useAppDispatch();
 
     const { showModal, hideModal } = useContext(ModalContext);
@@ -86,7 +87,7 @@ const NodeActions = () => {
             <ToolBoxGroup title="">
                 <div className={styles.options}>
                     <ButtonItem
-                        disabled={addBtnDisabled}
+                        disabled={addBtnDisabled || animRunning}
                         onClick={handleAddNode}
                     >
                         <span className={styles.icon}>
@@ -95,7 +96,11 @@ const NodeActions = () => {
                         Add Nodes
                     </ButtonItem>
                     <ButtonItem
-                        disabled={selectedNodeId === '' || editBtnDisabled}
+                        disabled={
+                            selectedNodeId === '' ||
+                            editBtnDisabled ||
+                            animRunning
+                        }
                         onClick={handleEditNode}
                     >
                         <span className={styles.icon}>
@@ -103,7 +108,7 @@ const NodeActions = () => {
                         </span>
                         Edit Nodes
                     </ButtonItem>
-                    <ButtonItem onClick={handleShuffle}>
+                    <ButtonItem onClick={handleShuffle} disabled={animRunning}>
                         <span className={styles.icon}>
                             <ShuffleIcon />
                         </span>

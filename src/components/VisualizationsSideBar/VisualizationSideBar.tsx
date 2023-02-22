@@ -8,13 +8,20 @@ import {
     ToolBox,
     ToolBoxGroup,
 } from '..';
-import { dsaChanged } from '../../store/slices/canvasSlice';
-import { useAppDispatch, useAppSelector } from '../../store/store';
-import { DSAType, Modal, SortingAlgo } from '../../types';
+import { animRunningChanged, dsaChanged } from '../../store/slices/canvasSlice';
+import {
+    selectAllNodes,
+    useAppDispatch,
+    useAppSelector,
+} from '../../store/store';
+import { DSAType, Modal, Node, SortingAlgo } from '../../types';
+import bubbleSortIterator from '../../utils/algorithms/sorting/bubbleSort';
 import { ModalContext } from '../Providers';
 
 const VisualizationSideBar = () => {
+    const nodes: Node[] = useAppSelector(selectAllNodes);
     const dsaType = useAppSelector((state) => state.canvas.dsaType);
+
     const dispatch = useAppDispatch();
     const { showModal, hideModal } = useContext(ModalContext);
     const [btnsDisabled, setBtnsDisabled] = useState(false);
@@ -30,10 +37,13 @@ const VisualizationSideBar = () => {
                     onClose={() => {
                         hideModal(id);
                         setBtnsDisabled(false);
+                        dispatch(animRunningChanged(false));
                     }}
+                    iterator={bubbleSortIterator(nodes)}
                 />
             ),
         };
+        dispatch(animRunningChanged(true));
         showModal(addNodeModal);
         setBtnsDisabled(true);
     };
@@ -52,6 +62,7 @@ const VisualizationSideBar = () => {
                             name="data structure"
                             value="dsa_array"
                             label="Show As Array"
+                            disabled={btnsDisabled}
                             checked={dsaType === DSAType.ARRAY}
                             onClick={() => dispatch(dsaChanged(DSAType.ARRAY))}
                         />
@@ -59,6 +70,7 @@ const VisualizationSideBar = () => {
                             name="data structure"
                             value="dsa_bin_tree"
                             label="Show As Binary Tree"
+                            disabled={btnsDisabled}
                             checked={dsaType === DSAType.BIN_TREE}
                             onClick={() =>
                                 dispatch(dsaChanged(DSAType.BIN_TREE))
@@ -79,10 +91,18 @@ const VisualizationSideBar = () => {
                         ))}
                     </ToolBoxGroup>
                     <ToolBoxGroup title="Searching">
-                        <ButtonItem>Linear Search</ButtonItem>
-                        <ButtonItem>Binary Search</ButtonItem>
-                        <ButtonItem>Jump Search</ButtonItem>
-                        <ButtonItem>Interpolation Search</ButtonItem>
+                        <ButtonItem disabled={btnsDisabled}>
+                            Linear Search
+                        </ButtonItem>
+                        <ButtonItem disabled={btnsDisabled}>
+                            Binary Search
+                        </ButtonItem>
+                        <ButtonItem disabled={btnsDisabled}>
+                            Jump Search
+                        </ButtonItem>
+                        <ButtonItem disabled={btnsDisabled}>
+                            Interpolation Search
+                        </ButtonItem>
                     </ToolBoxGroup>
                 </ToolBox>
             </SideBar>
