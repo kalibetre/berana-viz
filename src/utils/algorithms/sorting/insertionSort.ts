@@ -24,5 +24,4 @@ export default function* insertionSortIterator(nodes: Node[]): AlgoGenerator {
         }
         i++;
     }
-    yield { selectedId: '', updates: [] };
 }
