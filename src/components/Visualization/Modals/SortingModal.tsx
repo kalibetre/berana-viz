@@ -1,19 +1,15 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { nodeSelected, nodesUpdated } from '../../../store/slices/nodesSlice';
-import {
-    selectAllNodes,
-    useAppDispatch,
-    useAppSelector,
-} from '../../../store/store';
-import { AlgoGenerator, Node, NodeStatus, SortingAlgo } from '../../../types';
+import { useAppDispatch } from '../../../store/store';
+import { AlgoGenerator, SortingAlgo } from '../../../types';
 import Modal from '../../Modal/Modal';
 import modalStyles from './Modal.module.css';
 
 interface SortingModalProps {
     onClose?: () => void;
     algo: SortingAlgo;
-    iterator: AlgoGenerator;
+    iterator: AlgoGenerator | null;
 }
 
 interface SortingModalInput {
@@ -22,7 +18,6 @@ interface SortingModalInput {
 }
 
 const SortingModal = (props: SortingModalProps) => {
-    let nodes: Node[] = useAppSelector(selectAllNodes);
     const dispatch = useAppDispatch();
     const { register, handleSubmit } = useForm<SortingModalInput>({
         defaultValues: {
@@ -39,10 +34,10 @@ const SortingModal = (props: SortingModalProps) => {
         if (props.iterator) {
             let result = props.iterator.next();
             while (!result.done) {
-                dispatch(nodeSelected(result.value.selectedId));
                 if (result.value.updates.length > 0)
                     dispatch(nodesUpdated(result.value.updates));
                 result = props.iterator.next();
+                dispatch(nodeSelected(result.value.selectedId));
                 await animDelay(data.animTime);
             }
             setAnimFinished(true);
@@ -58,27 +53,11 @@ const SortingModal = (props: SortingModalProps) => {
                 return;
             }
 
-            dispatch(nodeSelected(result.value.selectedId));
             if (result.value.updates.length > 0)
                 dispatch(nodesUpdated(result.value.updates));
+            dispatch(nodeSelected(result.value.selectedId));
         }
     };
-
-    const resetNodeStatus = useCallback(() => {
-        dispatch(nodeSelected(''));
-        let updates = nodes.map((node) => {
-            return { id: node.id, changes: { status: NodeStatus.NORMAL } };
-        });
-        dispatch(nodesUpdated(updates));
-    }, [dispatch, nodes]);
-
-    useEffect(() => {
-        resetNodeStatus();
-
-        return () => {
-            resetNodeStatus();
-        };
-    }, [resetNodeStatus]);
 
     return (
         <Modal title="Sorting" onClose={props.onClose}>
