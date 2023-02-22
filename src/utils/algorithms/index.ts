@@ -1,6 +1,7 @@
 import { AlgoGenerator, Node, SortingAlgo } from '../../types';
 import bubbleSortIterator from './sorting/bubbleSort';
 import insertionSortIterator from './sorting/insertionSort';
+import selectionSortIterator from './sorting/selectionSort';
 
 const SORTING_ITERATORS = new Map<
     SortingAlgo,
@@ -8,6 +9,7 @@ const SORTING_ITERATORS = new Map<
 >([
     [SortingAlgo.BUBBLE, (nodes) => bubbleSortIterator(nodes)],
     [SortingAlgo.INSERTION, (nodes) => insertionSortIterator(nodes)],
+    [SortingAlgo.SELECTION, (nodes) => selectionSortIterator(nodes)],
 ]);
 
 export default SORTING_ITERATORS;
