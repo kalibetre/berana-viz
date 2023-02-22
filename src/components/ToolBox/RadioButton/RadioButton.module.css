@@ -1,4 +1,4 @@
-.radioContainer {
+.container {
 	margin-top: 5px;
 	height: 35px;
 	border: .6px solid #949494;
@@ -11,7 +11,25 @@
 	align-items: center;
 }
 
-.radioContainer label {
+.radioContainer {
+	composes: container
+}
+
+.radioContainer:hover {
+	background-color: #e0f4f6;
+}
+
+.radioContainer:active {
+	background-color: #b5c4c5;
+}
+
+.radioContDisabled {
+	composes: container;
+	background-color: #dcdcdc;
+	opacity: .6;
+}
+
+.inputLable {
 	flex-grow: 1;
 	height: 100%;
 	padding-top: 10px;
@@ -47,12 +65,4 @@
 
 .radio:checked {
 	color: teal;
-}
-
-.radioContainer:hover {
-	background-color: #e0f4f6;
-}
-
-.radioContainer:active {
-	background-color: #b5c4c5;
 }

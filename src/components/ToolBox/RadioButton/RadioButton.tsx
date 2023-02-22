@@ -11,8 +11,16 @@ interface RadioButtonProps {
 
 const RadioButton = (props: RadioButtonProps) => {
     return (
-        <div className={styles.radioContainer}>
-            <label htmlFor={props.value}>{props.label}</label>
+        <div
+            className={
+                props.disabled
+                    ? styles.radioContDisabled
+                    : styles.radioContainer
+            }
+        >
+            <label className={styles.inputLable} htmlFor={props.value}>
+                {props.label}
+            </label>
             <input
                 type="radio"
                 id={props.value}
