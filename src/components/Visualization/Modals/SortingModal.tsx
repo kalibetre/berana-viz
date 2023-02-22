@@ -1,12 +1,19 @@
+import { useCallback, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useBubbleSort } from '../../../hooks';
-import { SortingAlgo } from '../../../types';
+import { nodeSelected, nodesUpdated } from '../../../store/slices/nodesSlice';
+import {
+    selectAllNodes,
+    useAppDispatch,
+    useAppSelector,
+} from '../../../store/store';
+import { AlgoGenerator, Node, NodeStatus, SortingAlgo } from '../../../types';
 import Modal from '../../Modal/Modal';
 import modalStyles from './Modal.module.css';
 
 interface SortingModalProps {
     onClose?: () => void;
     algo: SortingAlgo;
+    iterator: AlgoGenerator;
 }
 
 interface SortingModalInput {
@@ -15,25 +22,63 @@ interface SortingModalInput {
 }
 
 const SortingModal = (props: SortingModalProps) => {
-    const iterator: Generator<void> = useBubbleSort();
+    let nodes: Node[] = useAppSelector(selectAllNodes);
+    const dispatch = useAppDispatch();
     const { register, handleSubmit } = useForm<SortingModalInput>({
         defaultValues: {
             algo: props.algo,
-            animTime: 200,
+            animTime: 50,
         },
     });
+    const [animFinished, setAnimFinished] = useState(false);
 
-    const onSubmit = (data: any) => {
-        console.log('Auto');
+    const animDelay = (delay: number) =>
+        new Promise((resolve) => setTimeout(resolve, delay));
+
+    const onSubmit = async (data: any) => {
+        if (props.iterator) {
+            let result = props.iterator.next();
+            while (!result.done) {
+                dispatch(nodeSelected(result.value.selectedId));
+                if (result.value.updates.length > 0)
+                    dispatch(nodesUpdated(result.value.updates));
+                result = props.iterator.next();
+                await animDelay(data.animTime);
+            }
+            setAnimFinished(true);
+        }
     };
 
     const onStep = (e: React.MouseEvent) => {
         e.preventDefault();
-        if (iterator) {
-            let crtFrame = iterator.next();
-            if (crtFrame.done) return;
+        if (props.iterator) {
+            let result = props.iterator.next();
+            if (result.done) {
+                setAnimFinished(true);
+                return;
+            }
+
+            dispatch(nodeSelected(result.value.selectedId));
+            if (result.value.updates.length > 0)
+                dispatch(nodesUpdated(result.value.updates));
         }
     };
+
+    const resetNodeStatus = useCallback(() => {
+        dispatch(nodeSelected(''));
+        let updates = nodes.map((node) => {
+            return { id: node.id, changes: { status: NodeStatus.NORMAL } };
+        });
+        dispatch(nodesUpdated(updates));
+    }, [dispatch, nodes]);
+
+    useEffect(() => {
+        resetNodeStatus();
+
+        return () => {
+            resetNodeStatus();
+        };
+    }, [resetNodeStatus]);
 
     return (
         <Modal title="Sorting" onClose={props.onClose}>
@@ -54,15 +99,13 @@ const SortingModal = (props: SortingModalProps) => {
                     </div>
                     <div className={modalStyles.inputRow}>
                         <label htmlFor="value">Anim. Speed</label>
-                        <select
+                        <input
+                            type="number"
                             className={modalStyles.input}
+                            min={0}
+                            max={1000}
                             {...register('animTime')}
-                        >
-                            <option value={100}>100</option>
-                            <option value={200}>200</option>
-                            <option value={300}>300</option>
-                            <option value={400}>400</option>
-                        </select>
+                        />
                     </div>
                 </div>
                 <div className={modalStyles.btnContainer}>
@@ -70,12 +113,14 @@ const SortingModal = (props: SortingModalProps) => {
                         className={modalStyles.btn}
                         type="submit"
                         value="Auto"
+                        disabled={animFinished}
                     />
                     <input
                         className={modalStyles.btn}
                         type="button"
                         value="Step"
                         onClick={onStep}
+                        disabled={animFinished}
                     />
                 </div>
             </form>
