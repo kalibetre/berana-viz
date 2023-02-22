@@ -10,6 +10,7 @@ export { default as ExportIcon } from './ExportIcon';
 export { default as GitHubIcon } from './GitHubIcon';
 export { default as NewFileIcon } from './NewFileIcon';
 export { default as SaveFileIcon } from './SaveFileIcon';
+export { default as ShuffleIcon } from './ShuffleIcon';
 export { default as TemporaryDocIcon } from './TemporaryDocIcon';
 export { default as UserAvatarIcon } from './UserAvatarIcon';
 export { default as ZoomExtentsIcon } from './ZoomExtentsIcon';
