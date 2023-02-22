@@ -1,3 +1,4 @@
+export type { default as AlgoGenerator } from './AlgoGenerator';
 export type { default as Bar } from './Bar';
 export type { default as ColorRange } from './ColorRange';
 export { default as DSAType } from './DSAType';
