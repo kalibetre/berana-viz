@@ -36,8 +36,8 @@ const SortingModal = (props: SortingModalProps) => {
             while (!result.done) {
                 if (result.value.updates.length > 0)
                     dispatch(nodesUpdated(result.value.updates));
-                result = props.iterator.next();
                 dispatch(nodeSelected(result.value.selectedId));
+                result = props.iterator.next();
                 await animDelay(data.animTime);
             }
             setAnimFinished(true);
