@@ -37,7 +37,7 @@ const AlertModal = (props: AlertModalProps) => {
                         type="button"
                         value={props.confirmButtonLabel}
                         onClick={() => {
-                            if (props.onCancel) props.onCancel();
+                            if (props.onConfirm) props.onConfirm();
                             if (props.onClose) props.onClose();
                         }}
                     />
@@ -47,7 +47,7 @@ const AlertModal = (props: AlertModalProps) => {
                     type="button"
                     value={props.cancelButtonLabel}
                     onClick={() => {
-                        if (props.onConfirm) props.onConfirm();
+                        if (props.onCancel) props.onCancel();
                         if (props.onClose) props.onClose();
                     }}
                 />
