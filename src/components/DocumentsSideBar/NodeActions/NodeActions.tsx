@@ -1,9 +1,10 @@
 import { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import uuid from 'react-uuid';
-import { AddNodeModal, GenerateModal, ToolBox } from '../..';
-import { NewFileIcon, ShuffleIcon } from '../../../icons';
-import { nodesUpdated } from '../../../store/slices/nodesSlice';
+import { AddNodeModal, AlertModal, GenerateModal, ToolBox } from '../..';
+import { GenerateIcon, NewFileIcon, ShuffleIcon } from '../../../icons';
+import DeleteAllIcon from '../../../icons/DeleteAllIcon';
+import { nodeDeleteAll, nodesUpdated } from '../../../store/slices/nodesSlice';
 import {
     AppDispatch,
     RootState,
@@ -15,6 +16,7 @@ import { Modal, Node } from '../../../types';
 import { ModalContext } from '../../Providers';
 import ButtonItem from '../../ToolBox/ButtonItem/ButtonItem';
 import ToolBoxGroup from '../../ToolBox/ToolBoxGroup/ToolBoxGroup';
+import { AlertType } from '../../Visualization/Modals/AlertModal';
 import EditNodeModal from '../../Visualization/Modals/EditNodeModal';
 import styles from './NodeActions.module.css';
 
@@ -100,6 +102,33 @@ const NodeActions = () => {
         setAddBtnDisabled(true);
     };
 
+    const handleDeleteAll = () => {
+        const id = uuid();
+        const alertModal: Modal = {
+            id: id,
+            tag: 'ALERT_MODAL',
+            component: (
+                <AlertModal
+                    type={AlertType.CONFIRMATION}
+                    title="Delete All"
+                    confirmButtonLabel="Yes"
+                    cancelButtonLabel="Cancel"
+                    message="Are you sure you want to delete all data?"
+                    onClose={() => hideModal(id)}
+                    onConfirm={() => {
+                        deleteAllData();
+                        hideModal(id);
+                    }}
+                />
+            ),
+        };
+        showModal(alertModal);
+    };
+
+    const deleteAllData = () => {
+        dispatch(nodeDeleteAll());
+    };
+
     return (
         <ToolBox title="Node Actions">
             <ToolBoxGroup title="">
@@ -134,13 +163,16 @@ const NodeActions = () => {
                     </ButtonItem>
                     <ButtonItem onClick={handleGenerate} disabled={animRunning}>
                         <span className={styles.icon}>
-                            <ShuffleIcon />
+                            <GenerateIcon />
                         </span>
                         Generate
                     </ButtonItem>
-                    <ButtonItem onClick={handleGenerate} disabled={animRunning}>
+                    <ButtonItem
+                        onClick={handleDeleteAll}
+                        disabled={animRunning}
+                    >
                         <span className={styles.icon}>
-                            <ShuffleIcon />
+                            <DeleteAllIcon />
                         </span>
                         Delete All
                     </ButtonItem>
