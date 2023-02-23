@@ -1,7 +1,7 @@
 import Modal from '../../Modal/Modal';
 import modalStyles from './Modal.module.css';
 
-enum AlertType {
+export enum AlertType {
     CONFIRMATION,
     WARNING,
     ERROR,
@@ -11,6 +11,8 @@ interface AlertModalProps {
     title: string;
     message: string;
     type: AlertType;
+    confirmButtonLabel: string;
+    cancelButtonLabel: string;
     onConfirm?: () => void;
     onCancel?: () => void;
     onClose?: () => void;
@@ -33,7 +35,7 @@ const AlertModal = (props: AlertModalProps) => {
                     <input
                         className={modalStyles.btn}
                         type="button"
-                        value="Random"
+                        value={props.confirmButtonLabel}
                         onClick={() => {
                             if (props.onCancel) props.onCancel();
                             if (props.onClose) props.onClose();
@@ -43,7 +45,7 @@ const AlertModal = (props: AlertModalProps) => {
                 <input
                     className={modalStyles.btn}
                     type="button"
-                    value="Close"
+                    value={props.cancelButtonLabel}
                     onClick={() => {
                         if (props.onConfirm) props.onConfirm();
                         if (props.onClose) props.onClose();
@@ -56,6 +58,8 @@ const AlertModal = (props: AlertModalProps) => {
 
 AlertModal.defaultProps = {
     type: AlertType.WARNING,
+    confirmButtonLabel: 'Ok',
+    cancelButtonLabel: 'Cancel',
     onConfirm: () => {},
     onCancel: () => {},
 };
