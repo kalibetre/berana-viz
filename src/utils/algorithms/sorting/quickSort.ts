@@ -53,7 +53,6 @@ function* quickSortWithLomuto(
     let pvt: number;
     if (low < high) {
         pvt = yield* sortWithPartition(nodes, values, low, high);
-        console.log(pvt);
         yield* quickSortWithLomuto(nodes, values, low, pvt - 1);
         yield* quickSortWithLomuto(nodes, values, pvt + 1, high);
     }
