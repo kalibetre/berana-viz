@@ -42,7 +42,11 @@ const ArrayGraphic = (props: ArrayGraphicProps) => {
 
     const draw = useCallback(
         () => (nodes: Node[]) => {
-            if (nodes.length === 0) return;
+            console.log(nodes);
+            if (nodes.length === 0) {
+                d3.select(canvasRef.current).selectAll('*').remove();
+                return;
+            }
             const rect = canvasRef.current?.getBoundingClientRect();
             const midPoint = {
                 x: rect ? rect.width / 2 : 0,
