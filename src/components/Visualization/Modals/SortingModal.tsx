@@ -31,32 +31,29 @@ const SortingModal = (props: SortingModalProps) => {
         new Promise((resolve) => setTimeout(resolve, delay));
 
     const onSubmit = async (data: any) => {
-        if (props.iterator) {
-            let result = props.iterator.next();
-            while (!result.done) {
-                if (result.value.updates.length > 0)
-                    dispatch(nodesUpdated(result.value.updates));
-                dispatch(nodeSelected(result.value.selectedId));
-                result = props.iterator.next();
-                await animDelay(data.animTime);
-            }
-            setAnimFinished(true);
+        while (runStep()) {
+            await animDelay(data.animTime);
         }
     };
 
     const onStep = (e: React.MouseEvent) => {
         e.preventDefault();
+        runStep();
+    };
+
+    const runStep = (): boolean => {
         if (props.iterator) {
             let result = props.iterator.next();
             if (result.done) {
                 setAnimFinished(true);
-                return;
+                return false;
             }
 
             if (result.value.updates.length > 0)
                 dispatch(nodesUpdated(result.value.updates));
             dispatch(nodeSelected(result.value.selectedId));
         }
+        return true;
     };
 
     return (
