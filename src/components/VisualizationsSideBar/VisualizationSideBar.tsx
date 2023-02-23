@@ -44,7 +44,27 @@ const VisualizationSideBar = () => {
         dispatch(nodesUpdated(updates));
     };
 
+    const handelEmptyNodes = () => {
+        const id = uuid();
+        const alertModal: Modal = {
+            id: id,
+            tag: 'ALERT_MODAL',
+            component: (
+                <AlertModal
+                    title="No Data"
+                    message="There is no data. Try adding nodes."
+                    onClose={() => hideModal(id)}
+                />
+            ),
+        };
+        showModal(alertModal);
+    };
+
     const handleSorting = (algo: SortingAlgo) => {
+        if (nodes.length === 0) {
+            handelEmptyNodes();
+            return;
+        }
         const iterator = SORTING_ITERATORS.get(algo);
         const id = uuid();
         const sortingModal: Modal = {
@@ -70,6 +90,10 @@ const VisualizationSideBar = () => {
     };
 
     const handleSearching = (algo: SearchAlgo) => {
+        if (nodes.length === 0) {
+            handelEmptyNodes();
+            return;
+        }
         if (algo === SearchAlgo.BINARY && !isDataSorted()) {
             const id = uuid();
             const alertModal: Modal = {
