@@ -38,7 +38,7 @@ const VisualizationSideBar = () => {
     const handleSorting = (algo: SortingAlgo) => {
         const iterator = SORTING_ITERATORS.get(algo);
         const id = uuid();
-        const addNodeModal: Modal = {
+        const sortingModal: Modal = {
             id: id,
             tag: 'SORTING_ALGO_MODAL',
             component: (
@@ -56,7 +56,7 @@ const VisualizationSideBar = () => {
         };
         dispatch(animRunningChanged(true));
         resetNodeStatus();
-        showModal(addNodeModal);
+        showModal(sortingModal);
         setBtnsDisabled(true);
     };
 
