@@ -74,3 +74,47 @@
 	background-color: #dcdcdc;
 	opacity: .6;
 }
+
+.resultRow {
+	display: flex;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.circularBtn {
+	background-color: white;
+	border: .6px solid #949494;
+	width: 40px;
+	height: 40px;
+	padding: 8px;
+	border-radius: 100%;
+	margin: auto;
+}
+
+.circularBtn:hover {
+	background-color: #e0f4f6;
+}
+
+.circularBtn:active {
+	background-color: #b5c4c5;
+}
+
+.resultMsg {
+	font-size: 12px;
+	border-radius: 20px;
+	width: 150px;
+	height: 25px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.resultMsgPos {
+	composes: resultMsg;
+	background-color: #baebdd;
+}
+
+.resultMsgNeg {
+	composes: resultMsg;
+	background-color: #f8c7db;
+}

@@ -3,6 +3,7 @@ import uuid from 'react-uuid';
 import {
     ButtonItem,
     RadioButton,
+    SearchingModal,
     SideBar,
     SortingModal,
     ToolBox,
@@ -15,8 +16,15 @@ import {
     useAppDispatch,
     useAppSelector,
 } from '../../store/store';
-import { DSAType, Modal, Node, NodeStatus, SortingAlgo } from '../../types';
-import SORTING_ITERATORS from '../../utils/algorithms';
+import {
+    DSAType,
+    Modal,
+    Node,
+    NodeStatus,
+    SearchAlgo,
+    SortingAlgo,
+} from '../../types';
+import { SORTING_ITERATORS } from '../../utils/algorithms';
 import { ModalContext } from '../Providers';
 
 const VisualizationSideBar = () => {
@@ -57,6 +65,29 @@ const VisualizationSideBar = () => {
         dispatch(animRunningChanged(true));
         resetNodeStatus();
         showModal(sortingModal);
+        setBtnsDisabled(true);
+    };
+
+    const handleSearching = (algo: SearchAlgo) => {
+        const id = uuid();
+        const searchingModal: Modal = {
+            id: id,
+            tag: 'SEARCHING_ALGO_MODAL',
+            component: (
+                <SearchingModal
+                    algo={algo}
+                    onClose={() => {
+                        hideModal(id);
+                        setBtnsDisabled(false);
+                        dispatch(animRunningChanged(false));
+                        resetNodeStatus();
+                    }}
+                />
+            ),
+        };
+        dispatch(animRunningChanged(true));
+        resetNodeStatus();
+        showModal(searchingModal);
         setBtnsDisabled(true);
     };
 
@@ -103,18 +134,15 @@ const VisualizationSideBar = () => {
                         ))}
                     </ToolBoxGroup>
                     <ToolBoxGroup title="Searching">
-                        <ButtonItem disabled={btnsDisabled}>
-                            Linear Search
-                        </ButtonItem>
-                        <ButtonItem disabled={btnsDisabled}>
-                            Binary Search
-                        </ButtonItem>
-                        <ButtonItem disabled={btnsDisabled}>
-                            Jump Search
-                        </ButtonItem>
-                        <ButtonItem disabled={btnsDisabled}>
-                            Interpolation Search
-                        </ButtonItem>
+                        {Object.values(SearchAlgo).map((key) => (
+                            <ButtonItem
+                                disabled={btnsDisabled}
+                                key={key}
+                                onClick={() => handleSearching(key)}
+                            >
+                                {key}
+                            </ButtonItem>
+                        ))}
                     </ToolBoxGroup>
                 </ToolBox>
             </SideBar>

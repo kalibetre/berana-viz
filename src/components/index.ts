@@ -13,6 +13,7 @@ export { default as ToolBox } from './ToolBox/ToolBox';
 export { default as ToolBoxGroup } from './ToolBox/ToolBoxGroup/ToolBoxGroup';
 export { default as ArrayGraphic } from './Visualization/ArrayGraphic/ArrayGraphic';
 export { default as AddNodeModal } from './Visualization/Modals/AddNodeModal';
+export { default as SearchingModal } from './Visualization/Modals/SearchingModal';
 export { default as SortingModal } from './Visualization/Modals/SortingModal';
 export { default as TreeGraphic } from './Visualization/TreeGraphic/TreeGraphic';
 export { default as VisualizationSideBar } from './VisualizationsSideBar/VisualizationSideBar';
