@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import uuid from 'react-uuid';
-import { AddNodeModal, ToolBox } from '../..';
+import { AddNodeModal, GenerateModal, ToolBox } from '../..';
 import { NewFileIcon, ShuffleIcon } from '../../../icons';
 import { nodesUpdated } from '../../../store/slices/nodesSlice';
 import {
@@ -82,6 +82,24 @@ const NodeActions = () => {
         dispatch(nodesUpdated(updates));
     };
 
+    const handleGenerate = () => {
+        const id = uuid();
+        const genNodeModal: Modal = {
+            id: id,
+            tag: 'ADD_NEW_NODE',
+            component: (
+                <GenerateModal
+                    onClose={() => {
+                        hideModal(id);
+                        setAddBtnDisabled(false);
+                    }}
+                />
+            ),
+        };
+        showModal(genNodeModal);
+        setAddBtnDisabled(true);
+    };
+
     return (
         <ToolBox title="Node Actions">
             <ToolBoxGroup title="">
@@ -113,6 +131,18 @@ const NodeActions = () => {
                             <ShuffleIcon />
                         </span>
                         Shuffle
+                    </ButtonItem>
+                    <ButtonItem onClick={handleGenerate} disabled={animRunning}>
+                        <span className={styles.icon}>
+                            <ShuffleIcon />
+                        </span>
+                        Generate
+                    </ButtonItem>
+                    <ButtonItem onClick={handleGenerate} disabled={animRunning}>
+                        <span className={styles.icon}>
+                            <ShuffleIcon />
+                        </span>
+                        Delete All
                     </ButtonItem>
                 </div>
             </ToolBoxGroup>
