@@ -47,7 +47,7 @@ const SearchingModal = (props: SearchingModalProps) => {
         while (runStep()) {
             await animDelay(data.animTime);
         }
-        if (animRunning) setAnimRunning(false);
+        setAnimRunning(false);
     };
 
     const onStep = (e: React.MouseEvent) => {

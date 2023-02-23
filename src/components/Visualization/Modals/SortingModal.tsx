@@ -37,7 +37,8 @@ const SortingModal = (props: SortingModalProps) => {
         while (runStep()) {
             await animDelay(data.animTime);
         }
-        if (animRunning) setAnimRunning(false);
+        setAnimRunning(false);
+        setBtnsDisabled(false);
     };
 
     const onStep = (e: React.MouseEvent) => {
