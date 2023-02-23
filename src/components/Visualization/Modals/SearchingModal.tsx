@@ -33,7 +33,7 @@ const SearchingModal = (props: SearchingModalProps) => {
             animTime: 50,
         },
     });
-    const [animFinished, setAnimFinished] = useState(false);
+    const [animRunning, setAnimRunning] = useState(false);
     const [valueFound, setValueFound] = useState<boolean | null>(null);
     const valueRef = useRef<HTMLInputElement | null>(null);
 
@@ -43,9 +43,11 @@ const SearchingModal = (props: SearchingModalProps) => {
         new Promise((resolve) => setTimeout(resolve, delay));
 
     const onSubmit = async (data: any) => {
+        setAnimRunning(true);
         while (runStep()) {
             await animDelay(data.animTime);
         }
+        if (animRunning) setAnimRunning(false);
     };
 
     const onStep = (e: React.MouseEvent) => {
@@ -57,7 +59,7 @@ const SearchingModal = (props: SearchingModalProps) => {
         if (iterator) {
             let result = iterator.next();
             if (result.done) {
-                setAnimFinished(true);
+                setAnimRunning(false);
                 setValueFound(false);
                 return false;
             }
@@ -67,7 +69,7 @@ const SearchingModal = (props: SearchingModalProps) => {
             dispatch(nodeSelected(result.value.selectedId));
 
             if (result.value.found) {
-                setAnimFinished(true);
+                setAnimRunning(false);
                 setValueFound(true);
                 return false;
             }
@@ -76,7 +78,6 @@ const SearchingModal = (props: SearchingModalProps) => {
     };
 
     const handelOnChange = (e: any) => {
-        console.log('onchange');
         initIterator(parseInt(e.target.value));
     };
 
@@ -90,7 +91,7 @@ const SearchingModal = (props: SearchingModalProps) => {
 
     const handleRest = (e: React.MouseEvent) => {
         resetNodeStatus();
-        setAnimFinished(false);
+        setAnimRunning(false);
         setValueFound(null);
         if (valueRef.current) initIterator(parseInt(valueRef.current?.value));
     };
@@ -105,7 +106,7 @@ const SearchingModal = (props: SearchingModalProps) => {
     };
 
     return (
-        <Modal title="Searching" onClose={props.onClose}>
+        <Modal title="Searching" onClose={props.onClose} stayOpen={animRunning}>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className={modalStyles.form}
@@ -170,14 +171,14 @@ const SearchingModal = (props: SearchingModalProps) => {
                         className={modalStyles.btn}
                         type="submit"
                         value="Auto"
-                        disabled={animFinished}
+                        disabled={animRunning}
                     />
                     <input
                         className={modalStyles.btn}
                         type="button"
                         value="Step"
                         onClick={onStep}
-                        disabled={animFinished}
+                        disabled={animRunning}
                     />
                 </div>
             </form>

@@ -8,6 +8,7 @@ interface ModalProps {
     title?: string;
     children: ReactNode;
     onClose?: () => void;
+    stayOpen: boolean;
 }
 
 const Modal = (props: ModalProps) => {
@@ -15,8 +16,10 @@ const Modal = (props: ModalProps) => {
     const modalRef = useRef<HTMLDivElement>(null);
 
     const handleClose = () => {
-        setShowModal(false);
-        if (props.onClose) props.onClose();
+        if (!props.stayOpen) {
+            setShowModal(false);
+            if (props.onClose) props.onClose();
+        }
     };
 
     useEffect(() => {
@@ -34,7 +37,11 @@ const Modal = (props: ModalProps) => {
         <Draggable handle=".handle">
             <div ref={modalRef} className={styles.modalContainer}>
                 <div className={`handle ${styles.titleBar}`}>
-                    <button className={styles.closeBtn} onClick={handleClose}>
+                    <button
+                        className={styles.closeBtn}
+                        onClick={handleClose}
+                        disabled={props.stayOpen}
+                    >
                         <CloseIcon />
                     </button>
                     {props.title}
@@ -48,6 +55,7 @@ const Modal = (props: ModalProps) => {
 
 Modal.defaultProps = {
     title: 'BeranaVis',
+    stayOpen: false,
 };
 
 export default Modal;

@@ -25,15 +25,19 @@ const SortingModal = (props: SortingModalProps) => {
             animTime: 50,
         },
     });
-    const [animFinished, setAnimFinished] = useState(false);
+    const [animRunning, setAnimRunning] = useState(false);
+    const [btnsDisabled, setBtnsDisabled] = useState(false);
 
     const animDelay = (delay: number) =>
         new Promise((resolve) => setTimeout(resolve, delay));
 
     const onSubmit = async (data: any) => {
+        setBtnsDisabled(true);
+        setAnimRunning(true);
         while (runStep()) {
             await animDelay(data.animTime);
         }
+        if (animRunning) setAnimRunning(false);
     };
 
     const onStep = (e: React.MouseEvent) => {
@@ -45,7 +49,7 @@ const SortingModal = (props: SortingModalProps) => {
         if (props.iterator) {
             let result = props.iterator.next();
             if (result.done) {
-                setAnimFinished(true);
+                setBtnsDisabled(true);
                 return false;
             }
 
@@ -57,7 +61,7 @@ const SortingModal = (props: SortingModalProps) => {
     };
 
     return (
-        <Modal title="Sorting" onClose={props.onClose}>
+        <Modal title="Sorting" onClose={props.onClose} stayOpen={animRunning}>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className={modalStyles.form}
@@ -89,14 +93,14 @@ const SortingModal = (props: SortingModalProps) => {
                         className={modalStyles.btn}
                         type="submit"
                         value="Auto"
-                        disabled={animFinished}
+                        disabled={btnsDisabled}
                     />
                     <input
                         className={modalStyles.btn}
                         type="button"
                         value="Step"
                         onClick={onStep}
-                        disabled={animFinished}
+                        disabled={btnsDisabled}
                     />
                 </div>
             </form>
