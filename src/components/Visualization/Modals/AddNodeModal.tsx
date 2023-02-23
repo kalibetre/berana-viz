@@ -27,7 +27,7 @@ const AddNodeModal = (props: EditArrayModalProps) => {
     const onSubmit = (data: any) => {
         const node: Node = {
             id: uuid(),
-            value: data.value,
+            value: parseInt(data.value),
             status: NodeStatus.NORMAL,
             time: new Date().getTime(),
         };
