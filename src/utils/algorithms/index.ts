@@ -1,4 +1,5 @@
 import { AlgoGenerator, Node, SearchAlgo, SortingAlgo } from '../../types';
+import binarySearchIterator from './searching/binarySearch';
 import linearSearchIterator from './searching/linearSearch';
 import bubbleSortIterator from './sorting/bubbleSort';
 import insertionSortIterator from './sorting/insertionSort';
@@ -20,4 +21,7 @@ export const SORTING_ITERATORS = new Map<
 export const SEARCH_ITERATORS = new Map<
     SearchAlgo,
     (nodes: Node[], value: number | null) => AlgoGenerator
->([[SearchAlgo.LINEAR, (nodes, value) => linearSearchIterator(nodes, value)]]);
+>([
+    [SearchAlgo.LINEAR, (nodes, value) => linearSearchIterator(nodes, value)],
+    [SearchAlgo.BINARY, (nodes, value) => binarySearchIterator(nodes, value)],
+]);
