@@ -39,6 +39,14 @@
 	justify-content: space-between;
 }
 
+.btnContainerOneBtn {
+	display: flex;
+	align-items: flex-end;
+	background-color: #efeeee;
+	padding: 10px 15px 10px 15px;
+	justify-content: flex-end;
+}
+
 .error {
 	padding-top: 8px;
 	color: #d45087;
@@ -117,4 +125,8 @@
 .resultMsgNeg {
 	composes: resultMsg;
 	background-color: #f8c7db;
+}
+
+.alertContent {
+	padding: 15px;
 }

@@ -26,6 +26,7 @@ import {
 } from '../../types';
 import { SORTING_ITERATORS } from '../../utils/algorithms';
 import { ModalContext } from '../Providers';
+import AlertModal from '../Visualization/Modals/AlertModal';
 
 const VisualizationSideBar = () => {
     const nodes: Node[] = useAppSelector(selectAllNodes);
@@ -69,26 +70,50 @@ const VisualizationSideBar = () => {
     };
 
     const handleSearching = (algo: SearchAlgo) => {
-        const id = uuid();
-        const searchingModal: Modal = {
-            id: id,
-            tag: 'SEARCHING_ALGO_MODAL',
-            component: (
-                <SearchingModal
-                    algo={algo}
-                    onClose={() => {
-                        hideModal(id);
-                        setBtnsDisabled(false);
-                        dispatch(animRunningChanged(false));
-                        resetNodeStatus();
-                    }}
-                />
-            ),
-        };
-        dispatch(animRunningChanged(true));
-        resetNodeStatus();
-        showModal(searchingModal);
-        setBtnsDisabled(true);
+        if (algo === SearchAlgo.BINARY && !isDataSorted()) {
+            const id = uuid();
+            const alertModal: Modal = {
+                id: id,
+                tag: 'ALERT_MODAL',
+                component: (
+                    <AlertModal
+                        title="Sorting"
+                        message="Data is not sorted. Binary search requires sorting."
+                        onClose={() => hideModal(id)}
+                    />
+                ),
+            };
+            showModal(alertModal);
+        } else {
+            const id = uuid();
+            const searchingModal: Modal = {
+                id: id,
+                tag: 'SEARCHING_ALGO_MODAL',
+                component: (
+                    <SearchingModal
+                        algo={algo}
+                        onClose={() => {
+                            hideModal(id);
+                            setBtnsDisabled(false);
+                            dispatch(animRunningChanged(false));
+                            resetNodeStatus();
+                        }}
+                    />
+                ),
+            };
+            dispatch(animRunningChanged(true));
+            resetNodeStatus();
+            showModal(searchingModal);
+            setBtnsDisabled(true);
+        }
+    };
+
+    const isDataSorted = (): boolean => {
+        const values = nodes.map((node) => node.value);
+        for (let i = 0; i < values.length - 2; i++) {
+            if (values[i] > values[i + 1]) return false;
+        }
+        return true;
     };
 
     return (
