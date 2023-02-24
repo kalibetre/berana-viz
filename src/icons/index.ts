@@ -7,6 +7,7 @@ export { default as CloudDataIcon } from './CloudDataIcon';
 export { default as DeleteAllIcon } from './DeleteAllIcon';
 export { default as DeleteFileIcon } from './DeleteFileIcon';
 export { default as DocumentIcon } from './DocumentIcon';
+export { default as ErrorIcon } from './ErrorIcon';
 export { default as ExportIcon } from './ExportIcon';
 export { default as GenerateIcon } from './GenerateIcon';
 export { default as GitHubIcon } from './GitHubIcon';
