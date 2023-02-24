@@ -1,5 +1,5 @@
 .content {
-	height: 55px;
+	height: 45px;
 	display: flex;
 	justify-content: space-between;
 	background-color: rgba(204, 204, 204, 0.2);
@@ -13,8 +13,8 @@
 }
 
 .logo {
-	width: 42px;
-	height: 42px;
+	width: 35px;
+	height: 35px;
 	margin-left: 5px;
 	margin-right: 5px;
 }
@@ -30,12 +30,12 @@
 .logoTitle {
 	line-height: 1;
 	color: teal;
-	font-size: 24px;
+	font-size: 20px;
 }
 
 .logoSubTitle {
 	line-height: 1;
-	font-size: 14px;
+	font-size: 10px;
 	color: #949494;
 }
 
@@ -49,8 +49,8 @@
 
 .icon {
 	display: block;
-	width: 38px;
-	height: 38px;
+	width: 32px;
+	height: 32px;
 	border-radius: 100%;
 	margin-left: 8px;
 	opacity: .5;

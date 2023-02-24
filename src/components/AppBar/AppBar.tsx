@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { GitHubIcon, UserAvatarIcon } from '../../icons';
 import styles from './AppBar.module.css';
 
@@ -5,7 +6,7 @@ const AppBar = () => {
     return (
         <header>
             <div className={styles.content}>
-                <div className={styles.logoContainer}>
+                <Link to="/" className={styles.logoContainer}>
                     <img
                         className={styles.logo}
                         src="/images/logo.png"
@@ -17,11 +18,13 @@ const AppBar = () => {
                             Data Structures and Algorithms Visualizer
                         </h2>
                     </div>
-                </div>
+                </Link>
                 <div className={styles.avatarContainer}>
-                    <span className={styles.icon}>
-                        <UserAvatarIcon />
-                    </span>
+                    <Link to="/auth">
+                        <span className={styles.icon}>
+                            <UserAvatarIcon />
+                        </span>
+                    </Link>
                     <span className={styles.icon}>
                         <a
                             href="https://github.com/kalibetre/berana-vis"
