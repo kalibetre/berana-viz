@@ -3,10 +3,12 @@ import { DSAType } from '../../types';
 
 interface CanvasState {
     dsaType: DSAType;
+    animRunning: boolean;
 }
 
 const initialState: CanvasState = {
     dsaType: DSAType.ARRAY,
+    animRunning: false,
 };
 
 const canvasSlice = createSlice({
@@ -16,8 +18,11 @@ const canvasSlice = createSlice({
         dsaChanged(state, action) {
             state.dsaType = action.payload;
         },
+        animRunningChanged(state, action) {
+            state.animRunning = action.payload;
+        },
     },
 });
 
-export const { dsaChanged } = canvasSlice.actions;
+export const { dsaChanged, animRunningChanged } = canvasSlice.actions;
 export default canvasSlice.reducer;

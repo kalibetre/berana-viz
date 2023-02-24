@@ -1,8 +1,6 @@
-import { Size } from '.';
+import { NodeBase, Size } from '.';
 
-interface Bar extends Size {
-    id: string;
-    value: number;
+interface Bar extends Size, NodeBase {
     x: number;
     y: number;
     color: any;

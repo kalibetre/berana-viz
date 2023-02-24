@@ -5,11 +5,10 @@ import { CloseIcon } from '../../icons';
 import styles from './Modal.module.css';
 
 interface ModalProps {
-    width?: number;
-    height?: number;
     title?: string;
     children: ReactNode;
     onClose?: () => void;
+    stayOpen: boolean;
 }
 
 const Modal = (props: ModalProps) => {
@@ -17,30 +16,32 @@ const Modal = (props: ModalProps) => {
     const modalRef = useRef<HTMLDivElement>(null);
 
     const handleClose = () => {
-        setShowModal(false);
-        if (props.onClose) props.onClose();
+        if (!props.stayOpen) {
+            setShowModal(false);
+            if (props.onClose) props.onClose();
+        }
     };
 
     useEffect(() => {
-        const width = document.body.clientWidth;
-        const height = document.body.clientHeight;
-        const top = height / 2 - (props.height ? props.height : 0) / 2;
-        const left = width / 2 - (props.width ? props.width : 0) / 2;
         if (modalRef.current) {
-            modalRef.current.style.top = `${top}px`;
-            modalRef.current.style.left = `${left}px`;
+            const winW = document.body.clientWidth;
+            const winH = document.body.clientHeight;
+            const divW = modalRef.current.clientWidth;
+            const divH = modalRef.current.clientHeight;
+            modalRef.current.style.top = `${winH / 2 - divH / 2}px`;
+            modalRef.current.style.left = `${winW / 2 - divW / 2}px`;
         }
-    }, [props.width, props.height, modalRef]);
+    }, [modalRef]);
 
     const modal = (
         <Draggable handle=".handle">
-            <div
-                ref={modalRef}
-                style={{ width: props.width, height: props.height }}
-                className={styles.modalContainer}
-            >
+            <div ref={modalRef} className={styles.modalContainer}>
                 <div className={`handle ${styles.titleBar}`}>
-                    <button className={styles.closeBtn} onClick={handleClose}>
+                    <button
+                        className={styles.closeBtn}
+                        onClick={handleClose}
+                        disabled={props.stayOpen}
+                    >
                         <CloseIcon />
                     </button>
                     {props.title}
@@ -53,9 +54,8 @@ const Modal = (props: ModalProps) => {
 };
 
 Modal.defaultProps = {
-    width: 300,
-    height: 300,
     title: 'BeranaVis',
+    stayOpen: false,
 };
 
 export default Modal;

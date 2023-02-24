@@ -1,6 +1,6 @@
-import { Node } from '.';
+import { NodeBase } from '.';
 
-interface TreeNode extends Node {
+interface TreeNode extends NodeBase {
     children: TreeNode[];
 }
 

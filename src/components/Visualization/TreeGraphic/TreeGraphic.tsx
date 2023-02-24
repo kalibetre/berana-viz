@@ -3,12 +3,13 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { ZoomControls } from '../..';
 import { useWindowResize } from '../../../hooks';
-import { nodeSelected } from '../../../store/slices/arraySlice';
+import { nodeSelected } from '../../../store/slices/nodesSlice';
 import {
     AppDispatch,
-    arraySelectors,
     RootState,
+    selectAllNodes,
     useAppDispatch,
+    useAppSelector,
 } from '../../../store/store';
 import { Node, TreeNode } from '../../../types';
 import { convertToTree } from '../../../utils/tree-converter';
@@ -21,7 +22,7 @@ interface TreeGraphicProps {
 }
 
 const TreeGraphic = (props: TreeGraphicProps) => {
-    const nodes: Node[] = useSelector(arraySelectors.selectAll);
+    let nodes: Node[] = useAppSelector(selectAllNodes);
     const [treeNodes, setTreeNodes] = useState<
         d3.HierarchyPointNode<TreeNode>[]
     >([]);
@@ -32,7 +33,7 @@ const TreeGraphic = (props: TreeGraphicProps) => {
 
     const svgContentRef = useRef<SVGGElement>(null);
     const selectedNodeId = useSelector<RootState>(
-        (state) => state.array.selectedId
+        (state) => state.nodes.selectedId
     );
     const dispatch: AppDispatch = useAppDispatch();
 
@@ -118,8 +119,9 @@ const TreeGraphic = (props: TreeGraphicProps) => {
             </div>
             <svg ref={canvasRef} className={styles.canvas}>
                 <g ref={svgContentRef}>
-                    {treeLinks.map((link) => (
+                    {treeLinks.map((link, i) => (
                         <path
+                            key={i}
                             className={styles.link}
                             x={TREE_NODE / 2}
                             y={TREE_NODE / 2}

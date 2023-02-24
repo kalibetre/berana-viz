@@ -41,3 +41,7 @@
 .closeBtn:active {
 	background-color: #f95d6a;
 }
+
+.closeBtn[disabled] {
+	background-color: #eee;
+}

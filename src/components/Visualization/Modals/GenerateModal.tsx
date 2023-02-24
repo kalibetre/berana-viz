@@ -1,45 +1,45 @@
 import { useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import uuid from 'react-uuid';
 import { nodeAdded } from '../../../store/slices/nodesSlice';
-import { AppDispatch } from '../../../store/store';
+import { useAppDispatch } from '../../../store/store';
 import { Node, NodeStatus } from '../../../types';
 import Modal from '../../Modal/Modal';
 import modalStyles from './Modal.module.css';
 
-interface EditArrayModalProps {
+interface GenerateModalProps {
     onClose?: () => void;
 }
 
-interface EditArrayModalInput {
-    value: number;
+interface GenerateModalInput {
+    count: number;
 }
 
-const AddNodeModal = (props: EditArrayModalProps) => {
-    const dispatch: AppDispatch = useDispatch<AppDispatch>();
+const GenerateModal = (props: GenerateModalProps) => {
+    const dispatch = useAppDispatch();
     const {
         register,
         handleSubmit,
         formState: { errors },
-        setValue,
-    } = useForm<EditArrayModalInput>();
+    } = useForm<GenerateModalInput>({
+        defaultValues: {
+            count: 20,
+        },
+    });
 
     const onSubmit = (data: any) => {
-        const node: Node = {
-            id: uuid(),
-            value: parseInt(data.value),
-            status: NodeStatus.NORMAL,
-            time: new Date().getTime(),
-        };
-        dispatch(nodeAdded(node));
-    };
-
-    const handleOnRandom = () => {
-        setValue('value', Math.floor(Math.random() * 1000));
+        for (let i = 0; i < parseInt(data.count); i++) {
+            const node: Node = {
+                id: uuid(),
+                value: Math.round(Math.random() * 1000),
+                status: NodeStatus.NORMAL,
+                time: new Date().getTime(),
+            };
+            dispatch(nodeAdded(node));
+        }
     };
 
     return (
-        <Modal title="Add Node" onClose={props.onClose}>
+        <Modal title="Generate Nodes" onClose={props.onClose}>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className={modalStyles.form}
@@ -51,32 +51,32 @@ const AddNodeModal = (props: EditArrayModalProps) => {
                             id="value"
                             type="number"
                             className={modalStyles.input}
-                            {...register('value', {
-                                required: 'Value Required',
+                            {...register('count', {
+                                required: 'Count is required',
                                 max: {
-                                    value: 999,
-                                    message: 'Value Should be less 999',
+                                    value: 100,
+                                    message: 'Count Should be less 100',
                                 },
                                 min: {
                                     value: 0,
-                                    message: 'Value Should be greater than 0',
+                                    message: 'Count Should be greater than 0',
                                 },
                             })}
                         />
                     </div>
-                    <p className={modalStyles.error}>{errors.value?.message}</p>
+                    <p className={modalStyles.error}>{errors.count?.message}</p>
                 </div>
                 <div className={modalStyles.btnContainer}>
                     <input
                         className={modalStyles.btn}
                         type="button"
-                        value="Random"
-                        onClick={handleOnRandom}
+                        value="Cancel"
+                        onClick={props.onClose}
                     />
                     <input
                         className={modalStyles.btn}
                         type="submit"
-                        value="Add Value"
+                        value="Generate"
                     />
                 </div>
             </form>
@@ -84,4 +84,4 @@ const AddNodeModal = (props: EditArrayModalProps) => {
     );
 };
 
-export default AddNodeModal;
+export default GenerateModal;

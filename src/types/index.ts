@@ -1,7 +1,11 @@
+export type { default as AlgoGenerator } from './AlgoGenerator';
 export type { default as Bar } from './Bar';
 export type { default as ColorRange } from './ColorRange';
 export { default as DSAType } from './DSAType';
 export type { default as Modal } from './Modal';
-export type { default as Node } from './Node';
+export { NodeStatus } from './Node';
+export type { default as Node, NodeBase } from './Node';
+export { default as SearchAlgo } from './SearchAlgo';
 export type { default as Size } from './Size';
+export { default as SortingAlgo } from './SortingAlgo';
 export type { default as TreeNode } from './TreeNode';

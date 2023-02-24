@@ -5,10 +5,15 @@ import {
     nodeDeleted,
     nodeSelected,
     nodeUpdated,
-} from '../../../store/slices/arraySlice';
-import { AppDispatch, arraySelectors, RootState } from '../../../store/store';
+} from '../../../store/slices/nodesSlice';
+import {
+    AppDispatch,
+    RootState,
+    selectNodeById,
+    useAppSelector,
+} from '../../../store/store';
 import Modal from '../../Modal/Modal';
-import styles from './AddNodeModal.module.css';
+import modalStyles from './Modal.module.css';
 
 interface EditArrayModalProps {
     onClose?: () => void;
@@ -21,10 +26,10 @@ interface EditArrayModalInput {
 const EditNodeModal = (props: EditArrayModalProps) => {
     const dispatch: AppDispatch = useDispatch<AppDispatch>();
     const selectedNodeId: string = useSelector(
-        (state: RootState) => state.array.selectedId
+        (state: RootState) => state.nodes.selectedId
     );
-    const selectedNode = useSelector((state: RootState) =>
-        arraySelectors.selectById(state, selectedNodeId)
+    const selectedNode = useAppSelector((state: RootState) =>
+        selectNodeById(state, selectedNodeId)
     );
     const valueRef = useRef<HTMLInputElement | null>(null);
 
@@ -66,20 +71,18 @@ const EditNodeModal = (props: EditArrayModalProps) => {
     };
 
     return (
-        <Modal
-            title="Edit Array"
-            onClose={props.onClose}
-            width={250}
-            height={180}
-        >
-            <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
-                <div className={styles.inputGroup}>
-                    <div className={styles.inputRow}>
+        <Modal title="Edit Node" onClose={props.onClose}>
+            <form
+                onSubmit={handleSubmit(onSubmit)}
+                className={modalStyles.form}
+            >
+                <div className={modalStyles.inputGroup}>
+                    <div className={modalStyles.inputRow}>
                         <label htmlFor="value">Value</label>
                         <input
                             id="value"
                             type="number"
-                            className={styles.input}
+                            className={modalStyles.input}
                             {...rest}
                             ref={(e) => {
                                 ref(e);
@@ -87,18 +90,18 @@ const EditNodeModal = (props: EditArrayModalProps) => {
                             }}
                         />
                     </div>
-                    <p className={styles.error}>{errors.value?.message}</p>
+                    <p className={modalStyles.error}>{errors.value?.message}</p>
                 </div>
-                <div className={styles.btnContainer}>
+                <div className={modalStyles.btnContainer}>
                     <input
-                        className={styles.btn}
+                        className={modalStyles.btn}
                         type="button"
                         value="Delete"
                         onClick={handleDelete}
                         disabled={selectedNodeId === ''}
                     />
                     <input
-                        className={styles.btn}
+                        className={modalStyles.btn}
                         type="submit"
                         value="Update"
                         disabled={selectedNodeId === ''}
