@@ -3,7 +3,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Canvas, DocumentSideBar, VisualizationSideBar } from '..';
 import { store } from '../../store/store';
 import { AppContainer } from '../AppContainer/AppContainer';
-import { Auth } from '../Auth/Auth';
+import SignIn from '../Auth/SignInForm';
+import SignUp from '../Auth/SignUpForm';
 import ErrorPage from '../ErrorPage/ErrorPage';
 import { ModalProvider } from '../Providers';
 import styles from './App.module.css';
@@ -30,10 +31,18 @@ const App = () => {
             ),
         },
         {
-            path: '/auth',
+            path: '/auth/signin',
             element: (
                 <AppContainer>
-                    <Auth />
+                    <SignIn />
+                </AppContainer>
+            ),
+        },
+        {
+            path: '/auth/signup',
+            element: (
+                <AppContainer>
+                    <SignUp />
                 </AppContainer>
             ),
         },
