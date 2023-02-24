@@ -1,8 +1,25 @@
+import { Menu, MenuItem } from '@szhsin/react-menu';
+import '@szhsin/react-menu/dist/index.css';
+import '@szhsin/react-menu/dist/transitions/slide.css';
+import { User } from 'firebase/auth';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { signOut } from '../../auth/auth';
+import { firebaseAuth } from '../../auth/firebase';
 import { GitHubIcon, UserAvatarIcon } from '../../icons';
 import styles from './AppBar.module.css';
 
 const AppBar = () => {
+    const [checkingUser, setCheckingUser] = useState<boolean>(true);
+    const [user, setUser] = useState<User | null>(null);
+
+    useEffect(() => {
+        firebaseAuth.onAuthStateChanged((user) => {
+            setCheckingUser(false);
+            setUser(user);
+        });
+    }, []);
+
     return (
         <header>
             <div className={styles.content}>
@@ -20,11 +37,32 @@ const AppBar = () => {
                     </div>
                 </Link>
                 <div className={styles.avatarContainer}>
-                    <Link to="/auth">
-                        <span className={styles.icon}>
-                            <UserAvatarIcon />
-                        </span>
-                    </Link>
+                    {!checkingUser && (
+                        <Menu
+                            menuButton={
+                                <div className={styles.icon}>
+                                    {user ? (
+                                        <span className={styles.avatar}>
+                                            {user?.email
+                                                ?.slice(0, 1)
+                                                .toUpperCase()}
+                                        </span>
+                                    ) : (
+                                        <UserAvatarIcon />
+                                    )}
+                                </div>
+                            }
+                            transition
+                        >
+                            {user ? (
+                                <MenuItem onClick={signOut}>Log Out</MenuItem>
+                            ) : (
+                                <MenuItem>
+                                    <Link to="/auth/signin">Sign In</Link>
+                                </MenuItem>
+                            )}
+                        </Menu>
+                    )}
                     <span className={styles.icon}>
                         <a
                             href="https://github.com/kalibetre/berana-vis"

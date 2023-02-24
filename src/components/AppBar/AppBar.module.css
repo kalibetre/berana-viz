@@ -53,18 +53,29 @@
 	height: 32px;
 	border-radius: 100%;
 	margin-left: 8px;
-	opacity: .5;
 }
 
 .icon:hover {
 	opacity: .7;
 }
 
-.icon a {
-	cursor: default;
-}
-
 .icon img {
 	width: 100%;
 	height: 100%;
+}
+
+.avatar {
+	display: block;
+	background-color: rgba(26, 182, 188, 0.149);
+	border: 2px solid teal;
+	width: 100%;
+	height: 100%;
+	border-radius: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-weight: bold;
+	font-size: 18px;
+	cursor: default;
+	user-select: none;
 }
