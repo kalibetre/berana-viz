@@ -1,24 +1,14 @@
 import { Menu, MenuItem } from '@szhsin/react-menu';
 import '@szhsin/react-menu/dist/index.css';
 import '@szhsin/react-menu/dist/transitions/slide.css';
-import { User } from 'firebase/auth';
-import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { signOut } from '../../auth/auth';
-import { firebaseAuth } from '../../auth/firebase';
+import useAuth from '../../hooks/useAuth';
 import { GitHubIcon, UserAvatarIcon } from '../../icons';
 import styles from './AppBar.module.css';
 
 const AppBar = () => {
-    const [checkingUser, setCheckingUser] = useState<boolean>(true);
-    const [user, setUser] = useState<User | null>(null);
-
-    useEffect(() => {
-        firebaseAuth.onAuthStateChanged((user) => {
-            setCheckingUser(false);
-            setUser(user);
-        });
-    }, []);
+    const { checkingUser, user } = useAuth();
 
     return (
         <header>

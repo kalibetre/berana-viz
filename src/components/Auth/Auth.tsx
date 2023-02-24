@@ -1,6 +1,6 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { firebaseAuth } from '../../auth/firebase';
+import useAuth from '../../hooks/useAuth';
 import styles from './Auth.module.css';
 
 interface AuthProps {
@@ -10,14 +10,9 @@ interface AuthProps {
 
 const Auth = (props: AuthProps) => {
     const navigate = useNavigate();
-    const [checkingUser, setCheckingUser] = useState<boolean>(true);
-
-    useEffect(() => {
-        firebaseAuth.onAuthStateChanged((user) => {
-            setCheckingUser(false);
-            if (user) navigate('/', { replace: true });
-        });
-    }, [navigate]);
+    const { checkingUser } = useAuth((user) => {
+        if (user) navigate('/', { replace: true });
+    });
 
     return (
         <div className={styles.container}>
