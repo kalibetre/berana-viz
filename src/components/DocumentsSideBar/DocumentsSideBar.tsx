@@ -1,24 +1,29 @@
 import { DocumentItem, SideBar, ToolBox, ToolBoxGroup } from '..';
+import useAuth from '../../hooks/useAuth';
 import DocumentActions from './DocumentActions/DocumentActions';
+import styles from './DocumentsSideBar.module.css';
 import NodeActions from './NodeActions/NodeActions';
 
 const DocumentsSideBar = () => {
+    const { checkingUser, user } = useAuth();
+
     return (
         <SideBar width="300px" height="100%" title="Documents">
             <NodeActions />
             <DocumentActions />
             <ToolBox title="Documents">
-                <ToolBoxGroup title="My Documents" striped>
-                    <DocumentItem savedToCloud>
-                        Singly Linked List Searching Singly Linked List
-                        Searching Singly Linked List Searching
-                    </DocumentItem>
-                </ToolBoxGroup>
-                <ToolBoxGroup title="Sample Documents" striped>
-                    <DocumentItem>Self Balancing Tree</DocumentItem>
-                    <DocumentItem>Hash of Tsf File</DocumentItem>
-                    <DocumentItem>Hash of Tsf File</DocumentItem>
-                </ToolBoxGroup>
+                {checkingUser || user === null ? (
+                    <span className={styles.loginMessage}>
+                        Login to see your documents here..
+                    </span>
+                ) : (
+                    <ToolBoxGroup title="My Documents" striped>
+                        <DocumentItem savedToCloud>
+                            Singly Linked List Searching Singly Linked List
+                            Searching Singly Linked List Searching
+                        </DocumentItem>
+                    </ToolBoxGroup>
+                )}
             </ToolBox>
         </SideBar>
     );
