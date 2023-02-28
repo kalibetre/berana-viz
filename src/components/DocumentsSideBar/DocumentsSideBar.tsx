@@ -34,15 +34,28 @@ const DocumentsSideBar = () => {
         skip: user === null,
     });
 
-    const handelDocumentSelection = (doc: Document) => {
+    const handelSelectionChanged = (doc: Document) => {
         if (isDirty()) save();
-        dispatch(documentSelected(doc));
+        handelDocumentSelection(doc);
+    };
+
+    const getNodesFromDocument = (doc: Document) => {
         const nodes: Node[] = doc.content.nodes.map((node) => ({
             id: uuid(),
             value: node,
             status: NodeStatus.NORMAL,
             time: new Date().getTime(),
         }));
+        return nodes;
+    };
+
+    const handelDocumentSelection = (doc: Document) => {
+        dispatch(documentSelected(doc));
+        dispatchNodes(doc);
+    };
+
+    const dispatchNodes = (doc: Document) => {
+        const nodes = getNodesFromDocument(doc);
         dispatch(nodesLoaded(nodes));
     };
 
@@ -59,7 +72,9 @@ const DocumentsSideBar = () => {
         return selectedDocument?.content.nodes.join('') !== nodeValues;
     };
 
-    if (isSample && documents && documents.length > 0)
+    if (nodes.length === 0 && isSample && selectedDocument) {
+        dispatchNodes(selectedDocument);
+    } else if (documents && documents.length > 0 && isSample)
         handelDocumentSelection(documents[0]);
 
     return (
@@ -89,7 +104,7 @@ const DocumentsSideBar = () => {
                                     isSelected={
                                         selectedDocument?.uid === doc.uid
                                     }
-                                    onClick={() => handelDocumentSelection(doc)}
+                                    onClick={() => handelSelectionChanged(doc)}
                                 />
                             ))}
                     </ToolBoxGroup>
