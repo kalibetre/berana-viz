@@ -48,7 +48,12 @@ const AppBar = () => {
                                 <MenuItem onClick={signOut}>Log Out</MenuItem>
                             ) : (
                                 <MenuItem>
-                                    <Link to="/auth/signin">Sign In</Link>
+                                    <Link
+                                        className={styles.menuLink}
+                                        to="/auth/signin"
+                                    >
+                                        Sign In
+                                    </Link>
                                 </MenuItem>
                             )}
                         </Menu>

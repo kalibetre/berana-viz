@@ -79,3 +79,8 @@
 	cursor: default;
 	user-select: none;
 }
+
+.menuLink {
+	width: 100%;
+	height: 100%;
+}
