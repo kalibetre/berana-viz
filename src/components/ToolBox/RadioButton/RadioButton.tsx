@@ -30,6 +30,7 @@ const RadioButton = (props: RadioButtonProps) => {
                 name={props.name}
                 value={props.value}
                 checked={props.checked}
+                readOnly
             />
         </div>
     );
