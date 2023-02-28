@@ -1,11 +1,66 @@
+import uuid from 'react-uuid';
 import { DocumentItem, SideBar, ToolBox, ToolBoxGroup } from '..';
 import useAuth from '../../hooks/useAuth';
+import {
+    useGetDocumentsQuery,
+    useSaveDocumentMutation,
+} from '../../services/beranavizApi';
+import { documentSelected } from '../../store/slices/documentSlice';
+import { nodesLoaded } from '../../store/slices/nodesSlice';
+import {
+    selectAllNodes,
+    useAppDispatch,
+    useAppSelector,
+} from '../../store/store';
+import { Document, Node, NodeStatus } from '../../types';
 import DocumentActions from './DocumentActions/DocumentActions';
 import styles from './DocumentsSideBar.module.css';
 import NodeActions from './NodeActions/NodeActions';
 
 const DocumentsSideBar = () => {
     const { checkingUser, user } = useAuth();
+    const { selectedDocument, isSample } = useAppSelector(
+        (state) => state.document
+    );
+    const dispatch = useAppDispatch();
+    const [saveDocument, saveDocStatus] = useSaveDocumentMutation();
+    const nodes: Node[] = useAppSelector(selectAllNodes);
+
+    const {
+        data: documents,
+        isError,
+        isLoading,
+    } = useGetDocumentsQuery({
+        skip: user === null,
+    });
+
+    const handelDocumentSelection = (doc: Document) => {
+        if (isDirty()) save();
+        dispatch(documentSelected(doc));
+        const nodes: Node[] = doc.content.nodes.map((node) => ({
+            id: uuid(),
+            value: node,
+            status: NodeStatus.NORMAL,
+            time: new Date().getTime(),
+        }));
+        dispatch(nodesLoaded(nodes));
+    };
+
+    const save = async () => {
+        const nodeValues = nodes.map((node) => node.value);
+        await saveDocument({
+            uid: selectedDocument.uid ?? '',
+            content: { nodes: nodeValues },
+        });
+    };
+
+    const isDirty = () => {
+        const nodeValues = nodes.map((node) => node.value).join('');
+        return selectedDocument.content.nodes.join('') !== nodeValues;
+    };
+
+    if (isSample && documents && documents.length > 0)
+        handelDocumentSelection(documents[0]);
 
     return (
         <SideBar width="300px" height="100%" title="Documents">
@@ -16,12 +71,27 @@ const DocumentsSideBar = () => {
                     <span className={styles.loginMessage}>
                         Login to see your documents here..
                     </span>
+                ) : isLoading ? (
+                    <span className={styles.loginMessage}>
+                        Loading your documents ...
+                    </span>
+                ) : isError ? (
+                    <span className={styles.loginMessage}>
+                        Error fetching your documents ...
+                    </span>
                 ) : (
                     <ToolBoxGroup title="My Documents" striped>
-                        <DocumentItem savedToCloud>
-                            Singly Linked List Searching Singly Linked List
-                            Searching Singly Linked List Searching
-                        </DocumentItem>
+                        {documents &&
+                            (documents as Document[]).map((doc) => (
+                                <DocumentItem
+                                    key={doc.uid}
+                                    document={doc}
+                                    isSelected={
+                                        selectedDocument?.uid === doc.uid
+                                    }
+                                    onClick={() => handelDocumentSelection(doc)}
+                                />
+                            ))}
                     </ToolBoxGroup>
                 )}
             </ToolBox>
