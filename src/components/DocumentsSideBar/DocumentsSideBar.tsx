@@ -49,14 +49,14 @@ const DocumentsSideBar = () => {
     const save = async () => {
         const nodeValues = nodes.map((node) => node.value);
         await saveDocument({
-            uid: selectedDocument.uid ?? '',
+            uid: selectedDocument?.uid ?? '',
             content: { nodes: nodeValues },
         });
     };
 
     const isDirty = () => {
         const nodeValues = nodes.map((node) => node.value).join('');
-        return selectedDocument.content.nodes.join('') !== nodeValues;
+        return selectedDocument?.content.nodes.join('') !== nodeValues;
     };
 
     if (isSample && documents && documents.length > 0)

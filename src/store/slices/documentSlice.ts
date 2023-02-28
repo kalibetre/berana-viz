@@ -3,7 +3,7 @@ import { Document } from '../../types';
 
 interface DocumentState {
     isSample: boolean;
-    selectedDocument: Document;
+    selectedDocument: Document | null;
 }
 
 const generateSampleNodes = (count = 20) => {
