@@ -1,6 +1,7 @@
 export type { default as AlgoGenerator } from './AlgoGenerator';
 export type { default as Bar } from './Bar';
 export type { default as ColorRange } from './ColorRange';
+export type { default as Document } from './Document';
 export { default as DSAType } from './DSAType';
 export type { default as Modal } from './Modal';
 export { NodeStatus } from './Node';
