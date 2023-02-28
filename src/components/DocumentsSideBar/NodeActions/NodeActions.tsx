@@ -1,7 +1,7 @@
 import { useContext, useState } from 'react';
 import { useSelector } from 'react-redux';
 import uuid from 'react-uuid';
-import { AddNodeModal, AlertModal, GenerateModal, ToolBox } from '../..';
+import { ToolBox } from '../..';
 import { GenerateIcon, NewFileIcon, ShuffleIcon } from '../../../icons';
 import DeleteAllIcon from '../../../icons/DeleteAllIcon';
 import { nodeDeleteAll, nodesUpdated } from '../../../store/slices/nodesSlice';
@@ -13,11 +13,16 @@ import {
     useAppSelector,
 } from '../../../store/store';
 import { Modal, Node } from '../../../types';
+import {
+    AddNodeModal,
+    AlertModal,
+    AlertType,
+    EditNodeModal,
+    GenerateModal,
+} from '../../Modals';
 import { ModalContext } from '../../Providers';
 import ButtonItem from '../../ToolBox/ButtonItem/ButtonItem';
 import ToolBoxGroup from '../../ToolBox/ToolBoxGroup/ToolBoxGroup';
-import { AlertType } from '../../Visualization/Modals/AlertModal';
-import EditNodeModal from '../../Visualization/Modals/EditNodeModal';
 import styles from './NodeActions.module.css';
 
 const NodeActions = () => {

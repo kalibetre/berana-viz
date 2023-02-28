@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { nodeSelected, nodesUpdated } from '../../../store/slices/nodesSlice';
-import { useAppDispatch } from '../../../store/store';
-import { AlgoGenerator, SortingAlgo } from '../../../types';
-import Modal from '../../Modal/Modal';
+import { nodeSelected, nodesUpdated } from '../../store/slices/nodesSlice';
+import { useAppDispatch } from '../../store/store';
+import { AlgoGenerator, SortingAlgo } from '../../types';
+import Modal from './Modal';
 import modalStyles from './Modal.module.css';
 
 interface SortingModalProps {

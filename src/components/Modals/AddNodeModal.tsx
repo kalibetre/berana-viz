@@ -1,45 +1,45 @@
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import uuid from 'react-uuid';
-import { nodeAdded } from '../../../store/slices/nodesSlice';
-import { useAppDispatch } from '../../../store/store';
-import { Node, NodeStatus } from '../../../types';
-import Modal from '../../Modal/Modal';
+import { nodeAdded } from '../../store/slices/nodesSlice';
+import { AppDispatch } from '../../store/store';
+import { Node, NodeStatus } from '../../types';
+import Modal from './Modal';
 import modalStyles from './Modal.module.css';
 
-interface GenerateModalProps {
+interface EditArrayModalProps {
     onClose?: () => void;
 }
 
-interface GenerateModalInput {
-    count: number;
+interface EditArrayModalInput {
+    value: number;
 }
 
-const GenerateModal = (props: GenerateModalProps) => {
-    const dispatch = useAppDispatch();
+const AddNodeModal = (props: EditArrayModalProps) => {
+    const dispatch: AppDispatch = useDispatch<AppDispatch>();
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<GenerateModalInput>({
-        defaultValues: {
-            count: 20,
-        },
-    });
+        setValue,
+    } = useForm<EditArrayModalInput>();
 
     const onSubmit = (data: any) => {
-        for (let i = 0; i < parseInt(data.count); i++) {
-            const node: Node = {
-                id: uuid(),
-                value: Math.round(Math.random() * 1000),
-                status: NodeStatus.NORMAL,
-                time: new Date().getTime(),
-            };
-            dispatch(nodeAdded(node));
-        }
+        const node: Node = {
+            id: uuid(),
+            value: parseInt(data.value),
+            status: NodeStatus.NORMAL,
+            time: new Date().getTime(),
+        };
+        dispatch(nodeAdded(node));
+    };
+
+    const handleOnRandom = () => {
+        setValue('value', Math.floor(Math.random() * 1000));
     };
 
     return (
-        <Modal title="Generate Nodes" onClose={props.onClose}>
+        <Modal title="Add Node" onClose={props.onClose}>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className={modalStyles.form}
@@ -51,32 +51,32 @@ const GenerateModal = (props: GenerateModalProps) => {
                             id="value"
                             type="number"
                             className={modalStyles.input}
-                            {...register('count', {
-                                required: 'Count is required',
+                            {...register('value', {
+                                required: 'Value Required',
                                 max: {
-                                    value: 100,
-                                    message: 'Count Should be less 100',
+                                    value: 999,
+                                    message: 'Value Should be less 999',
                                 },
                                 min: {
                                     value: 0,
-                                    message: 'Count Should be greater than 0',
+                                    message: 'Value Should be greater than 0',
                                 },
                             })}
                         />
                     </div>
-                    <p className={modalStyles.error}>{errors.count?.message}</p>
+                    <p className={modalStyles.error}>{errors.value?.message}</p>
                 </div>
                 <div className={modalStyles.btnContainer}>
                     <input
                         className={modalStyles.btn}
                         type="button"
-                        value="Cancel"
-                        onClick={props.onClose}
+                        value="Random"
+                        onClick={handleOnRandom}
                     />
                     <input
                         className={modalStyles.btn}
                         type="submit"
-                        value="Generate"
+                        value="Add Value"
                     />
                 </div>
             </form>
@@ -84,4 +84,4 @@ const GenerateModal = (props: GenerateModalProps) => {
     );
 };
 
-export default GenerateModal;
+export default AddNodeModal;

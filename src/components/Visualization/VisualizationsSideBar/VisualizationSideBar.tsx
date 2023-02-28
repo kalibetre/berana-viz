@@ -1,21 +1,16 @@
 import { useContext, useState } from 'react';
 import uuid from 'react-uuid';
+import { ButtonItem, RadioButton, SideBar, ToolBox, ToolBoxGroup } from '../..';
 import {
-    ButtonItem,
-    RadioButton,
-    SearchingModal,
-    SideBar,
-    SortingModal,
-    ToolBox,
-    ToolBoxGroup,
-} from '..';
-import { animRunningChanged, dsaChanged } from '../../store/slices/canvasSlice';
-import { nodeSelected, nodesUpdated } from '../../store/slices/nodesSlice';
+    animRunningChanged,
+    dsaChanged,
+} from '../../../store/slices/canvasSlice';
+import { nodeSelected, nodesUpdated } from '../../../store/slices/nodesSlice';
 import {
     selectAllNodes,
     useAppDispatch,
     useAppSelector,
-} from '../../store/store';
+} from '../../../store/store';
 import {
     DSAType,
     Modal,
@@ -23,10 +18,10 @@ import {
     NodeStatus,
     SearchAlgo,
     SortingAlgo,
-} from '../../types';
-import { SORTING_ITERATORS } from '../../utils/algorithms';
-import { ModalContext } from '../Providers';
-import AlertModal from '../Visualization/Modals/AlertModal';
+} from '../../../types';
+import { SORTING_ITERATORS } from '../../../utils/algorithms';
+import { AlertModal, SearchingModal, SortingModal } from '../../Modals';
+import { ModalContext } from '../../Providers';
 
 const VisualizationSideBar = () => {
     const nodes: Node[] = useAppSelector(selectAllNodes);

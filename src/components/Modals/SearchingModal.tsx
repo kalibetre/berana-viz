@@ -1,15 +1,15 @@
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ResetIcon } from '../../../icons';
-import { nodeSelected, nodesUpdated } from '../../../store/slices/nodesSlice';
+import { ResetIcon } from '../../icons';
+import { nodeSelected, nodesUpdated } from '../../store/slices/nodesSlice';
 import {
     selectAllNodes,
     useAppDispatch,
     useAppSelector,
-} from '../../../store/store';
-import { AlgoGenerator, Node, NodeStatus, SearchAlgo } from '../../../types';
-import { SEARCH_ITERATORS } from '../../../utils/algorithms';
-import Modal from '../../Modal/Modal';
+} from '../../store/store';
+import { AlgoGenerator, Node, NodeStatus, SearchAlgo } from '../../types';
+import { SEARCH_ITERATORS } from '../../utils/algorithms';
+import Modal from './Modal';
 import modalStyles from './Modal.module.css';
 
 interface SearchingModalProps {
