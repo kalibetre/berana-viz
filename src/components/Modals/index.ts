@@ -1,3 +1,4 @@
+export { default as AddDocumentModal } from './AddDocumentModal';
 export { default as AddNodeModal } from './AddNodeModal';
 export { AlertType, default as AlertModal } from './AlertModal';
 export { default as EditNodeModal } from './EditNodeModal';

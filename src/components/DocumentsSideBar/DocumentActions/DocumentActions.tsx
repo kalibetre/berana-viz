@@ -9,11 +9,12 @@ import {
 import {
     useCreateDocumentMutation,
     useDeleteDocumentMutation,
-    useGetDocumentsQuery,
     useSaveDocumentMutation,
 } from '../../../services/beranavizApi';
 import styles from './DocumentActions.module.css';
 
+import { useContext } from 'react';
+import uuid from 'react-uuid';
 import { documentSelected } from '../../../store/slices/documentSlice';
 import { nodesLoaded } from '../../../store/slices/nodesSlice';
 import {
@@ -21,7 +22,9 @@ import {
     useAppDispatch,
     useAppSelector,
 } from '../../../store/store';
-import { Document, Node } from '../../../types';
+import { Document, Modal, Node } from '../../../types';
+import AddDocumentModal from '../../Modals/AddDocumentModal';
+import { ModalContext } from '../../Providers';
 
 const DocumentActions = () => {
     const { checkingUser, user } = useAuth();
@@ -29,42 +32,61 @@ const DocumentActions = () => {
     const [saveDocument, saveDocStatus] = useSaveDocumentMutation();
     const [deleteDocument, delDocStatus] = useDeleteDocumentMutation();
     const dispatch = useAppDispatch();
+    const { showModal, hideModal } = useContext(ModalContext);
 
     const { selectedDocument, isSample } = useAppSelector(
         (state) => state.document
     );
-    const { data: documents } = useGetDocumentsQuery({
-        skip: user === null,
-    });
-
     const nodes: Node[] = useAppSelector(selectAllNodes);
 
-    const handleNew = async () => {
-        const nodeValues = nodes.map((node) => node.value);
+    const addNewDocument = async (
+        title: string,
+        description: string,
+        nodeValues?: number[]
+    ) => {
         const doc: Document = {
-            title: 'my first doc',
-            description: '',
-            content: { nodes: nodeValues },
+            title,
+            description,
+            content: { nodes: nodeValues ? [...nodeValues] : [] },
         };
-        await createDocument(doc);
-        dispatch(documentSelected(documents[0]));
+        const result = await createDocument(doc);
+        if (newDocStatus) {
+            const { data }: any = result;
+            dispatch(documentSelected(data as Document));
+        }
+    };
+
+    const handleNew = (nodeValues?: number[]) => {
+        const id = uuid();
+        const addDocModal: Modal = {
+            id: id,
+            tag: 'ADD_NEW_DOC',
+            component: (
+                <AddDocumentModal
+                    onClose={() => hideModal(id)}
+                    onConfirm={(title, description) =>
+                        addNewDocument(title, description, nodeValues)
+                    }
+                />
+            ),
+        };
+        showModal(addDocModal);
     };
 
     const handleSave = async () => {
-        if (isSample) handleNew();
         const nodeValues = nodes.map((node) => node.value);
-        await saveDocument({
-            uid: selectedDocument.uid ?? '',
-            content: { nodes: nodeValues },
-        });
+        if (isSample) handleNew(nodeValues);
+        else
+            await saveDocument({
+                uid: selectedDocument?.uid ?? '',
+                content: { nodes: nodeValues },
+            });
     };
 
     const handleDelete = async () => {
-        await deleteDocument(selectedDocument.uid ?? '');
-        console.log(documents);
-        if (documents.length > 0 && documents[0].uid !== selectedDocument.uid)
-            dispatch(documentSelected(documents[0]));
-        else dispatch(nodesLoaded([]));
+        await deleteDocument(selectedDocument?.uid ?? '');
+        dispatch(documentSelected(null));
+        dispatch(nodesLoaded([]));
     };
 
     return (
@@ -84,7 +106,7 @@ const DocumentActions = () => {
                             user === null ||
                             newDocStatus.isLoading
                         }
-                        onClick={handleNew}
+                        onClick={() => handleNew()}
                     >
                         <span className={styles.icon}>
                             <NewFileIcon />
@@ -97,7 +119,11 @@ const DocumentActions = () => {
                         )}
                     </ButtonItem>
                     <ButtonItem
-                        disabled={checkingUser || user === null}
+                        disabled={
+                            checkingUser ||
+                            user === null ||
+                            selectedDocument === null
+                        }
                         onClick={handleSave}
                     >
                         <span className={styles.icon}>
@@ -111,7 +137,11 @@ const DocumentActions = () => {
                         )}
                     </ButtonItem>
                     <ButtonItem
-                        disabled={checkingUser || user === null}
+                        disabled={
+                            checkingUser ||
+                            user === null ||
+                            selectedDocument === null
+                        }
                         onClick={handleDelete}
                     >
                         <span className={styles.icon}>
