@@ -1,3 +1,4 @@
+import { useCallback, useEffect } from 'react';
 import uuid from 'react-uuid';
 import { DocumentItem, SideBar, ToolBox, ToolBoxGroup } from '..';
 import useAuth from '../../hooks/useAuth';
@@ -49,15 +50,21 @@ const DocumentsSideBar = () => {
         return nodes;
     };
 
-    const handelDocumentSelection = (doc: Document) => {
-        dispatch(documentSelected(doc));
-        dispatchNodes(doc);
-    };
+    const dispatchNodes = useCallback(
+        (doc: Document) => {
+            const nodes = getNodesFromDocument(doc);
+            dispatch(nodesLoaded(nodes));
+        },
+        [dispatch]
+    );
 
-    const dispatchNodes = (doc: Document) => {
-        const nodes = getNodesFromDocument(doc);
-        dispatch(nodesLoaded(nodes));
-    };
+    const handelDocumentSelection = useCallback(
+        (doc: Document) => {
+            dispatch(documentSelected(doc));
+            dispatchNodes(doc);
+        },
+        [dispatch, dispatchNodes]
+    );
 
     const save = async () => {
         const nodeValues = nodes.map((node) => node.value);
@@ -72,10 +79,23 @@ const DocumentsSideBar = () => {
         return selectedDocument?.content.nodes.join('') !== nodeValues;
     };
 
-    if (nodes.length === 0 && isSample && selectedDocument) {
-        dispatchNodes(selectedDocument);
-    } else if (documents && documents.length > 0 && isSample)
-        handelDocumentSelection(documents[0]);
+    const updateSelectedNodes = useCallback(() => {
+        if (nodes.length === 0 && isSample && selectedDocument) {
+            dispatchNodes(selectedDocument);
+        } else if (documents && documents.length > 0 && isSample)
+            handelDocumentSelection(documents[0]);
+    }, [
+        dispatchNodes,
+        documents,
+        handelDocumentSelection,
+        isSample,
+        nodes,
+        selectedDocument,
+    ]);
+
+    useEffect(() => {
+        updateSelectedNodes();
+    }, [updateSelectedNodes]);
 
     return (
         <SideBar width="300px" height="100%" title="Documents">
