@@ -140,6 +140,7 @@
 	border: 2px solid #eee;
 	border-radius: 8px;
 	z-index: 999;
+	overflow: hidden;
 }
 
 .titleBar {
@@ -148,9 +149,16 @@
 	background-color: #eee;
 	display: flex;
 	align-items: center;
-	padding: 10px;
 	cursor: default;
 	user-select: none;
+}
+
+.handle {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	padding-left: 10px;
 }
 
 .closeBtn {
@@ -162,9 +170,13 @@
 	align-items: center;
 	width: 25px;
 	height: 25px;
-	padding: 8px;
-	margin: 0px;
-	margin-right: 10px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.closeBtnIcon {
+	width: 12px;
+	height: 12px;
 }
 
 .closeBtn:hover {

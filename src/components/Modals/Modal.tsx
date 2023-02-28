@@ -16,6 +16,7 @@ const Modal = (props: ModalProps) => {
     const modalRef = useRef<HTMLDivElement>(null);
 
     const handleClose = () => {
+        console.log('Close');
         if (!props.stayOpen) {
             setShowModal(false);
             if (props.onClose) props.onClose();
@@ -36,15 +37,20 @@ const Modal = (props: ModalProps) => {
     const modal = (
         <Draggable handle=".handle">
             <div ref={modalRef} className={styles.modalContainer}>
-                <div className={`handle ${styles.titleBar}`}>
+                <div className={styles.titleBar}>
                     <button
                         className={styles.closeBtn}
                         onClick={handleClose}
+                        onTransitionEnd={handleClose}
                         disabled={props.stayOpen}
                     >
-                        <CloseIcon />
+                        <span className={styles.closeBtnIcon}>
+                            <CloseIcon />
+                        </span>
                     </button>
-                    {props.title}
+                    <div className={`handle ${styles.handle}`}>
+                        {props.title}
+                    </div>
                 </div>
                 {props.children}
             </div>
