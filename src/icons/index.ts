@@ -11,6 +11,7 @@ export { default as ErrorIcon } from './ErrorIcon';
 export { default as ExportIcon } from './ExportIcon';
 export { default as GenerateIcon } from './GenerateIcon';
 export { default as GitHubIcon } from './GitHubIcon';
+export { default as LoadingIcon } from './LoadingIcon/LoadingIcon';
 export { default as NewFileIcon } from './NewFileIcon';
 export { default as ResetIcon } from './ResetIcon';
 export { default as SaveFileIcon } from './SaveFileIcon';
