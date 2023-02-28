@@ -1,11 +1,13 @@
 import { ReactNode } from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
+import { LoadingIcon } from '../../icons';
 import styles from './Auth.module.css';
 
 interface AuthProps {
     children: ReactNode;
     title: string;
+    isLoading: boolean;
 }
 
 const Auth = (props: AuthProps) => {
@@ -27,6 +29,11 @@ const Auth = (props: AuthProps) => {
                         <h1 className={styles.logoTitle}>BeranaVis</h1>
                         <h2 className={styles.logoSubTitle}>{props.title}</h2>
                     </div>
+                    {(checkingUser || props.isLoading) && (
+                        <span>
+                            <LoadingIcon />
+                        </span>
+                    )}
                 </header>
                 {checkingUser ? (
                     <div className={styles.loading}>
@@ -38,6 +45,10 @@ const Auth = (props: AuthProps) => {
             </div>
         </div>
     );
+};
+
+Auth.defaultProps = {
+    isLoading: false,
 };
 
 export default Auth;

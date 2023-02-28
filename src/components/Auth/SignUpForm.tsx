@@ -49,7 +49,7 @@ const SignUp = () => {
     };
 
     return (
-        <Auth title="Sign Up">
+        <Auth title="Sign Up" isLoading={isLoading}>
             <form onSubmit={handleSubmit(handelSignUp)}>
                 {formError.length > 0 && (
                     <div className={styles.formError}>

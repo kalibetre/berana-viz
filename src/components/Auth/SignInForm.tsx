@@ -38,7 +38,7 @@ const SignIn = () => {
     };
 
     return (
-        <Auth title="Sign In">
+        <Auth title="Sign In" isLoading={isLoading}>
             <form onSubmit={handleSubmit(handelSignIn)}>
                 {formError.length > 0 && (
                     <div className={styles.formError}>
