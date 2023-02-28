@@ -5,6 +5,7 @@ import modalStyles from './Modal.module.css';
 interface AddDocumentModalProps {
     onClose?: () => void;
     onConfirm: (title: string, description: string) => void;
+    key?: string;
 }
 
 interface AddDocumentModalInput {

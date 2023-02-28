@@ -49,6 +49,7 @@ const NodeActions = () => {
                         hideModal(id);
                         setAddBtnDisabled(false);
                     }}
+                    key={id}
                 />
             ),
         };
@@ -67,6 +68,7 @@ const NodeActions = () => {
                         hideModal(id);
                         setEditBtnDisabled(false);
                     }}
+                    key={id}
                 />
             ),
         };
@@ -100,6 +102,7 @@ const NodeActions = () => {
                         hideModal(id);
                         setAddBtnDisabled(false);
                     }}
+                    key={id}
                 />
             ),
         };
@@ -124,6 +127,7 @@ const NodeActions = () => {
                         deleteAllData();
                         hideModal(id);
                     }}
+                    key={id}
                 />
             ),
         };

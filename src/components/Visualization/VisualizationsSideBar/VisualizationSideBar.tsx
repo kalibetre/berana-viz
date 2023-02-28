@@ -49,6 +49,7 @@ const VisualizationSideBar = () => {
                     title="No Data"
                     message="There is no data. Try adding nodes."
                     onClose={() => hideModal(id)}
+                    key={id}
                 />
             ),
         };
@@ -75,6 +76,7 @@ const VisualizationSideBar = () => {
                         resetNodeStatus();
                     }}
                     iterator={iterator ? iterator(nodes) : null}
+                    key={id}
                 />
             ),
         };
@@ -117,6 +119,7 @@ const VisualizationSideBar = () => {
                             dispatch(animRunningChanged(false));
                             resetNodeStatus();
                         }}
+                        key={id}
                     />
                 ),
             };

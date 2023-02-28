@@ -67,6 +67,7 @@ const DocumentActions = () => {
                     onConfirm={(title, description) =>
                         addNewDocument(title, description, nodeValues)
                     }
+                    key={id}
                 />
             ),
         };
