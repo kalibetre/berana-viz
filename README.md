@@ -111,15 +111,15 @@ Kalkidan Betre - [@kalibetre](https://twitter.com/kalibetre) - kalbetre@icloud.c
 
 Project Link: [https://github.com/kalibetre/berana-viz](https://github.com/kalibetre/berana-viz)
 
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/kalibetre/berana-viz.svg?style=for-the-badge
 [contributors-url]: https://github.com/kalibetre/berana-viz/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/kalibetre/berana-viz.svg?style=for-the-badge
 [forks-url]: https://github.com/kalibetre/berana-viz/forks
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
+[stars-shield]: https://img.shields.io/github/stars/kalibetre/berana-viz.svg?style=for-the-badge
 [stars-url]: https://github.com/kalibetre/berana-viz/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/kalibetre/berana-viz.svg?style=for-the-badge
 [issues-url]: https://github.com/kalibetre/berana-viz/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/kalibetre/berana-viz.svg?style=for-the-badge
 [license-url]: https://github.com/kalibetre/berana-viz/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/kalkidan-betre-405750110
