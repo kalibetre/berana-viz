@@ -16,7 +16,6 @@ const Modal = (props: ModalProps) => {
     const modalRef = useRef<HTMLDivElement>(null);
 
     const handleClose = () => {
-        console.log('Close');
         if (!props.stayOpen) {
             setShowModal(false);
             if (props.onClose) props.onClose();
