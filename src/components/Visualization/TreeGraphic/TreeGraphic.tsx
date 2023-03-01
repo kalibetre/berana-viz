@@ -71,13 +71,6 @@ const TreeGraphic = (props: TreeGraphicProps) => {
         [zoomHandler]
     );
 
-    const handleZoomExtents = () => {
-        d3.select(canvasRef.current)
-            .transition()
-            .duration(300)
-            .call(zoomHandler().transform, d3.zoomIdentity);
-    };
-
     const handleZoomIn = () => {
         d3.select(canvasRef.current)
             .transition()
@@ -114,7 +107,6 @@ const TreeGraphic = (props: TreeGraphicProps) => {
                 <ZoomControls
                     handleZoomIn={handleZoomIn}
                     handleZoomOut={handleZoomOut}
-                    handleZoomExtents={handleZoomExtents}
                 />
             </div>
             <svg ref={canvasRef} className={styles.canvas}>
@@ -145,6 +137,7 @@ const TreeGraphic = (props: TreeGraphicProps) => {
                                 }
                                 cx={node.x + offsetX}
                                 cy={node.y + props.margin}
+                                r={15}
                             />
                             <text
                                 className={styles.nodeText}
