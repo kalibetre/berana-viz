@@ -24,7 +24,7 @@ const DocumentsSideBar = () => {
         (state) => state.document
     );
     const dispatch = useAppDispatch();
-    const [saveDocument, saveDocStatus] = useSaveDocumentMutation();
+    const [saveDocument] = useSaveDocumentMutation();
     const nodes: Node[] = useAppSelector(selectAllNodes);
 
     const {
