@@ -33,21 +33,33 @@ const SearchingModal = (props: SearchingModalProps) => {
             animTime: 50,
         },
     });
-    const [animRunning, setAnimRunning] = useState(false);
+    const animRunning = useRef<boolean>(false);
+    const [disableClose, setDisableClose] = useState(false);
+
     const [valueFound, setValueFound] = useState<boolean | null>(null);
     const valueRef = useRef<HTMLInputElement | null>(null);
 
     const [iterator, setIterator] = useState<AlgoGenerator>();
 
-    const animDelay = (delay: number) =>
-        new Promise((resolve) => setTimeout(resolve, delay));
-
     const onSubmit = async (data: any) => {
-        setAnimRunning(true);
-        while (runStep()) {
-            await animDelay(data.animTime);
+        if (parseInt(data.value)) {
+            setDisableClose(true);
+            animRunning.current = true;
+            startAnimation();
         }
-        setAnimRunning(false);
+    };
+
+    const startAnimation = () => {
+        function playAnimation() {
+            runStep();
+            if (animRunning.current) requestAnimationFrame(playAnimation);
+        }
+        requestAnimationFrame(playAnimation);
+    };
+
+    const stopAnimation = () => {
+        animRunning.current = false;
+        setDisableClose(false);
     };
 
     const onStep = (e: React.MouseEvent) => {
@@ -55,11 +67,11 @@ const SearchingModal = (props: SearchingModalProps) => {
         runStep();
     };
 
-    const runStep = (): boolean => {
+    const runStep = () => {
         if (iterator) {
             let result = iterator.next();
             if (result.done) {
-                setAnimRunning(false);
+                stopAnimation();
                 setValueFound(false);
                 return false;
             }
@@ -69,7 +81,7 @@ const SearchingModal = (props: SearchingModalProps) => {
             dispatch(nodeSelected(result.value.selectedId));
 
             if (result.value.found) {
-                setAnimRunning(false);
+                stopAnimation();
                 setValueFound(true);
                 return false;
             }
@@ -91,7 +103,7 @@ const SearchingModal = (props: SearchingModalProps) => {
 
     const handleRest = (e: React.MouseEvent) => {
         resetNodeStatus();
-        setAnimRunning(false);
+        stopAnimation();
         setValueFound(null);
         if (valueRef.current) initIterator(parseInt(valueRef.current?.value));
     };
@@ -106,7 +118,11 @@ const SearchingModal = (props: SearchingModalProps) => {
     };
 
     return (
-        <Modal title="Searching" onClose={props.onClose} stayOpen={animRunning}>
+        <Modal
+            title="Searching"
+            onClose={props.onClose}
+            stayOpen={disableClose}
+        >
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className={modalStyles.form}
@@ -171,14 +187,23 @@ const SearchingModal = (props: SearchingModalProps) => {
                         className={modalStyles.btn}
                         type="submit"
                         value="Auto"
-                        disabled={animRunning}
+                        disabled={animRunning.current}
                     />
+                    <div className={modalStyles.hrSpacer} />
+                    <input
+                        className={modalStyles.btn}
+                        type="button"
+                        value="Pause"
+                        onClick={stopAnimation}
+                        disabled={!animRunning.current}
+                    />
+                    <div className={modalStyles.hrSpacer} />
                     <input
                         className={modalStyles.btn}
                         type="button"
                         value="Step"
                         onClick={onStep}
-                        disabled={animRunning}
+                        disabled={animRunning.current}
                     />
                 </div>
             </form>
