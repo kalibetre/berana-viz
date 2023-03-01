@@ -22,6 +22,7 @@
 	padding-right: 10px;
 	border-left: 1px solid #eee;
 	background-color: rgb(232, 231, 231);
+	user-select: none;
 }
 
 .leftHeader {

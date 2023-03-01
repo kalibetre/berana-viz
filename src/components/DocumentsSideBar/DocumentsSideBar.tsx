@@ -26,6 +26,7 @@ const DocumentsSideBar = () => {
     const dispatch = useAppDispatch();
     const [saveDocument] = useSaveDocumentMutation();
     const nodes: Node[] = useAppSelector(selectAllNodes);
+    const animRunning = useAppSelector((state) => state.canvas.animRunning);
 
     const {
         data: documents,
@@ -98,7 +99,12 @@ const DocumentsSideBar = () => {
     }, [updateSelectedNodes]);
 
     return (
-        <SideBar width="300px" height="100%" title="Documents">
+        <SideBar
+            width="300px"
+            height="100%"
+            title="Documents"
+            collapsed={animRunning}
+        >
             <NodeActions />
             <DocumentActions />
             <ToolBox title="Documents">

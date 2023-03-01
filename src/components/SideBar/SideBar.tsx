@@ -9,6 +9,7 @@ interface SideBarProps {
     width?: string;
     height?: string;
     side?: 'left' | 'right';
+    collapsed?: boolean;
 }
 
 const SideBar = (props: SideBarProps) => {
@@ -18,14 +19,15 @@ const SideBar = (props: SideBarProps) => {
     const size = useWindowResize();
 
     const handleToggleClick = () => {
-        setContentOpen((prev) => !prev);
+        setContentOpen((prev) => (prev === null ? !contentOpenDefault : !prev));
     };
 
     const toolbarToggleIcon = () => {
+        const open = contentOpen ?? contentOpenDefault;
         if (props.side === 'left') {
-            return contentOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />;
+            return open ? <ChevronLeftIcon /> : <ChevronRightIcon />;
         } else {
-            return contentOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />;
+            return open ? <ChevronRightIcon /> : <ChevronLeftIcon />;
         }
     };
 
@@ -34,8 +36,9 @@ const SideBar = (props: SideBarProps) => {
             width: window.innerWidth,
             height: window.innerWidth,
         };
-        if (contentOpen === null && sz.width < 500) {
+        if (contentOpen === null && sz.width < 650) {
             setContentOpenDefault(false);
+            setContentOpen(false);
         }
     }, [size, contentOpen]);
 
@@ -58,7 +61,7 @@ const SideBar = (props: SideBarProps) => {
     return (
         <section style={{ height: props.height }} className={styles.container}>
             {props.side === 'right' && ToolBarHeader}
-            {(contentOpen ?? contentOpenDefault) && (
+            {!props.collapsed && (contentOpen ?? contentOpenDefault) && (
                 <div style={{ width: props.width }} className={styles.content}>
                     {props.children}
                 </div>
@@ -72,6 +75,7 @@ SideBar.defaultProps = {
     width: '300px',
     height: '100%',
     side: 'left',
+    collapsed: false,
 };
 
 export default SideBar;

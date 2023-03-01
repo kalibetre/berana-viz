@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext } from 'react';
 import uuid from 'react-uuid';
 import { ButtonItem, RadioButton, SideBar, ToolBox, ToolBoxGroup } from '../..';
 import {
@@ -26,10 +26,10 @@ import { ModalContext } from '../../Providers';
 const VisualizationSideBar = () => {
     const nodes: Node[] = useAppSelector(selectAllNodes);
     const dsaType = useAppSelector((state) => state.canvas.dsaType);
+    const animRunning = useAppSelector((state) => state.canvas.animRunning);
 
     const dispatch = useAppDispatch();
     const { showModal, hideModal } = useContext(ModalContext);
-    const [btnsDisabled, setBtnsDisabled] = useState(false);
 
     const resetNodeStatus = () => {
         dispatch(nodeSelected(''));
@@ -71,7 +71,6 @@ const VisualizationSideBar = () => {
                     algo={algo}
                     onClose={() => {
                         hideModal(id);
-                        setBtnsDisabled(false);
                         dispatch(animRunningChanged(false));
                         resetNodeStatus();
                     }}
@@ -83,7 +82,6 @@ const VisualizationSideBar = () => {
         dispatch(animRunningChanged(true));
         resetNodeStatus();
         showModal(sortingModal);
-        setBtnsDisabled(true);
     };
 
     const handleSearching = (algo: SearchAlgo) => {
@@ -115,7 +113,6 @@ const VisualizationSideBar = () => {
                         algo={algo}
                         onClose={() => {
                             hideModal(id);
-                            setBtnsDisabled(false);
                             dispatch(animRunningChanged(false));
                             resetNodeStatus();
                         }}
@@ -126,7 +123,6 @@ const VisualizationSideBar = () => {
             dispatch(animRunningChanged(true));
             resetNodeStatus();
             showModal(searchingModal);
-            setBtnsDisabled(true);
         }
     };
 
@@ -145,6 +141,7 @@ const VisualizationSideBar = () => {
                 width="300px"
                 height="100%"
                 title="Visualizations"
+                collapsed={animRunning}
             >
                 <ToolBox title="Data Structures">
                     <ToolBoxGroup title="">
@@ -152,7 +149,7 @@ const VisualizationSideBar = () => {
                             name="data structure"
                             value="dsa_array"
                             label="Show As Array"
-                            disabled={btnsDisabled}
+                            disabled={animRunning}
                             checked={dsaType === DSAType.ARRAY}
                             onClick={() => dispatch(dsaChanged(DSAType.ARRAY))}
                         />
@@ -160,7 +157,7 @@ const VisualizationSideBar = () => {
                             name="data structure"
                             value="dsa_bin_tree"
                             label="Show As Binary Tree"
-                            disabled={btnsDisabled}
+                            disabled={animRunning}
                             checked={dsaType === DSAType.BIN_TREE}
                             onClick={() =>
                                 dispatch(dsaChanged(DSAType.BIN_TREE))
@@ -172,7 +169,9 @@ const VisualizationSideBar = () => {
                     <ToolBoxGroup title="Sorting">
                         {Object.values(SortingAlgo).map((key) => (
                             <ButtonItem
-                                disabled={btnsDisabled}
+                                disabled={
+                                    animRunning || dsaType === DSAType.BIN_TREE
+                                }
                                 key={key}
                                 onClick={() => handleSorting(key)}
                             >
@@ -183,7 +182,9 @@ const VisualizationSideBar = () => {
                     <ToolBoxGroup title="Searching">
                         {Object.values(SearchAlgo).map((key) => (
                             <ButtonItem
-                                disabled={btnsDisabled}
+                                disabled={
+                                    animRunning || dsaType === DSAType.BIN_TREE
+                                }
                                 key={key}
                                 onClick={() => handleSearching(key)}
                             >
