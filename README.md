@@ -19,7 +19,7 @@
     <br />
     <br />
     <br />
-    <a href="https://github.com/kalibetre/berana-viz">View Demo</a>
+    <a href="https://beranaviz.netlify.app/">View Demo</a>
     ·
     <a href="https://github.com/kalibetre/berana-viz/issues">Report Bug</a>
     ·
