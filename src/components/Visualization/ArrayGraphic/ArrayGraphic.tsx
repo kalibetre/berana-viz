@@ -96,13 +96,6 @@ const ArrayGraphic = (props: ArrayGraphicProps) => {
         dispatch(nodeSelected(id));
     };
 
-    const handleZoomExtents = () => {
-        d3.select(canvasRef.current)
-            .transition()
-            .duration(300)
-            .call(zoomHandler().transform, d3.zoomIdentity);
-    };
-
     const handleZoomIn = () => {
         d3.select(canvasRef.current)
             .transition()
@@ -135,7 +128,6 @@ const ArrayGraphic = (props: ArrayGraphicProps) => {
                 <ZoomControls
                     handleZoomIn={handleZoomIn}
                     handleZoomOut={handleZoomOut}
-                    handleZoomExtents={handleZoomExtents}
                 />
             </div>
             <svg ref={canvasRef} className={styles.canvas}>

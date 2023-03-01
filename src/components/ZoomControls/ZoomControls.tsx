@@ -1,10 +1,9 @@
-import { ResetIcon, ZoomInIcon, ZoomOutIcon } from '../../icons';
+import { ZoomInIcon, ZoomOutIcon } from '../../icons';
 import styles from './ZoomControls.module.css';
 
 interface ZoomControlsProps {
     handleZoomIn: () => void;
     handleZoomOut: () => void;
-    handleZoomExtents: () => void;
 }
 
 const ZoomControls = (props: ZoomControlsProps) => {
@@ -21,15 +20,6 @@ const ZoomControls = (props: ZoomControlsProps) => {
                     <ZoomOutIcon />
                 </span>
                 Zoom Out
-            </button>
-            <button
-                className={styles.zoomBtn}
-                onClick={props.handleZoomExtents}
-            >
-                <span>
-                    <ResetIcon />
-                </span>
-                Reset
             </button>
         </div>
     );
