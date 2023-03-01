@@ -13,7 +13,7 @@ export const AppContainer = (props: AppContainerProps) => {
             <main className={styles.main}>{props.children}</main>
             <footer>
                 <span className={styles.footer}>
-                    Copy right &#169; Kalkidan Betre
+                    &#169; {new Date().getFullYear()} Kalkidan Betre
                 </span>
             </footer>
         </div>
