@@ -19,14 +19,15 @@ const SideBar = (props: SideBarProps) => {
     const size = useWindowResize();
 
     const handleToggleClick = () => {
-        setContentOpen((prev) => !prev);
+        setContentOpen((prev) => (prev === null ? !contentOpenDefault : !prev));
     };
 
     const toolbarToggleIcon = () => {
+        const open = contentOpen ?? contentOpenDefault;
         if (props.side === 'left') {
-            return contentOpen ? <ChevronLeftIcon /> : <ChevronRightIcon />;
+            return open ? <ChevronLeftIcon /> : <ChevronRightIcon />;
         } else {
-            return contentOpen ? <ChevronRightIcon /> : <ChevronLeftIcon />;
+            return open ? <ChevronRightIcon /> : <ChevronLeftIcon />;
         }
     };
 
@@ -35,8 +36,9 @@ const SideBar = (props: SideBarProps) => {
             width: window.innerWidth,
             height: window.innerWidth,
         };
-        if (contentOpen === null && sz.width < 500) {
+        if (contentOpen === null && sz.width < 650) {
             setContentOpenDefault(false);
+            setContentOpen(false);
         }
     }, [size, contentOpen]);
 
