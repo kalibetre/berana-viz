@@ -149,7 +149,7 @@ const NodeActions = () => {
                         <span className={styles.icon}>
                             <NewFileIcon />
                         </span>
-                        Add Nodes
+                        Add
                     </ButtonItem>
                     <ButtonItem
                         disabled={
@@ -162,7 +162,7 @@ const NodeActions = () => {
                         <span className={styles.icon}>
                             <NewFileIcon />
                         </span>
-                        Edit Nodes
+                        Edit
                     </ButtonItem>
                     <ButtonItem onClick={handleShuffle} disabled={animRunning}>
                         <span className={styles.icon}>
