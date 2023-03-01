@@ -31,13 +31,14 @@ const SortingModal = (props: SortingModalProps) => {
     const onSubmit = async (data: any) => {
         setDisableClose(true);
         animRunning.current = true;
-        startAnimation();
+        startAnimation(data.animTime);
     };
 
-    const startAnimation = () => {
+    const startAnimation = (delay: number) => {
         function playAnimation() {
             runStep();
-            if (animRunning.current) requestAnimationFrame(playAnimation);
+            if (animRunning.current)
+                setTimeout(() => requestAnimationFrame(playAnimation), delay);
         }
         requestAnimationFrame(playAnimation);
     };
@@ -83,13 +84,15 @@ const SortingModal = (props: SortingModalProps) => {
                         />
                     </div>
                     <div className={modalStyles.inputRow}>
-                        <label htmlFor="value">Anim. Speed</label>
+                        <label htmlFor="value">Speed(ms)</label>
                         <input
                             type="number"
                             className={modalStyles.input}
                             min={0}
-                            max={1000}
-                            {...register('animTime')}
+                            max={999}
+                            {...register('animTime', {
+                                required: 'Speed Required',
+                            })}
                         />
                     </div>
                 </div>

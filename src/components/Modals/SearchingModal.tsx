@@ -45,14 +45,15 @@ const SearchingModal = (props: SearchingModalProps) => {
         if (parseInt(data.value)) {
             setDisableClose(true);
             animRunning.current = true;
-            startAnimation();
+            startAnimation(data.animTime);
         }
     };
 
-    const startAnimation = () => {
+    const startAnimation = (delay: number) => {
         function playAnimation() {
             runStep();
-            if (animRunning.current) requestAnimationFrame(playAnimation);
+            if (animRunning.current)
+                setTimeout(() => requestAnimationFrame(playAnimation), delay);
         }
         requestAnimationFrame(playAnimation);
     };
@@ -144,7 +145,7 @@ const SearchingModal = (props: SearchingModalProps) => {
                             type="number"
                             className={modalStyles.input}
                             min={0}
-                            max={1000}
+                            max={999}
                             {...rest}
                             ref={(e) => {
                                 ref(e);
@@ -153,13 +154,15 @@ const SearchingModal = (props: SearchingModalProps) => {
                         />
                     </div>
                     <div className={modalStyles.inputRow}>
-                        <label htmlFor="animTime">Anim. Speed</label>
+                        <label htmlFor="animTime">Speed(ms)</label>
                         <input
                             type="number"
                             className={modalStyles.input}
                             min={0}
-                            max={1000}
-                            {...register('animTime')}
+                            max={999}
+                            {...register('animTime', {
+                                required: 'Speed Required',
+                            })}
                         />
                     </div>
                     {valueFound !== null && (
