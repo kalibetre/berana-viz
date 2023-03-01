@@ -35,9 +35,10 @@ const AddDocumentModal = (props: AddDocumentModalProps) => {
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className={modalStyles.form}
+                style={{ minWidth: '300px' }}
             >
                 <div className={modalStyles.inputGroup}>
-                    <div className={modalStyles.inputRow}>
+                    <div className={modalStyles.inputCol}>
                         <label htmlFor="value">Title</label>
                         <input
                             id="value"
@@ -51,16 +52,18 @@ const AddDocumentModal = (props: AddDocumentModalProps) => {
                                 },
                             })}
                         />
+                        <p className={modalStyles.error}>
+                            {errors.title?.message}
+                        </p>
                     </div>
-                    <p className={modalStyles.error}>{errors.title?.message}</p>
                 </div>
                 <div className={modalStyles.inputGroup}>
-                    <div className={modalStyles.inputRow}>
-                        <label htmlFor="value">Description</label>
-                        <input
-                            id="value"
-                            type="text"
+                    <div className={modalStyles.inputCol}>
+                        <label htmlFor="description">Description</label>
+                        <textarea
+                            id="description"
                             className={modalStyles.input}
+                            rows={5}
                             {...register('description', {
                                 max: {
                                     value: 500,
@@ -68,9 +71,8 @@ const AddDocumentModal = (props: AddDocumentModalProps) => {
                                         'Description too long (> 500 chars)',
                                 },
                             })}
-                        />
+                        ></textarea>
                     </div>
-                    <p className={modalStyles.error}>{errors.title?.message}</p>
                 </div>
                 <div className={modalStyles.btnContainer}>
                     <input
@@ -82,7 +84,7 @@ const AddDocumentModal = (props: AddDocumentModalProps) => {
                     <input
                         className={modalStyles.btn}
                         type="submit"
-                        value="Add Document"
+                        value="Save"
                     />
                 </div>
             </form>
