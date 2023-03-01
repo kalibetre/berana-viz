@@ -20,6 +20,7 @@ const nodesSlice = createSlice({
     }),
     reducers: {
         nodeAdded: nodesAdapter.addOne,
+        nodesLoaded: nodesAdapter.setAll,
         nodeRemoved: nodesAdapter.removeOne,
         nodeUpdated: nodesAdapter.updateOne,
         nodesUpdated: nodesAdapter.updateMany,
@@ -33,6 +34,7 @@ const nodesSlice = createSlice({
 
 export const {
     nodeAdded,
+    nodesLoaded,
     nodeRemoved,
     nodeUpdated,
     nodesUpdated,

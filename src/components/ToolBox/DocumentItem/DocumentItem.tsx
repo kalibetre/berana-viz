@@ -1,29 +1,32 @@
-import { ReactNode } from 'react';
-import { CloudDataIcon, TemporaryDocIcon } from '../../../icons';
+import { Document } from '../../../types';
 import styles from './DocumentItem.module.css';
 
 interface DocumentItemProps {
     onClick?: () => void;
-    children: ReactNode;
-    savedToCloud?: boolean;
+    document: Document;
+    isSelected: boolean;
 }
 
 const DocumentItem = (props: DocumentItemProps) => {
     return (
-        <div className={styles.document} onClick={props.onClick}>
+        <div
+            className={
+                props.isSelected ? styles.selectedDocument : styles.document
+            }
+            onClick={props.onClick}
+        >
             <div className={styles.info}>
-                <span className={styles.title}>{props.children}</span>
-                <span className={styles.subtitle}>Feb 12, 2023</span>
+                <span className={styles.title}>{props.document.title}</span>
+                <span className={styles.subtitle}>
+                    {props.document.modified}
+                </span>
             </div>
-            <span className={styles.icon}>
-                {props.savedToCloud ? <CloudDataIcon /> : <TemporaryDocIcon />}
-            </span>
         </div>
     );
 };
 
 DocumentItem.defaultProps = {
-    savedToCloud: false,
+    isSelected: false,
 };
 
 export default DocumentItem;

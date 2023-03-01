@@ -1,15 +1,15 @@
 import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ResetIcon } from '../../../icons';
-import { nodeSelected, nodesUpdated } from '../../../store/slices/nodesSlice';
+import { ResetIcon } from '../../icons';
+import { nodeSelected, nodesUpdated } from '../../store/slices/nodesSlice';
 import {
     selectAllNodes,
     useAppDispatch,
     useAppSelector,
-} from '../../../store/store';
-import { AlgoGenerator, Node, NodeStatus, SearchAlgo } from '../../../types';
-import { SEARCH_ITERATORS } from '../../../utils/algorithms';
-import Modal from '../../Modal/Modal';
+} from '../../store/store';
+import { AlgoGenerator, Node, NodeStatus, SearchAlgo } from '../../types';
+import { SEARCH_ITERATORS } from '../../utils/algorithms';
+import Modal from './Modal';
 import modalStyles from './Modal.module.css';
 
 interface SearchingModalProps {
@@ -33,21 +33,34 @@ const SearchingModal = (props: SearchingModalProps) => {
             animTime: 50,
         },
     });
-    const [animRunning, setAnimRunning] = useState(false);
+    const animRunning = useRef<boolean>(false);
+    const [disableClose, setDisableClose] = useState(false);
+
     const [valueFound, setValueFound] = useState<boolean | null>(null);
     const valueRef = useRef<HTMLInputElement | null>(null);
 
     const [iterator, setIterator] = useState<AlgoGenerator>();
 
-    const animDelay = (delay: number) =>
-        new Promise((resolve) => setTimeout(resolve, delay));
-
     const onSubmit = async (data: any) => {
-        setAnimRunning(true);
-        while (runStep()) {
-            await animDelay(data.animTime);
+        if (parseInt(data.value)) {
+            setDisableClose(true);
+            animRunning.current = true;
+            startAnimation(data.animTime);
         }
-        setAnimRunning(false);
+    };
+
+    const startAnimation = (delay: number) => {
+        function playAnimation() {
+            runStep();
+            if (animRunning.current)
+                setTimeout(() => requestAnimationFrame(playAnimation), delay);
+        }
+        requestAnimationFrame(playAnimation);
+    };
+
+    const stopAnimation = () => {
+        animRunning.current = false;
+        setDisableClose(false);
     };
 
     const onStep = (e: React.MouseEvent) => {
@@ -55,11 +68,11 @@ const SearchingModal = (props: SearchingModalProps) => {
         runStep();
     };
 
-    const runStep = (): boolean => {
+    const runStep = () => {
         if (iterator) {
             let result = iterator.next();
             if (result.done) {
-                setAnimRunning(false);
+                stopAnimation();
                 setValueFound(false);
                 return false;
             }
@@ -69,7 +82,7 @@ const SearchingModal = (props: SearchingModalProps) => {
             dispatch(nodeSelected(result.value.selectedId));
 
             if (result.value.found) {
-                setAnimRunning(false);
+                stopAnimation();
                 setValueFound(true);
                 return false;
             }
@@ -91,7 +104,7 @@ const SearchingModal = (props: SearchingModalProps) => {
 
     const handleRest = (e: React.MouseEvent) => {
         resetNodeStatus();
-        setAnimRunning(false);
+        stopAnimation();
         setValueFound(null);
         if (valueRef.current) initIterator(parseInt(valueRef.current?.value));
     };
@@ -106,7 +119,11 @@ const SearchingModal = (props: SearchingModalProps) => {
     };
 
     return (
-        <Modal title="Searching" onClose={props.onClose} stayOpen={animRunning}>
+        <Modal
+            title="Searching"
+            onClose={props.onClose}
+            stayOpen={disableClose}
+        >
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className={modalStyles.form}
@@ -128,7 +145,7 @@ const SearchingModal = (props: SearchingModalProps) => {
                             type="number"
                             className={modalStyles.input}
                             min={0}
-                            max={1000}
+                            max={999}
                             {...rest}
                             ref={(e) => {
                                 ref(e);
@@ -137,13 +154,15 @@ const SearchingModal = (props: SearchingModalProps) => {
                         />
                     </div>
                     <div className={modalStyles.inputRow}>
-                        <label htmlFor="animTime">Anim. Speed</label>
+                        <label htmlFor="animTime">Speed(ms)</label>
                         <input
                             type="number"
                             className={modalStyles.input}
                             min={0}
-                            max={1000}
-                            {...register('animTime')}
+                            max={999}
+                            {...register('animTime', {
+                                required: 'Speed Required',
+                            })}
                         />
                     </div>
                     {valueFound !== null && (
@@ -171,14 +190,23 @@ const SearchingModal = (props: SearchingModalProps) => {
                         className={modalStyles.btn}
                         type="submit"
                         value="Auto"
-                        disabled={animRunning}
+                        disabled={animRunning.current}
                     />
+                    <div className={modalStyles.hrSpacer} />
+                    <input
+                        className={modalStyles.btn}
+                        type="button"
+                        value="Pause"
+                        onClick={stopAnimation}
+                        disabled={!animRunning.current}
+                    />
+                    <div className={modalStyles.hrSpacer} />
                     <input
                         className={modalStyles.btn}
                         type="button"
                         value="Step"
                         onClick={onStep}
-                        disabled={animRunning}
+                        disabled={animRunning.current}
                     />
                 </div>
             </form>

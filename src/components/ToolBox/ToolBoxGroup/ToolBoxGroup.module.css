@@ -13,9 +13,8 @@
 }
 
 .row {
-	padding: 5px;
 	cursor: default;
-	background-color: #e7ebfe3f;
+	border-bottom: 1px solid #e7ebfe3f;
 }
 
 .row:hover {
@@ -28,5 +27,5 @@
 
 .coloredRow {
 	composes: row;
-	background-color: #ebebeb91;
+	background-color: #ebebeb1a;
 }

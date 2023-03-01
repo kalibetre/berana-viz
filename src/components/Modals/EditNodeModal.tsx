@@ -5,14 +5,14 @@ import {
     nodeDeleted,
     nodeSelected,
     nodeUpdated,
-} from '../../../store/slices/nodesSlice';
+} from '../../store/slices/nodesSlice';
 import {
     AppDispatch,
     RootState,
     selectNodeById,
     useAppSelector,
-} from '../../../store/store';
-import Modal from '../../Modal/Modal';
+} from '../../store/store';
+import Modal from './Modal';
 import modalStyles from './Modal.module.css';
 
 interface EditArrayModalProps {

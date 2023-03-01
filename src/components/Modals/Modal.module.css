@@ -130,3 +130,68 @@
 .alertContent {
 	padding: 15px;
 }
+
+.modalContainer {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	background-color: #fff;
+	box-shadow: 0px 0px 37px 9px rgba(0, 0, 0, 0.2);
+	border: 2px solid #eee;
+	border-radius: 8px;
+	z-index: 999;
+	overflow: hidden;
+}
+
+.titleBar {
+	width: 100%;
+	height: 36px;
+	background-color: #eee;
+	display: flex;
+	align-items: center;
+	cursor: default;
+	user-select: none;
+}
+
+.handle {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	padding-left: 10px;
+}
+
+.closeBtn {
+	background-color: #f95d6a;
+	border: none;
+	border-radius: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 25px;
+	height: 25px;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.closeBtnIcon {
+	width: 12px;
+	height: 12px;
+}
+
+.closeBtn:hover {
+	background-color: #d45087;
+}
+
+.closeBtn:active {
+	background-color: #f95d6a;
+}
+
+.closeBtn[disabled] {
+	background-color: #eee;
+}
+
+.hrSpacer {
+	height: 100%;
+	width: 10px;
+}

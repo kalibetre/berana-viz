@@ -12,3 +12,17 @@
 	margin-left: 4px;
 	margin-right: 8px;
 }
+
+.loading {
+	position: absolute;
+	right: 10px;
+}
+
+.error {
+	background-color: rgba(255, 203, 203, 0.545);
+	border: 1px solid tomato;
+	padding: 7px;
+	border-radius: 4px;
+	margin-bottom: 10px;
+	font-size: 13px;
+}

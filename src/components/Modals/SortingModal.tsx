@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { nodeSelected, nodesUpdated } from '../../../store/slices/nodesSlice';
-import { useAppDispatch } from '../../../store/store';
-import { AlgoGenerator, SortingAlgo } from '../../../types';
-import Modal from '../../Modal/Modal';
+import { nodeSelected, nodesUpdated } from '../../store/slices/nodesSlice';
+import { useAppDispatch } from '../../store/store';
+import { AlgoGenerator, SortingAlgo } from '../../types';
+import Modal from './Modal';
 import modalStyles from './Modal.module.css';
 
 interface SortingModalProps {
@@ -25,20 +25,27 @@ const SortingModal = (props: SortingModalProps) => {
             animTime: 50,
         },
     });
-    const [animRunning, setAnimRunning] = useState(false);
-    const [btnsDisabled, setBtnsDisabled] = useState(false);
-
-    const animDelay = (delay: number) =>
-        new Promise((resolve) => setTimeout(resolve, delay));
+    const animRunning = useRef<boolean>(false);
+    const [disableClose, setDisableClose] = useState(false);
 
     const onSubmit = async (data: any) => {
-        setBtnsDisabled(true);
-        setAnimRunning(true);
-        while (runStep()) {
-            await animDelay(data.animTime);
+        setDisableClose(true);
+        animRunning.current = true;
+        startAnimation(data.animTime);
+    };
+
+    const startAnimation = (delay: number) => {
+        function playAnimation() {
+            runStep();
+            if (animRunning.current)
+                setTimeout(() => requestAnimationFrame(playAnimation), delay);
         }
-        setAnimRunning(false);
-        setBtnsDisabled(false);
+        requestAnimationFrame(playAnimation);
+    };
+
+    const stopAnimation = () => {
+        animRunning.current = false;
+        setDisableClose(false);
     };
 
     const onStep = (e: React.MouseEvent) => {
@@ -46,23 +53,21 @@ const SortingModal = (props: SortingModalProps) => {
         runStep();
     };
 
-    const runStep = (): boolean => {
+    const runStep = () => {
         if (props.iterator) {
             let result = props.iterator.next();
             if (result.done) {
-                setBtnsDisabled(true);
-                return false;
+                stopAnimation();
+            } else if (result.value) {
+                if (result.value.updates.length > 0)
+                    dispatch(nodesUpdated(result.value.updates));
+                dispatch(nodeSelected(result.value.selectedId));
             }
-
-            if (result.value.updates.length > 0)
-                dispatch(nodesUpdated(result.value.updates));
-            dispatch(nodeSelected(result.value.selectedId));
         }
-        return true;
     };
 
     return (
-        <Modal title="Sorting" onClose={props.onClose} stayOpen={animRunning}>
+        <Modal title="Sorting" onClose={props.onClose} stayOpen={disableClose}>
             <form
                 onSubmit={handleSubmit(onSubmit)}
                 className={modalStyles.form}
@@ -79,13 +84,15 @@ const SortingModal = (props: SortingModalProps) => {
                         />
                     </div>
                     <div className={modalStyles.inputRow}>
-                        <label htmlFor="value">Anim. Speed</label>
+                        <label htmlFor="value">Speed(ms)</label>
                         <input
                             type="number"
                             className={modalStyles.input}
                             min={0}
-                            max={1000}
-                            {...register('animTime')}
+                            max={999}
+                            {...register('animTime', {
+                                required: 'Speed Required',
+                            })}
                         />
                     </div>
                 </div>
@@ -94,14 +101,23 @@ const SortingModal = (props: SortingModalProps) => {
                         className={modalStyles.btn}
                         type="submit"
                         value="Auto"
-                        disabled={btnsDisabled}
+                        disabled={animRunning.current}
                     />
+                    <div className={modalStyles.hrSpacer} />
+                    <input
+                        className={modalStyles.btn}
+                        type="button"
+                        value="Pause"
+                        onClick={stopAnimation}
+                        disabled={!animRunning.current}
+                    />
+                    <div className={modalStyles.hrSpacer} />
                     <input
                         className={modalStyles.btn}
                         type="button"
                         value="Step"
                         onClick={onStep}
-                        disabled={btnsDisabled}
+                        disabled={animRunning.current}
                     />
                 </div>
             </form>

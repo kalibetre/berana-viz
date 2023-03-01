@@ -1,4 +1,4 @@
-import Modal from '../../Modal/Modal';
+import Modal from './Modal';
 import modalStyles from './Modal.module.css';
 
 export enum AlertType {
