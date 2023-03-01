@@ -1,0 +1,176 @@
+.container {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.formContainer {
+	box-shadow: 0px 0px 17px 1px rgba(0, 0, 0, 0.2);
+	border: 2px solid #eee;
+	border-radius: 8px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 300px;
+}
+
+.logo {
+	width: 35px;
+	height: 35px;
+	margin-right: 10px;
+}
+
+.formContainer header {
+	display: flex;
+	justify-content: flex-start;
+	align-items: center;
+	width: 100%;
+	padding: 20px;
+	margin-bottom: 10px;
+}
+
+.logoTitles {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+}
+
+.logoTitle {
+	line-height: 1;
+	color: teal;
+	font-size: 15px;
+}
+
+.logoSubTitle {
+	line-height: 1;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.formContainer form {
+	width: 100%;
+}
+
+.inputRow {
+	width: 100%;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.inputContainer {
+	border: 1px solid #c2c2c2;
+	width: 100%;
+	padding: 5px;
+	position: relative;
+	border-radius: 4px;
+	margin-bottom: 26px;
+}
+
+.inputContainer label {
+	font-size: 12px;
+	position: absolute;
+	top: -6px;
+	left: 6px;
+	background-color: white;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
+.inputContainer input {
+	width: 100%;
+	outline: none;
+	border: none;
+	padding: 5px;
+}
+
+.buttonRow {
+	display: flex;
+	justify-content: flex-end;
+	border-top: 1px solid #eee;
+	width: 100%;
+	padding: 15px 20px 15px 20px;
+}
+
+.btn {
+	background-color: transparent;
+	width: 48%;
+	height: 32px;
+	color: #4e4e4e;
+	border: .6px solid #949494;
+	border-radius: 5px;
+	text-align: left;
+	font-size: 14px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: white;
+}
+
+.primaryBtn {
+	composes: btn;
+	background-color: teal;
+	color: white;
+}
+
+.primaryBtn:hover {
+	background-color: rgb(0, 159, 159);
+}
+
+.primaryBtn:active {
+	background-color: teal;
+}
+
+.primaryBtn[disabled] {
+	background-color: #dcdcdc;
+	color: #4e4e4e;
+	opacity: .6;
+}
+
+.optionContainer {
+	composes: inputRow;
+	font-size: 14px;
+	padding-bottom: 10px;
+	color: #4e4e4e;
+}
+
+.switchSpan {
+	color: rgb(4, 91, 91);
+	font-weight: bold;
+	cursor: pointer;
+	padding-left: 5px;
+	text-decoration: underline;
+}
+
+.formError {
+	width: 100%;
+	font-size: 13px;
+	color: #d45087;
+	padding: 0px 20px 20px 20px;
+}
+
+.errorContainer {
+	font-size: 11px;
+	color: #d45087;
+	position: absolute;
+	bottom: -17px;
+	right: 0;
+}
+
+.loading {
+	width: 100%;
+	display: flex;
+	padding: 0px 20px 30px 20px;
+}
+
+
+@media screen and (max-width: 480px) {
+	.formContainer {
+		width: 100%;
+		height: 100%;
+		box-shadow: none;
+	}
+}

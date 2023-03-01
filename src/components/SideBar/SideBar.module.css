@@ -1,0 +1,62 @@
+.container {
+	border-radius: 6px;
+	border: 0.3px solid #eee;
+	box-shadow: 0px 10px 15px -10px rgba(0, 0, 0, 0.1);
+	margin-bottom: 10px;
+	border: 1px solid #eee;
+	display: flex;
+	height: 100%;
+	background-color: #fff;
+}
+
+.header {
+	height: 100%;
+	width: 35px;
+	display: flex;
+	cursor: default;
+	flex-direction: column;
+	justify-items: center;
+	align-items: center;
+	justify-content: flex-start;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-left: 1px solid #eee;
+	background-color: rgb(232, 231, 231);
+}
+
+.leftHeader {
+	composes: header;
+	border-radius: 0px 6px 6px 0px;
+}
+
+.rightHeader {
+	composes: header;
+	border-radius: 6px 0px 0px 6px;
+}
+
+.headerTitle {
+	display: flex;
+	align-items: center;
+	writing-mode: vertical-lr;
+	padding-top: 15px;
+}
+
+.arrowDown {
+	width: 20px;
+	height: 20px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 10px;
+}
+
+.arrowDown img {
+	width: 80%;
+	height: 80%;
+	opacity: .6;
+}
+
+.content {
+	overflow-x: visible;
+	overflow-y: auto;
+}

@@ -1,0 +1,36 @@
+.button {
+	margin-top: 5px;
+	background-color: transparent;
+	height: 35px;
+	border: .6px solid #949494;
+	border-radius: 6px;
+	text-align: left;
+	font-size: 15px;
+	width: 100%;
+	display: flex;
+	align-items: center;
+	position: relative;
+}
+
+.document {
+	margin-top: 5px;
+	background-color: transparent;
+	height: 35px;
+	border: none;
+	border-bottom: .6px solid #949494;
+	text-align: left;
+	font-size: 15px;
+}
+
+.button:hover {
+	background-color: #e0f4f6;
+}
+
+.button:active {
+	background-color: #b5c4c5;
+}
+
+.button[disabled] {
+	background-color: #dcdcdc;
+	opacity: .6;
+}
