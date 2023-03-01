@@ -145,6 +145,7 @@ const TreeGraphic = (props: TreeGraphicProps) => {
                                 }
                                 cx={node.x + offsetX}
                                 cy={node.y + props.margin}
+                                r={15}
                             />
                             <text
                                 className={styles.nodeText}
