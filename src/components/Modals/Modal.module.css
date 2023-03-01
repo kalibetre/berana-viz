@@ -195,3 +195,25 @@
 	height: 100%;
 	width: 10px;
 }
+
+.inputCol {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+}
+
+.inputCol label {
+	width: 100%;
+	font-size: 16px;
+	padding-bottom: 5px;
+}
+
+.inputCol input {
+	width: 100%;
+	font-size: 16px;
+}
+
+.inputCol textarea {
+	width: 100%;
+	height: 60px;
+}
