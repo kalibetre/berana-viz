@@ -9,6 +9,7 @@ interface SideBarProps {
     width?: string;
     height?: string;
     side?: 'left' | 'right';
+    collapsed?: boolean;
 }
 
 const SideBar = (props: SideBarProps) => {
@@ -58,7 +59,7 @@ const SideBar = (props: SideBarProps) => {
     return (
         <section style={{ height: props.height }} className={styles.container}>
             {props.side === 'right' && ToolBarHeader}
-            {(contentOpen ?? contentOpenDefault) && (
+            {!props.collapsed && (contentOpen ?? contentOpenDefault) && (
                 <div style={{ width: props.width }} className={styles.content}>
                     {props.children}
                 </div>
@@ -72,6 +73,7 @@ SideBar.defaultProps = {
     width: '300px',
     height: '100%',
     side: 'left',
+    collapsed: false,
 };
 
 export default SideBar;
