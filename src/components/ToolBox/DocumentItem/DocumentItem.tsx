@@ -8,6 +8,17 @@ interface DocumentItemProps {
 }
 
 const DocumentItem = (props: DocumentItemProps) => {
+    const getFormattedDate = () => {
+        const date = new Date(props.document.modified ?? '');
+        return date.toLocaleDateString('en-us', {
+            hour: 'numeric',
+            minute: '2-digit',
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric',
+        });
+    };
+
     return (
         <div
             className={
@@ -17,9 +28,7 @@ const DocumentItem = (props: DocumentItemProps) => {
         >
             <div className={styles.info}>
                 <span className={styles.title}>{props.document.title}</span>
-                <span className={styles.subtitle}>
-                    {props.document.modified}
-                </span>
+                <span className={styles.subtitle}>{getFormattedDate()}</span>
             </div>
         </div>
     );
