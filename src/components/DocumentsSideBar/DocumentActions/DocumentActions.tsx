@@ -23,6 +23,7 @@ import {
     useAppSelector,
 } from '../../../store/store';
 import { Document, Modal, Node } from '../../../types';
+import { AlertModal, AlertType } from '../../Modals';
 import AddDocumentModal from '../../Modals/AddDocumentModal';
 import { ModalContext } from '../../Providers';
 
@@ -84,10 +85,34 @@ const DocumentActions = () => {
             });
     };
 
-    const handleDelete = async () => {
+    const performDelete = async () => {
         await deleteDocument(selectedDocument?.uid ?? '');
         dispatch(documentSelected(null));
         dispatch(nodesLoaded([]));
+    };
+
+    const handleDelete = () => {
+        const id = uuid();
+        const alertModal: Modal = {
+            id: id,
+            tag: 'ALERT_MODAL',
+            component: (
+                <AlertModal
+                    type={AlertType.CONFIRMATION}
+                    title="Delete Document"
+                    confirmButtonLabel="Yes"
+                    cancelButtonLabel="Cancel"
+                    message="Are you sure you want to delete this document?"
+                    onClose={() => hideModal(id)}
+                    onConfirm={() => {
+                        performDelete();
+                        hideModal(id);
+                    }}
+                    key={id}
+                />
+            ),
+        };
+        showModal(alertModal);
     };
 
     return (
