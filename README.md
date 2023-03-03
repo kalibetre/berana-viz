@@ -5,7 +5,6 @@
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
 
-<!-- PROJECT LOGO -->
 <br />
 <div align="center">
   <a href="https://github.com/kalibetre/berana-viz">
@@ -43,8 +42,7 @@ This project is the front end part of BeranaViz web app and is built with ReactJ
 
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+You can directly start using the app by heading over to [beranaviz](http://beranaviz.netlify.app). However, if you want to run the app locally you can follow the instructions below.
 
 ### Installation
 
@@ -102,8 +100,6 @@ Don't forget to give the project a star! Thanks again!
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<!-- CONTACT -->
 
 ## Contact
 

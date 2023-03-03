@@ -148,16 +148,18 @@
 .formError {
 	width: 100%;
 	font-size: 13px;
-	color: #d45087;
 	padding: 0px 20px 20px 20px;
 }
 
 .errorContainer {
 	font-size: 11px;
-	color: #d45087;
 	position: absolute;
 	bottom: -17px;
 	right: 0;
+}
+
+.error {
+	color: #d45087;
 }
 
 .loading {

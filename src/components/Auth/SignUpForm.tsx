@@ -53,7 +53,7 @@ const SignUp = () => {
             <form onSubmit={handleSubmit(handelSignUp)}>
                 {formError.length > 0 && (
                     <div className={styles.formError}>
-                        <span>{formError}</span>
+                        <span className={styles.error}>{formError}</span>
                     </div>
                 )}
                 <div className={styles.inputRow}>
@@ -70,7 +70,9 @@ const SignUp = () => {
                             })}
                         />
                         <div className={styles.errorContainer}>
-                            <span>{errors.email?.message}</span>
+                            <span className={styles.error}>
+                                {errors.email?.message}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -93,7 +95,9 @@ const SignUp = () => {
                             })}
                         />
                         <div className={styles.errorContainer}>
-                            <span>{errors.password?.message}</span>
+                            <span className={styles.error}>
+                                {errors.password?.message}
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -119,7 +123,9 @@ const SignUp = () => {
                             })}
                         />
                         <div className={styles.errorContainer}>
-                            <span>{errors.rept_password?.message}</span>
+                            <span className={styles.error}>
+                                {errors.rept_password?.message}
+                            </span>
                         </div>
                     </div>
                 </div>
